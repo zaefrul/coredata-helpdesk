@@ -1,0 +1,52 @@
+$mask-1-height: 200px;
+.mask{
+     position: absolute;
+    &-1{
+        top: 0;
+        left: 0;
+        width: 504px;
+        height: $mask-1-height;
+        background-image: url("../images/mask/a.png");
+        background-size: cover;
+    }
+    &-2{
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../images/mask/b.png");
+        background-size: cover;
+        z-index: -1;
+    }
+    &-3{
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../images/mask/c.png");
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+    &-4{
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../images/mask/d.png");
+        background-size: cover;
+        background-position: bottom;
+        z-index: -1;
+    }
+}
+.has-mask{
+    position: relative;
+    z-index: 2;
+    &-1{
+        padding-top: $mask-1-height;
+    }
+}
+.has-bg{
+    background-size: cover;
+    background-position: center;
+}

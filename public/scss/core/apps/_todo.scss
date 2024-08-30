@@ -1,0 +1,155 @@
+.nk-todo{
+    display: flex;
+    position: relative;
+    &-aside{
+        position: absolute;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        width: $todo-aside-width;
+        height: 100%;
+        border-right: 1px solid $border-light;
+        transform: translateX(-100%);
+        background-color: $white;
+        z-index: 500;
+        opacity: 0;
+        visibility: hidden;
+        &.toggle-collapsed{
+            transition: transform .3s ease;
+        }
+        &.show-aside{
+            transform: none;
+            opacity: 1;
+            visibility: visible;
+        }
+        &-header{
+            padding: $todo-aside-header-gap;
+        }
+    }
+    &-menu{
+        li{
+            padding-top: $todo-menu-item-gap-y;
+            padding-bottom: $todo-menu-item-gap-y;
+        }
+        &-item{
+            position: relative;
+            display: flex;
+            align-items: center;
+            color: $base-light;
+            padding: $todo-menu-link-gap-y $todo-aside-gap-x;
+            font-size: $todo-menu-link-font-size;
+            &::after{
+                position: absolute;
+                height: 100%;
+                width: 2px;
+                content: '';
+                left: 0;
+                top: 0;
+                background-color: $accent-color;
+                opacity: 0;
+            }
+            &.active, .active > &{
+                color: $accent-color;
+                &:after{
+                    opacity: 1;
+                }
+            }
+            .icon{
+                font-size: 1.375rem;
+                width: 2.375rem;
+            }
+        }
+        &-badge{
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: .125rem;
+            margin-left: auto;
+            display: inline-flex;
+        }
+    }
+    &-body{
+        flex-grow: 1;
+        width: 100%;
+    }
+    &-head{
+        display: flex;
+        align-items: center;
+        border-bottom:1px solid $border-light;
+        padding: $todo-head-gap-y $todo-head-gap-x;
+        &-nav{
+            display: flex;
+            align-items: center;
+            margin: 0 -.125rem;
+            li{
+                padding: 0 .125rem;
+            }
+        }
+    }
+    &-item{
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding-left: $todo-item-gap-x;
+        padding-right: $todo-item-gap-x;
+        &-elem{
+            flex-shrink: 0;
+            padding: $todo-item-elm-gap-y $todo-item-elm-gap-x;
+        }
+        &-check{
+            width: 2.25rem;
+            z-index: 2;
+        }
+        &-star{
+            width: 2rem;
+            z-index: 2;
+        }
+        &-content{
+            flex-grow: 1;
+            flex-shrink: 1;
+            width: 100%;
+            max-width: 100%;
+        }
+        &-subject{
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        &-action{
+            padding-right: 0;
+        }
+        &:not(:last-child){
+            border-bottom: 1px solid $border-light;
+        }
+        &.task-done{
+            .nk-todo-item-subject {
+                text-decoration: line-through;
+            }
+        }
+    }
+}
+
+$todo-collapse-points: md, lg, xl;
+@each $point in $todo-collapse-points {
+    @include media-breakpoint-up($point){
+       [data-todo-collapse="#{$point}"]{
+           .nk{
+                &-todo{
+                    &-aside{
+                        position: static;
+                        transform: translateX(0);
+                        background-color: transparent;
+                        opacity: 1;
+                        visibility: visible;
+                        height: auto;
+                    }
+                    &-body{
+                        max-width: calc(100% - $todo-aside-width);
+                    }
+                    &-toggle{
+                        display: none;
+                    }
+                }
+           }
+       }
+    }
+}

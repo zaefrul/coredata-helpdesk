@@ -1,0 +1,47 @@
+.nk-invoice{
+    padding: 32px;
+    &-head{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 30px;
+        + .nk-invoice-head{
+            border-top: 1px solid $border-light;
+            padding-top: 30px;
+        }
+        ul{
+            li{
+                font-size: 0.875rem;
+                color: $base-light;
+            }
+        }
+    }
+    &-table{
+        th,
+        td{
+            font-size: 0.875rem;
+        }
+        tfoot {
+            border-top: 1px solid $border-light;
+            td {
+                border-bottom: 0;
+            }
+            tr:last-child td:not(:first-child), 
+            tr:first-child td:not(:first-child){
+                font-weight: 500;
+                padding-top: 1.25rem;
+                padding-bottom: 0.25rem;
+            }
+            tr:last-child td:not(:first-child){
+                border-top: 1px solid $border-light;
+                padding-top: 0.25rem;
+            }
+        }
+    }
+}
+
+
+@include media-breakpoint-up(lg){
+    .nk-invoice{
+        padding: $nk-invoice-gap;
+    }
+}

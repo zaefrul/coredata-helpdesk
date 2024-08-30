@@ -1,0 +1,41 @@
+.nk-pricing {
+    &-wrap{
+        padding: $nk-pricing-wrap-gap-y $nk-pricing-wrap-gap-x;
+    }
+    &-header{
+        padding-bottom: $nk-pricing-header-gap-y;
+    }
+    &-title{
+        .text{
+            font-size: 0.938rem;
+        }
+    }
+    &-card{
+        ul {
+            li{
+                color: $base-light;
+                .icon{
+                    color: $accent-color;
+                    + span{
+                        margin-left: 0.25rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(lg){
+    .nk-pricing{
+        &-header{
+            &-content{
+                max-width: $nk-pricing-header-content-width;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        &-card-title{
+            padding-right: 120px;
+        }
+    }
+}

@@ -1,0 +1,79 @@
+.table{
+    &-border{
+        border: 1px solid $table-border-color;
+        border-spacing: 0;
+        border-collapse: separate;
+        border-radius: $nk-table-border-radius;
+    }
+    &-head{
+        &-sm{
+            th{
+                padding-top: $nk-table-head-cell-padding-y-sm;
+                padding-bottom: $nk-table-head-cell-padding-y-sm;
+            }   
+        }
+    }
+    tbody {
+        tr:last-child{
+            td,th{
+                border-bottom-width: 0;
+            }
+        }
+        th{
+            color: $h-color;
+        }
+    }
+}
+
+/// Tables
+///////////////////////////
+.tb-col-hide, .tb-col-xs, .tb-col-mb{
+    display: none !important;
+}
+@each $breakpoint in map-keys($container-max-widths) {
+    $infix: breakpoint-infix($breakpoint, $container-max-widths);
+    .tb-col#{$infix}{
+        @extend .tb-col-hide; 
+    }
+}
+
+@media (min-width: 359px) { 
+    .tb-col-xs{
+        display: table-cell !important;
+    }
+}
+@media (min-width: 414px) { 
+    .tb-col-mb{
+        display: table-cell !important;
+    }
+}
+@each $breakpoint in map-keys($container-max-widths) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $container-max-widths);
+        .tb-col#{$infix}{
+            display: table-cell !important;
+        }
+    }
+}
+
+.table-middle td, 
+.tb-row-middle td{
+    vertical-align: middle;
+}
+.tb-col{
+    &-end, &-action{
+        text-align: right;
+    }
+    &-middle {
+        vertical-align: middle;
+    }
+    &-check{
+        width: 48px !important;
+        padding-right: 0 !important;
+        .form-check{
+            display: inline-block;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+    }
+}

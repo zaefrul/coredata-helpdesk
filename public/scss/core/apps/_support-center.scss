@@ -1,0 +1,29 @@
+.nk-support{
+    &-header{
+        padding: $nk-support-header-gap-y $nk-support-header-gap-x;
+        .nk-support-desc{
+            margin-bottom: 2rem;
+        }
+    }
+    &-body{
+        padding: $nk-support-body-gap;
+    }
+}
+
+@include media-breakpoint-up(lg){
+    .nk-support{
+        &-body{
+            padding-top: $nk-support-body-gap + 20;
+        }
+        &-side-content{
+            padding-left: $nk-support-side-content-gap;
+        }
+        &-header{
+            &-content{
+                max-width: $nk-support-header-content-width;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    }
+}

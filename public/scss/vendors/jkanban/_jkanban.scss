@@ -1,0 +1,252 @@
+.kanban{
+  &-container {
+    * {
+      box-sizing: border-box;
+    }
+    position: relative;
+    box-sizing: border-box;
+    width: 100% !important;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &-board {
+    position: relative;
+    background: $kanban-board-bg;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    border-radius: $kanban-board-border-radius;
+    margin-bottom: 1.25rem;
+    margin-right: 1.25rem !important;
+    &.disabled-board {
+      opacity: 0.3;
+    }
+    &.is-moving.gu-mirror {
+      transform: rotate(3deg);
+    }
+    &.is-moving.gu-mirror .kanban-drag {
+      overflow: hidden;
+      padding-right: 50px;
+    }
+    header {
+      font-weight: 500;
+      font-size: $kanban-board-header-font-size;
+      padding: $kanban-board-header-gap-y $kanban-board-header-gap-x;
+      color: $kanban-board-header-title-color;
+      border-bottom: 2px solid transparent;
+      .kanban-title-content {
+        display: flex;
+        align-items: center;
+        .title{
+          font-weight: 600;
+          margin: $kanban-board-header-title-margin;
+          color: $kanban-board-header-title-color;
+          font-size: $kanban-board-header-font-size;
+        }
+        .count{
+          border: 1px solid $kanban-board-border-color;
+          display: inline-block;
+          border-radius: $kanban-board-border-radius;
+          padding: $kanban-board-header-count-gap-y $kanban-board-header-count-gap-x;
+          font-size: $kanban-board-header-count-font-size;
+          font-weight: 600;
+          line-height: 1;
+        }
+      }
+      .kanban-title-button {
+        float: right;
+      }
+      &.kanban-light{
+        border-color: $kanban-board-header-light;
+      }
+      &.kanban-primary{
+        border-color: $kanban-board-header-primary;
+      }
+      &.kanban-warning{
+        border-color: $kanban-board-header-warning;
+      }
+      &.kanban-success{
+        border-color: $kanban-board-header-success;
+      }
+      &.kanban-danger{
+        border-color: $kanban-board-header-danger;
+      }
+    }
+    .kanban-drag {
+      min-height: 200px;
+      padding: $kanban-board-drag-gap-y $kanban-board-drag-gap-x;
+    }
+  }
+  &-item {
+    background: $kanban-board-item-bg;
+    padding: $kanban-board-item-gap-y $kanban-board-item-gap-x;
+    margin-bottom: 20px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    font-size: $kanban-board-item-font-size;
+    border-radius: $kanban-board-border-radius;
+    box-shadow: $kanban-board-item-box-shadow;
+    &:hover {
+      cursor: move;
+    }
+    &:last-child {
+      margin: 0;
+    }
+    &.is-moving.gu-mirror {
+      transform: rotate(3deg);
+      height: auto !important;
+    }
+    &-title {
+      .title{
+        font-weight: 600;
+        margin-bottom: $kanban-item-title-margin;
+        font-size: $kanban-item-title-font-size;
+      }
+    }
+  }
+}
+
+//kanban-custom-board
+.kanban-custom-board{
+  overflow: auto;
+  .kanban{
+    &-container{
+      background-color: $white;
+      border-radius: $kanban-board-border-radius;
+      border: 1px solid $border-light;
+      width: 1240px !important;
+      flex-wrap: inherit;
+    }
+    &-board{
+      background-color: $white;
+      display: flex;
+      flex-direction: column;
+      margin-right: 0 !important;
+      margin-bottom: 0 !important;
+      width: auto;
+      flex: 1;
+      border-radius: 0;
+      &:not(:last-child){
+        border-right: 1px solid $border-light;
+      }
+    }
+    &-drag{
+      flex-grow: 1;
+    }
+    &-item{
+      // box-shadow: $kanban-board-item-box-shadow-md;
+      border: 1px solid $border-light;
+    }
+  }
+}
+//kanban-colored
+.kanban-colored{
+  header{
+    border-top-left-radius: $kanban-board-border-radius;
+    border-top-right-radius: $kanban-board-border-radius;
+  }
+  .kanban{
+    &-item{
+      box-shadow: none;
+      border: 1px solid transparent;
+    }
+  }
+  [data-id=_inprocess]{
+    header {
+      background-color: $kanban-board-header-primary;
+      color: $white;
+    }
+    .kanban-item{
+      background-color: rgba($kanban-board-header-primary, 0.1);
+      color: $kanban-board-header-primary;
+      border-color: rgba($kanban-board-header-primary, 0.3);
+    }
+  }
+  [data-id=_working]{
+    header {
+      background-color: $kanban-board-header-warning;
+      color: $white;
+    }
+    .kanban-item{
+      background-color: rgba($kanban-board-header-warning, 0.1);
+      color: $kanban-board-header-warning;
+      border-color: rgba($kanban-board-header-warning, 0.3);
+    }
+  }
+  [data-id=_done]{
+    header {
+      background-color: $kanban-board-header-success;
+      color: $white;
+    }
+    .kanban-item{
+      background-color: rgba($kanban-board-header-success, 0.1);
+      color: $kanban-board-header-success;
+      border-color: rgba($kanban-board-header-success, 0.3);
+    }
+  }
+}
+
+
+/* Dragula CSS  */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+}
+
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+.gu-transit {
+  opacity: 0.2 !important;
+  transform: rotate(0deg) !important;
+}
+
+.drag_handler {
+    background: #fff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    float: left;
+    top: -3px;
+    margin-right: 4px;
+}
+
+.drag_handler:hover {
+  cursor: move;
+}
+
+.drag_handler_icon {
+    position: relative;
+    display: block;
+    background: #000;
+    width: 24px;
+    height: 2px;
+    top: 12px;
+    transition: .5s ease-in-out;
+}
+
+.drag_handler_icon:before,
+.drag_handler_icon:after {
+    background: #000;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: .5s ease-in-out;
+}
+
+ .drag_handler_icon:before {
+    top: 6px;
+}
+
+.drag_handler_icon:after {
+    bottom: 6px;
+}
