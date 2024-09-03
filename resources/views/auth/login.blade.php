@@ -6,13 +6,13 @@
         <div class="col-lg-5">
             <div class="card card-gutter-lg rounded-4 card-auth">
                 <div class="card-body">
-                    <div class="brand-logo mb-4">
+                    <div class="brand-logo mb-4" style="margin-right: 10px !important;">
                         <a href="/" class="logo-link">
                             <div class="logo-wrap">
-                                <img class="logo-img logo-img-lg" src="./images/2.png" srcset="./images/2.png" alt="">
-                                <img class="logo-img logo-light" width="250px" height="auto" src="./images/2.png" srcset="./images/2.png" alt="">
-                                <img class="logo-img logo-dark" width="250px" height="auto" src="./images/2.png" srcset="./images/2.png" alt="">
-                                <img class="logo-img logo-icon" width="250px" height="auto" src="./images/2.png" srcset="./images/2.png" alt="">
+                                <img class="logo-img logo-img-lg" src="./images/3.png" srcset="./images/3.png" alt="">
+                                <img class="logo-img logo-light" width="250px" height="auto" src="./images/3.png" srcset="./images/3.png" alt="">
+                                <img class="logo-img logo-dark" width="250px" height="auto" src="./images/3.png" srcset="./images/3.png" alt="">
+                                <img class="logo-img logo-icon" width="250px" height="auto" src="./images/3.png" srcset="./images/3.png" alt="">
                             </div>
                         </a>
                     </div>
