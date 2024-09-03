@@ -174,4 +174,11 @@ class AssetController extends Controller
         return redirect()->route('assets.index')
             ->with('success', 'Asset deleted successfully');
     }
+
+    public function getAssetByContractorId(Request $request)
+    {
+        $contractId = $request->contract_id;
+        $assets = Asset::where('contract_id', $contractId)->get();
+        return response()->json($assets);
+    }
 }

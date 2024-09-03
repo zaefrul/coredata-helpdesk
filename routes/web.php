@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
@@ -44,13 +45,22 @@ Route::middleware('auth')->group(function () {
     Route::put('/contracts/{id}', [ContractController::class, 'update'])->name('contracts.update');
     Route::delete('/contracts/{id}', [ContractController::class, 'destroy'])->name('contracts.destroy');
 
-    Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
-    Route::get('/assets/create', [AssetController::class, 'create'])->name('assets.create');
-    Route::post('/assets', [AssetController::class, 'store'])->name('assets.store');
-    Route::get('/assets/{id}/show', [AssetController::class, 'show'])->name('assets.show');
-    Route::get('/assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-    Route::put('/assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-    Route::delete('/assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    Route::get('/resources', [AssetController::class, 'index'])->name('assets.index');
+    Route::get('/resources/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::post('/resources', [AssetController::class, 'store'])->name('assets.store');
+    Route::get('/resources/{id}/show', [AssetController::class, 'show'])->name('assets.show');
+    Route::get('/resources/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::put('/resources/{id}', [AssetController::class, 'update'])->name('assets.update');
+    Route::delete('/resources/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    Route::get('/resources/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('assets.getbycontract');
+
+    Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
+    Route::get('/incidents/create', [IncidentController::class, 'create'])->name('incidents.create');
+    Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
+    Route::get('/incidents/{id}/show', [IncidentController::class, 'show'])->name('incidents.show');
+    Route::get('/incidents/{id}/edit', [IncidentController::class, 'edit'])->name('incidents.edit');
+    Route::put('/incidents/{id}', [IncidentController::class, 'update'])->name('incidents.update');
+    Route::delete('/incidents/{id}', [IncidentController::class, 'destroy'])->name('incidents.destroy');
 });
 
 require __DIR__.'/auth.php';

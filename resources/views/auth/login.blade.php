@@ -9,7 +9,7 @@
                     <div class="brand-logo mb-4">
                         <a href="/" class="logo-link">
                             <div class="logo-wrap">
-                                {{-- <img class="logo-img logo-img-lg" src="https://coredata.com.my/wp-content/uploads/2020/08/logooo-1.png" srcset="./images/logo2x.png 2x" alt=""> --}}
+                                <img class="logo-img logo-img-lg" src="./images/2.png" srcset="./images/2.png" alt="">
                                 <img class="logo-img logo-light" width="250px" height="auto" src="./images/2.png" srcset="./images/2.png" alt="">
                                 <img class="logo-img logo-dark" width="250px" height="auto" src="./images/2.png" srcset="./images/2.png" alt="">
                                 <img class="logo-img logo-icon" width="250px" height="auto" src="./images/2.png" srcset="./images/2.png" alt="">

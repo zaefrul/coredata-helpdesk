@@ -3,9 +3,9 @@
         <div class="nk-sidebar-brand">
             <a href="/" class="logo-link">
                 <div class="logo-wrap">
-                    <img class="logo-img logo-light" src="/images/logo.png" srcset="./images/logo2x.png 2x" alt="">
-                    <img class="logo-img logo-dark" src="/images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="">
-                    <img class="logo-img logo-icon" src="/images/logo-icon.png" srcset="./images/logo-icon2x.png 2x" alt="">
+                    <img class="logo-img logo-light" src="./images/2.png" srcset="./images/2.png" alt="">
+                    <img class="logo-img logo-dark" src="./images/2.png" srcset="./images/2.png" alt="">
+                    <img class="logo-img logo-icon" src="./images/coredata-logo-only.png" srcset="./images/coredata-logo-only.png" alt="">
                 </div>
             </a>
             <div class="nk-compact-toggle me-n1">
@@ -101,18 +101,37 @@
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item {{request()->routeIs('assets.index') ? 'active' : ''}}">
-                                <a href="/assets" class="nk-menu-link">
+                                <a href="/resources" class="nk-menu-link">
                                     <span class="nk-menu-text">Asset List</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item {{request()->routeIs('assets.create') ? 'active' : ''}}">
-                                <a href="/assets/create" class="nk-menu-link">
+                                <a href="/resources/create" class="nk-menu-link">
                                     <span class="nk-menu-text">Add New Asset</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     {{-- end asset --}}
+                    {{-- incident --}}
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-alert-circle"></em></span>
+                            <span class="nk-menu-text">Incident Management</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item {{request()->routeIs('incidents.index') ? 'active' : ''}}">
+                                <a href="/incidents" class="nk-menu-link">
+                                    <span class="nk-menu-text">Incident List</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item {{request()->routeIs('incidents.create') ? 'active' : ''}}">
+                                <a href="/incidents/create" class="nk-menu-link">
+                                    <span class="nk-menu-text">Add New Incident</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul><!-- .nk-menu -->
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->

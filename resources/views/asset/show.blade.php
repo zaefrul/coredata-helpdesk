@@ -12,7 +12,7 @@
                             <nav>
                                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="/assets">Asset Manager</a></li>
+                                    <li class="breadcrumb-item"><a href="/resources">Asset Manager</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">{{ $asset->name }}</li>
                                 </ol>
                             </nav>

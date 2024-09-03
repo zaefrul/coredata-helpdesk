@@ -12,7 +12,7 @@
                                 <nav>
                                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="/assets">Asset Manager</a></li>
+                                        <li class="breadcrumb-item"><a href="/resources">Asset Manager</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Assets list</li>
                                     </ol>
                                 </nav>
@@ -20,13 +20,13 @@
                         <div class="nk-block-head-content">
                             <ul class="d-flex">
                                 <li>
-                                    <a href="/assets/create" class="btn btn-md d-md-none btn-primary">
+                                    <a href="/resources/create" class="btn btn-md d-md-none btn-primary">
                                         <em class="icon ni ni-plus"></em>
                                         <span>Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/assets/create" class="btn btn-primary d-none d-md-inline-flex">
+                                    <a href="/resources/create" class="btn btn-primary d-none d-md-inline-flex">
                                         <em class="icon ni ni-plus"></em>
                                         <span>Add Assets</span>
                                     </a>
@@ -70,7 +70,7 @@
                                         <td class="tb-col  tb-col-xxl">
                                             <div class="media-group">
                                                 <div class="media-text">
-                                                    <a href="/assets/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
+                                                    <a href="/resources/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
                                                     <span class="small text">{{$asset->contract->code}}</span>
                                                 </div>
                                             </div>
@@ -95,13 +95,13 @@
                                                     <div class="dropdown-content py-1">
                                                         <ul class="link-list link-list-hover-bg-primary link-list-md">
                                                             <li>
-                                                                <a href="/assets/{{$asset->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
+                                                                <a href="/resources/{{$asset->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
                                                             </li>
                                                             <li>
                                                                 <a href="#" onclick="deleteCustomer({{$asset->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
                                                             </li>
                                                             <li>
-                                                                <a href="./html/user-manage/user-profile.html"><em class="icon ni ni-eye"></em><span>View Details</span></a>
+                                                                <a href="/resources/{{$asset->id}}/show"><em class="icon ni ni-eye"></em><span>View Details</span></a>
                                                             </li>
                                                         </ul>
                                                     </div>

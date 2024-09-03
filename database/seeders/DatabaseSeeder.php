@@ -15,5 +15,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([SettingSeeder::class]);
+
+        // init user
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@coredata.com.my',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+            'remember_token' => null,
+            'customer_id' => 1,
+        ]);
     }
 }
