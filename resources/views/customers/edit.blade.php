@@ -71,11 +71,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {{-- before show make array from obkect email, then combine it in comma --}}
+                                    @php($notifications = [])
+                                    @foreach($customer->notifications as $notification)
+                                        @php($notifications[] = $notification->email)
+                                    @endforeach
+                                    @php($notifications = implode(',', $notifications))
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="users_notification" class="form-label">Email Address (for notifications)</label>
                                             <div class="form-control-wrap">
-                                                <input type="text" class="js-tags" id="users_notification" name="users_notification" required>
+                                                <input type="text" class="js-tags" id="users_notification" name="users_notification" value="{{old('users_notification', $notifications)}}">
                                             </div>
                                         </div>
                                     </div>

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CustomerNotification extends Model
 {
     use HasFactory;
-    
+
+    protected $fillable = ['customer_id', 'email'];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
