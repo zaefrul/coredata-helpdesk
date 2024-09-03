@@ -71,7 +71,7 @@
                                             <div class="media-group">
                                                 <div class="media-text">
                                                     <a href="/resources/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
-                                                    <span class="small text">{{$asset->contract->code}}</span>
+                                                    <span class="small text">{{$asset->contract->contract_number}}</span>
                                                 </div>
                                             </div>
                                         </td>

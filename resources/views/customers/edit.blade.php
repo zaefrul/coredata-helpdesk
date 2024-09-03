@@ -71,6 +71,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="users_notification" class="form-label">Email Address (for notifications)</label>
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="js-tags" id="users_notification" name="users_notification" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row mt-3 g-3 gx-gs">
                                     {{-- submit btn --}}

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Component;
 use App\Models\Customer;
+use App\Models\CustomerNotification;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -15,7 +17,8 @@ class CustomerController extends Controller
 
     public function show($id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = Customer::with('notifications')->findOrFail($id);
+        Log::info($customer);
         return view('customers.show', compact('customer'));
     }
 
@@ -32,7 +35,12 @@ class CustomerController extends Controller
             'email' => 'required|email',
             'phone_number' => 'required',
             'prefix' => 'required',
+            'users_notification' => 'nullable',
         ]);
+
+        $users_notification = request('users_notification');
+
+        
 
         $customer = new Customer();
         $customer->company_name = request('company');
@@ -41,6 +49,16 @@ class CustomerController extends Controller
         $customer->phone_number = request('phone_number');
         $customer->prefix = request('prefix');
         $customer->save();
+
+        if($users_notification) {
+            $users = explode(',', $users_notification);
+            foreach($users as $user) {
+                CustomerNotification::create([
+                    'customer_id' => $customer->id,
+                    'email' => $user,
+                ]);
+            }
+        }
 
         return redirect()->route('customers.index')->with('success', 'Customer created successfully');
     }
@@ -59,6 +77,7 @@ class CustomerController extends Controller
             'email' => 'required|email',
             'phone_number' => 'required',
             'prefix' => 'required',
+            'users_notification' => 'nullable',
         ]);
 
         $customer = Customer::findOrFail($id);
@@ -68,6 +87,20 @@ class CustomerController extends Controller
         $customer->phone_number = request('phone_number');
         $customer->prefix = request('prefix');
         $customer->save();
+
+        $users_notification = request('users_notification');
+        if($users_notification) {
+            $users = explode(',', $users_notification);
+            CustomerNotification::where('customer_id', $customer->id)->delete();
+            foreach($users as $user) {
+                CustomerNotification::create([
+                    'customer_id' => $customer->id,
+                    'email' => $user,
+                ]);
+            }
+        } else {
+            CustomerNotification::where('customer_id', $customer->id)->delete();
+        }
 
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
     }

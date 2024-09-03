@@ -12,7 +12,7 @@
                                 <nav>
                                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="/project">Contract Manager</a></li>
+                                        <li class="breadcrumb-item"><a href="/contracts">Contract Manager</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Contract list</li>
                                     </ol>
                                 </nav>
@@ -70,11 +70,11 @@
                                                 </div> --}}
                                                 <div class="media-text">
                                                     <a href="/contracts/{{$contract->id}}/show" class="title">{{$contract->contract_name}}</a>
-                                                    <span class="small text">{{$contract->project->name}}</span>
+                                                    <span class="small text">{{$contract->customer->company_name}}</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="tb-col">{{$contract->code}}</td>
+                                        <td class="tb-col">{{$contract->contract_number}}</td>
                                         <td class="tb-col">{{$contract->start_date->format('d-M-Y')}}</td>
                                         <td class="tb-col">{{$contract->end_date->format('d-M-Y')}}</td>
                                         <td class="tb-col">

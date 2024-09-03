@@ -45,6 +45,15 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="prefix" class="form-label">Company prefix (short name)</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
+                                                <input type="text" class="form-control" id="prefix" required name="prefix" placeholder="SUHAKAM, MOT, MBSJ, PTD..">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="phone_number" class="form-label">Phone number</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-call"></em></div>
@@ -54,19 +63,20 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="email" class="form-label">Email address</label>
+                                            <label for="email" class="form-label">Primary Email address</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-at"></em></div>
                                                 <input type="email" class="form-control" id="email" name="email" required>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                </div>
+                                <div class="row mt-3 g-3 gx-gs">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="prefix" class="form-label">Company prefix (short name)</label>
+                                            <label for="users_notification" class="form-label">Email Address (for notifications)</label>
                                             <div class="form-control-wrap">
-                                                <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
-                                                <input type="text" class="form-control" id="prefix" required name="prefix" placeholder="SUHAKAM, MOT, MBSJ, PTD..">
+                                                <input type="text" class="js-tags" id="users_notification" name="users_notification" required>
                                             </div>
                                         </div>
                                     </div>

@@ -32,7 +32,7 @@
                                                 <select class="js-select" data-search="true" data-sort="false" id="contract_id" name="contract_id" required>
                                                     <option>Select Contract</option>
                                                     @foreach($contracts as $contract)
-                                                        <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>{{ $contract->contract_name }} [{{ $contract->code }}]</option>
+                                                        <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>{{ $contract->contract_name }} [{{ $contract->contract_number }}]</option>
                                                     @endforeach
                                                 </select>
                                             </div>

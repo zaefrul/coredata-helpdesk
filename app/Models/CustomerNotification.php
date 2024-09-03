@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class CustomerNotification extends Model
 {
     use HasFactory;
-
-    public function notifications()
+    
+    public function customer()
     {
-        return $this->hasMany(CustomerNotification::class);
+        return $this->belongsTo(Customer::class);
     }
 }

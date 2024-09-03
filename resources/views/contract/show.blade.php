@@ -27,7 +27,7 @@
                                     <div class="form-group">
                                         <label for="project_name" class="form-label">Project</label>
                                         <div class="form-control-wrap">
-                                            <p class="form-control-plaintext">{{ $contract->project->name }} [{{ $contract->project->code }}]</p>
+                                            <p class="form-control-plaintext">{{ $contract->customer->company_name }} [{{ $contract->customer->prefix }}]</p>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="contract_number" class="form-label">Contract Number</label>
                                         <div class="form-control-wrap">
-                                            <p class="form-control-plaintext">{{ $contract->code }}</p>
+                                            <p class="form-control-plaintext">{{ $contract->contract_number }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +74,15 @@
                                     <div class="form-group">
                                         <label for="incident" class="form-label">Number of Incident</label>
                                         <div class="form-control-wrap">
-                                            <p class="form-control-plaintext">{{ $contract->total_incidence }}</p>
+                                            <p class="form-control-plaintext">
+                                                @if($contract->total_incidence == -1)
+                                                    <span class="badge text-bg-info">Unlimited</span>
+                                                @elseif($contract->total_incidence == 0)
+                                                    <span class="badge text-bg-danger">None</span>
+                                                @else
+                                                    {{ $contract->total_incidence }}
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

@@ -16,8 +16,8 @@ class Contract extends Model
         'end_date' => 'date',
     ];
 
-    public function project()
+    public function customer()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Customer::class);
     }
 }

@@ -25,20 +25,20 @@
                             <form method="POST" action="{{ route('contracts.store') }}">
                                 @csrf
 
-                                <!-- Project Selection -->
+                                {{-- customer selection --}}
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="project_id" class="form-label required" data-bs-toggle="tooltip" title="Select the project associated with this contract.">Project</label>
+                                            <label for="customer_id" class="form-label" data-bs-toggle="tooltip" title="Select the customer associated with this contract.">Customer</label>
                                             <div class="form-control-wrap">
-                                                <select class="js-select form-select @error('project_id') is-invalid @enderror" data-search="true" data-sort="true" id="project_id" name="project_id" required>
-                                                    <option value="">Select Project</option>
-                                                    @foreach($projects as $project)
-                                                    <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>{{ $project->name }} [{{$project->code}}]</option>
+                                                <select class="js-select @error('customer_id') is-invalid @enderror" data-search="true" data-placeholder="Select a customer..." id="customer_id" name="customer_id">
+                                                    <option value="">Select Customer</option>
+                                                    @foreach($customers as $customer)
+                                                    <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            @error('project_id')
+                                            @error('customer_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -63,11 +63,11 @@
                                     <!-- Contract Number -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="code" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Contract Number / LOA Number</label>
+                                            <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Contract Number / LOA Number</label>
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="{{ old('code') }}" required>
+                                                <input type="text" class="form-control @error('contract_number') is-invalid @enderror" id="contract_number" name="contract_number" value="{{ old('contract_number') }}" required>
                                             </div>
-                                            @error('code')
+                                            @error('contract_number')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
-use App\Models\Project;
+use App\Models\Customer;
 
 class ContractController extends Controller
 {
@@ -21,8 +21,8 @@ class ContractController extends Controller
 
     public function create()
     {
-        $projects = Project::all();
-        return view('contract.create', compact('projects'));
+        $customers = Customer::all();
+        return view('contract.create', compact('customers'));
     }
 
     public function store()
@@ -35,8 +35,8 @@ class ContractController extends Controller
             'total_incidence' => 'nullable|numeric|gte:0',
             'total_preventive_maintenance' => 'nullable|numeric|gte:0',
             'total_corrective_maintenance' => 'nullable|numeric|gte:0',
-            'project_id' => 'required',
-            'code' => 'required',
+            'customer_id' => 'required',
+            'contract_number' => 'required',
             'file' => 'nullable|file|mimes:pdf',
         ]);
 
@@ -48,16 +48,21 @@ class ContractController extends Controller
             $file->move(public_path('uploads'), $file_name);
         }
 
+        $total_incidence = request('total_incidence', 0);
+        if(request('unlimited_support') == '1') {
+            $total_incidence = -1;
+        }
+
         $contract = new Contract();
         $contract->contract_name = request('name');
         $contract->details = request('description');
         $contract->start_date = request('start_date');
         $contract->end_date = request('end_date');
-        $contract->total_incidence = request('total_incidence');
+        $contract->total_incidence = $total_incidence;
         $contract->preventive_maintenance = request('total_preventive_maintenance', 0);
         $contract->corrective_maintenance = request('total_corrective_maintenance', 0);
-        $contract->project_id = request('project_id');
-        $contract->code = request('code');
+        $contract->customer_id = request('customer_id');
+        $contract->contract_number = request('contract_number');
         $contract->file_name = $file_name;
         $contract->save();
 
@@ -67,8 +72,8 @@ class ContractController extends Controller
     public function edit($id)
     {
         $contract = Contract::findOrFail($id);
-        $projects = Project::all();
-        return view('contract.edit', compact('contract', 'projects'));
+        $customers = Customer::all();
+        return view('contract.edit', compact('contract', 'customers'));
     }
 
     public function update($id)
@@ -81,9 +86,14 @@ class ContractController extends Controller
             'total_incidence' => 'nullable|numeric|gte:0',
             'total_preventive_maintenance' => 'nullable|numeric|gte:0',
             'total_corrective_maintenance' => 'nullable|numeric|gte:0',
-            'project_id' => 'required',
-            'code' => 'required',
+            'customer_id' => 'required',
+            'contract_number' => 'required',
         ]);
+
+        $total_incidence = request('total_incidence', 0);
+        if(request('unlimited_support') == '1') {
+            $total_incidence = -1;
+        }
 
         // file upload
         $file_name = null;
@@ -98,11 +108,11 @@ class ContractController extends Controller
         $contract->details = request('description');
         $contract->start_date = request('start_date');
         $contract->end_date = request('end_date');
-        $contract->total_incidence = request('total_incidence');
-        $contract->preventive_maintenance = request('preventive_maintenance', 0);
-        $contract->corrective_maintenance = request('corrective_maintenance', 0);
-        $contract->project_id = request('project_id');
-        $contract->code = request('code');
+        $contract->total_incidence = $total_incidence;
+        $contract->preventive_maintenance = request('total_preventive_maintenance', 0);
+        $contract->corrective_maintenance = request('total_corrective_maintenance', 0);
+        $contract->customer_id = request('customer_id');
+        $contract->contract_number = request('contract_number');
         $contract->file_name = $file_name;
         $contract->save();
 

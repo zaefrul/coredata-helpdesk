@@ -72,7 +72,7 @@
                                                     <span class="smaller">{{$customer->prefix}}</span>
                                                 </div>
                                                 <div class="media-text">
-                                                    <a href="./html/user-manage/user-profile.html" class="title">{{$customer->company_name}}</a>
+                                                    <a href="{{route('customers.show', $customer->id)}}" class="title">{{$customer->company_name}}</a>
                                                     <span class="small text">{{$customer->contact_person}}</span>
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@
                                                                 <a href="#" onclick="deleteCustomer({{$customer->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
                                                             </li>
                                                             <li>
-                                                                <a href="./html/user-manage/user-profile.html"><em class="icon ni ni-eye"></em><span>View Details</span></a>
+                                                                <a href="{{route('customers.show', $customer->id)}}"><em class="icon ni ni-eye"></em><span>View Details</span></a>
                                                             </li>
                                                         </ul>
                                                     </div>

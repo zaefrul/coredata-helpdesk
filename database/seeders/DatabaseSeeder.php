@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\Setting;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +16,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([SettingSeeder::class]);
+
+        Customer::create([
+            'company_name' => 'Core Data',
+            'contact_person' => 'Helpdesk',
+            'email' => 'helpdesk@coredata.com.my',
+            'phone_number' => '0123456789',
+        ]);
 
         // init user
         User::create([

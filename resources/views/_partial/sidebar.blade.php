@@ -53,26 +53,6 @@
                         </ul>
                     </li>
                     {{-- end customer --}}
-                    {{-- project --}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
-                            <span class="nk-menu-text">Project Management</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item {{request()->routeIs('projects.index') ? 'active' : ''}}">
-                                <a href="/projects" class="nk-menu-link">
-                                    <span class="nk-menu-text">Project List</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item {{request()->routeIs('projects.create') ? 'active' : ''}}">
-                                <a href="/projects/create" class="nk-menu-link">
-                                    <span class="nk-menu-text">Add New Project</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    {{-- end project --}}
                     {{-- contract management --}}
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">

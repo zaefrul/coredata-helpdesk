@@ -86,7 +86,7 @@
                                         <ul class="list-unstyled mb-0">
                                             <li class="mb-1">
                                                 <strong class="text-dark">Contract:</strong> 
-                                                <span class="text-secondary">{{ $asset->contract->contract_name }} [{{ $asset->contract->code }}]</span>
+                                                <span class="text-secondary">{{ $asset->contract->contract_name }} [{{ $asset->contract->contract_number }}]</span>
                                             </li>
                                             <li class="mb-1">
                                                 <strong class="text-dark">Warranty Start:</strong> 
