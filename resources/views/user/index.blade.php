@@ -95,13 +95,13 @@
                                                     <div class="dropdown-content py-1">
                                                         <ul class="link-list link-list-hover-bg-primary link-list-md">
                                                             <li>
-                                                                <a href="/projects/{{$user->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
+                                                                <a href="/users/{{$user->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
                                                             </li>
                                                             <li>
                                                                 <a href="#" onclick="deleteCustomer({{$user->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
                                                             </li>
                                                             <li>
-                                                                <a href="/projects/{{$user->id}}/show"><em class="icon ni ni-eye"></em><span>View Details</span></a>
+                                                                <a href="/users/{{$user->id}}/show"><em class="icon ni ni-eye"></em><span>View Details</span></a>
                                                             </li>
                                                         </ul>
                                                     </div>

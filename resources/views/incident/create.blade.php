@@ -31,7 +31,7 @@
                                             <label class="form-label " for="title">Title</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-tag"></em></div>
-                                                <input type="text" class="form-control" name="title" id="title">
+                                                <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                             <label class="form-label" for="description">Description</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-notes-alt"></em></div>
-                                                <textarea class="form-control" name="description" id="description" rows="5"></textarea>
+                                                <textarea class="form-control" name="description" id="description" rows="5">{{old('description')}}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -55,7 +55,7 @@
                                                 <select class="js-select" name="contract_id" id="contract_id">
                                                     <option value="">Select Contract</option>
                                                     @foreach ($contracts as $contract)
-                                                        <option value="{{ $contract->id }}">{{ $contract->contract_name }}</option>
+                                                        <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>{{ $contract->contract_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -67,8 +67,9 @@
                                         <div class="form-group">
                                             <label class="form-label" for="asset_id">Asset</label>
                                             <div class="form-control-wrap">
-                                                <select class="js-select" name="asset_id" id="asset_id">
+                                                <select name="asset_id" id="asset_id">
                                                     <option value="">Select Asset</option>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -81,6 +82,21 @@
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-map-pin"></em></div>
                                                 <input type="text" class="form-control" name="site_location" id="site_location">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- incident type --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="incident_type">Incident Type</label>
+                                            <div class="form-control-wrap">
+                                                <select class="js-select" name="incident_type" id="incident_type" required>
+                                                    <option value="">Select Incident Type</option>
+                                                    <option value="incident" selected>Incident</option>
+                                                    <option value="preventive-maintenance">Preventive Maintenance</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -102,3 +118,54 @@
 </div>
 @endsection
 
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const element = document.getElementById('asset_id');
+        const asset_selector = new Choices(element, {
+            silent: true,
+            allowHTML: false,
+            searchEnabled: true,
+            placeholder: true,
+            placeholderValue: null,
+            searchPlaceholderValue: 'Search asset name',
+            shouldSort: false,
+            removeItemButton: false,
+        });
+
+        var contractId = document.getElementById('contract_id');
+        contractId.addEventListener('change', function() {
+            asset_selector.clearStore();
+            var selectedContractId = this.value;
+            if(selectedContractId === '') {
+                return;
+            }
+            var url = "{{ route('assets.getbycontract', ':contract_id') }}";
+            url = url.replace(':contract_id', selectedContractId);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var options = [];
+                    
+                    response.forEach(function(asset) {
+                        var option = {
+                            value: asset.id,
+                            label: asset.name,
+                            selected: false,
+                            disabled: false
+                        };
+                        options.push(option);
+                    });
+
+                    asset_selector.setChoices(options);
+                }
+            };
+            xhr.send();
+        });
+    });
+</script>
+</script>

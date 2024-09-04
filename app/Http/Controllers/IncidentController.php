@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\Incident;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IncidentController extends Controller 
 {
@@ -22,14 +23,21 @@ class IncidentController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'severity' => 'required',
-            'status' => 'required',
-            'customer_id' => 'required',
-            'project_id' => 'required',
+            'contract_id' => 'required',
+            'asset_id' => 'required',
+            'site_location' => 'required',
+            'incident_type' => 'required',
         ]);
+        
+        $contracts = Contract::findOrfail($request->contract_id);
+        $request->merge(['customer_id' => $contracts->customer_id]);
+        $request->merge(['user_id' => Auth::user()->id]);
+        $request->merge(['status' => 'open']);
+        $request->merge(['priority' => 'unassigned']);
 
         Incident::create($request->all());
-        return redirect()->route('incidents.index');
+
+        return redirect()->route('incidents.index')->with('success', 'Incident created successfully');
     }
 
     public function show($id) {

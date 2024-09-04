@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{-- <meta name="description" content="Multi-purpose admin dashboard template that especially build for programmers."> --}}
     <title>{{ config('app.name', 'HelpDesk') }}</title>
-    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="shortcut icon" href="/images/coredata-logo-only.png">
     <link rel="stylesheet" href="/assets/css/style.css?v1.1.2">
     @yield('css')
 </head>
