@@ -39,6 +39,19 @@
                                 </a>
                             </li>
                             <li class="nk-nav-item">
+                                <a href="{{route('users.index')}}" class="nk-nav-link bg-warning-soft-hover">
+                                    <div class="media-group flex-grow-1">
+                                        <div class="media media-md media-middle media-border text-bg-warning-soft-outline">
+                                            <em class="icon ni ni-user"></em>
+                                        </div>
+                                        <div class="media-text flex-grow-1">
+                                            <span class="title">Account</span>
+                                            <span class="sub-text d-block">Manage Account</span>
+                                        </div>
+                                    </div><!-- .media-group -->
+                                </a>
+                            </li>
+                            <li class="nk-nav-item">
                                 <a href="{{route('contracts.index')}}" class="nk-nav-link bg-secondary-soft-hover">
                                     <div class="media-group flex-grow-1">
                                         <div class="media media-md media-middle media-border text-bg-secondary-soft-outline">

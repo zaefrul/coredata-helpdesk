@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Component;
 use App\Models\Customer;
 use App\Models\CustomerNotification;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
@@ -111,5 +112,11 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully');
+    }
+
+    public function index_account()
+    {
+        $users = User::all();
+        return view('customers.account.index', compact('users'));
     }
 }

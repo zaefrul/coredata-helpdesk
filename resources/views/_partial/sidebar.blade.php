@@ -53,6 +53,26 @@
                         </ul>
                     </li>
                     {{-- end customer --}}
+                    {{-- user management --}}
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-user"></em></span>
+                            <span class="nk-menu-text">Account Management</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item {{request()->routeIs('users.index') ? 'active' : ''}}">
+                                <a href="/users" class="nk-menu-link">
+                                    <span class="nk-menu-text">Account List</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item {{request()->routeIs('users.create') ? 'active' : ''}}">
+                                <a href="/users/create" class="nk-menu-link">
+                                    <span class="nk-menu-text">Add New Account</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- end user management --}}
                     {{-- contract management --}}
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
