@@ -21,6 +21,7 @@ class Incident extends Model
         'site_location',
         'incident_type',
         'current_assignee_id',
+        'incident_number',
     ];
 
     public function customer()

@@ -6,6 +6,9 @@ use App\Models\Contract;
 use App\Models\Incident;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Helper\IncidentLogic;
+use Illuminate\Support\Facades\Log;
 
 class IncidentController extends Controller 
 {
@@ -28,16 +31,33 @@ class IncidentController extends Controller
             'site_location' => 'required',
             'incident_type' => 'required',
         ]);
+
+        DB::beginTransaction();
         
-        $contracts = Contract::findOrfail($request->contract_id);
-        $request->merge(['customer_id' => $contracts->customer_id]);
-        $request->merge(['user_id' => Auth::user()->id]);
-        $request->merge(['status' => 'open']);
-        $request->merge(['priority' => 'unassigned']);
+        try
+        {
+            $contracts = Contract::findOrfail($request->contract_id);
+            $incident_number = IncidentLogic::createIncidentNumber($contracts->customer_id);
 
-        Incident::create($request->all());
-
-        return redirect()->route('incidents.index')->with('success', 'Incident created successfully');
+            Log::info('Creating ticket ' . $incident_number);
+    
+            $request->merge(['customer_id' => $contracts->customer_id]);
+            $request->merge(['user_id' => Auth::user()->id]);
+            $request->merge(['status' => 'open']);
+            $request->merge(['priority' => 'unassigned']);
+            $request->merge(['incident_number' => $incident_number]);
+    
+            Incident::create($request->all());
+            DB::commit();
+    
+            return redirect()->route('incidents.index')->with('success', 'Incident created successfully');    
+        }
+        catch(\Exception $e)
+        {
+            DB::rollback();
+            Log::error($e->getMessage());
+            return redirect()->route('incidents.index')->with('error', 'Incident creation failed');
+        }
     }
 
     public function show($id) {
