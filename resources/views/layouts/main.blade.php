@@ -5,9 +5,9 @@
     <base href="/">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
-    <meta name="author" content="Softnio">
+    <meta name="author" content="sinec-technology">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Multi-purpose admin dashboard template that especially build for programmers.">
+    {{-- <meta name="description" content="Multi-purpose admin dashboard template that especially build for programmers."> --}}
     <title>{{ config('app.name', 'HelpDesk') }}</title>
     <link rel="shortcut icon" href="/images/favicon.png">
     <link rel="stylesheet" href="/assets/css/style.css?v1.1.2">
