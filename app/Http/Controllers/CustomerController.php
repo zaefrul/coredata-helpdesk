@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Component;
 use App\Models\Customer;
 use App\Models\CustomerNotification;
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -18,46 +18,62 @@ class CustomerController extends Controller
 
     public function show($id)
     {
-        $customer = Customer::with('notifications')->findOrFail($id);
-        Log::info($customer);
+        $customer = Customer::with('departments.notifications')->findOrFail($id);
         return view('customers.show', compact('customer'));
     }
 
     public function create()
     {
-        return view('customers.create');
+        $users = User::all();
+        return view('customers.create', compact('users'));
     }
 
     public function store()
     {
         $data = request()->validate([
             'company' => 'required',
-            'contact_person' => 'required',
-            'email' => 'required|email',
-            'phone_number' => 'required',
             'prefix' => 'required',
-            'users_notification' => 'nullable',
         ]);
-
-        $users_notification = request('users_notification');
-
-        
 
         $customer = new Customer();
         $customer->company_name = request('company');
-        $customer->contact_person = request('contact_person');
-        $customer->email = request('email');
-        $customer->phone_number = request('phone_number');
         $customer->prefix = request('prefix');
         $customer->save();
 
-        if($users_notification) {
-            $users = explode(',', $users_notification);
-            foreach($users as $user) {
-                CustomerNotification::create([
-                    'customer_id' => $customer->id,
-                    'email' => $user,
-                ]);
+        $departments = request('departments');
+
+        // if department is not exist then return validation error
+        if(!$departments) {
+            return back()->withErrors(['departments' => 'Please specify at least one department']);
+        }
+
+        foreach($departments as $key => $deparment)
+        {
+            $data = request()->validate([
+                'departments.'.$key.'.department' => 'required',
+                'departments.'.$key.'.department_contact_person' => 'required',
+                'departments.'.$key.'.department_phone_number' => 'required',
+                'departments.'.$key.'.department_email' => 'required|email',
+            ]);
+
+            $department = new Department();
+            $department->name = $deparment['department'];
+            $department->pc_name = $deparment['department_contact_person'];
+            $department->pc_phone = $deparment['department_phone_number'];
+            $department->pc_email = $deparment['department_email'];
+            $department->customer_id = $customer->id;
+            $department->save();
+
+            $users_notification = $deparment['department_users_notification'];
+
+            if($users_notification) {
+                $users = explode(',', $users_notification);
+                foreach($users as $user) {
+                    CustomerNotification::create([
+                        'department_id' => $department->id,
+                        'email' => $user,
+                    ]);
+                }
             }
         }
 
@@ -72,39 +88,94 @@ class CustomerController extends Controller
 
     public function update($id)
     {
+        // Validate the incoming data
         $data = request()->validate([
             'company' => 'required',
-            'contact_person' => 'required',
-            'email' => 'required|email',
-            'phone_number' => 'required',
             'prefix' => 'required',
-            'users_notification' => 'nullable',
         ]);
 
         $customer = Customer::findOrFail($id);
+
+        // Update customer data
         $customer->company_name = request('company');
-        $customer->contact_person = request('contact_person');
-        $customer->email = request('email');
-        $customer->phone_number = request('phone_number');
         $customer->prefix = request('prefix');
         $customer->save();
 
-        $users_notification = request('users_notification');
-        if($users_notification) {
-            $users = explode(',', $users_notification);
-            CustomerNotification::where('customer_id', $customer->id)->delete();
-            foreach($users as $user) {
-                CustomerNotification::create([
-                    'customer_id' => $customer->id,
-                    'email' => $user,
-                ]);
-            }
-        } else {
-            CustomerNotification::where('customer_id', $customer->id)->delete();
+        // Get the department data
+        $departments = request('departments');
+
+        // Validate if departments exist
+        if (!$departments) {
+            return back()->withErrors(['departments' => 'Please specify at least one department']);
         }
 
+        // Keep track of department IDs that were handled (to delete unneeded ones later)
+        $handledDepartmentIds = [];
+
+        foreach ($departments as $key => $departmentData) {
+            // Validate the department fields
+            $data = request()->validate([
+                'departments.' . $key . '.department' => 'required',
+                'departments.' . $key . '.department_contact_person' => 'required',
+                'departments.' . $key . '.department_phone_number' => 'required',
+                'departments.' . $key . '.department_email' => 'required|email',
+            ]);
+
+            // Check if the department already exists (edit mode)
+            if (isset($departmentData['id'])) {
+                // Update existing department
+                $department = Department::find($departmentData['id']);
+                $handledDepartmentIds[] = $department->id; // Add to handled list
+
+                if ($department) {
+                    $department->name = $departmentData['department'];
+                    $department->pc_name = $departmentData['department_contact_person'];
+                    $department->pc_phone = $departmentData['department_phone_number'];
+                    $department->pc_email = $departmentData['department_email'];
+                    $department->customer_id = $customer->id;
+                    $department->save();
+                }
+            } else {
+                // Create a new department
+                $department = new Department();
+                $department->name = $departmentData['department'];
+                $department->pc_name = $departmentData['department_contact_person'];
+                $department->pc_phone = $departmentData['department_phone_number'];
+                $department->pc_email = $departmentData['department_email'];
+                $department->customer_id = $customer->id;
+                $department->save();
+
+                // Add the new department to the handled list
+                $handledDepartmentIds[] = $department->id;
+            }
+
+            // Handle department user notifications
+            $users_notification = $departmentData['department_users_notification'];
+
+            if ($users_notification) {
+                $users = explode(',', $users_notification);
+
+                // Delete existing notifications for the department and add new ones
+                CustomerNotification::where('department_id', $department->id)->delete();
+
+                foreach ($users as $user) {
+                    CustomerNotification::create([
+                        'department_id' => $department->id,
+                        'email' => $user,
+                    ]);
+                }
+            }
+        }
+
+        // Remove any departments that were not handled during the update (deleted departments)
+        Department::where('customer_id', $customer->id)
+            ->whereNotIn('id', $handledDepartmentIds)
+            ->delete();
+
+        // Redirect back with a success message
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
     }
+
 
     public function destroy($id)
     {

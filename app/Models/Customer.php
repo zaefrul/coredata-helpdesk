@@ -9,9 +9,9 @@ class Customer extends Model
 {
     use HasFactory;
 
-    public function notifications()
+    public function departments()
     {
-        return $this->hasMany(CustomerNotification::class);
+        return $this->hasMany(Department::class);
     }
 
     public function users()

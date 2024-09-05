@@ -98,7 +98,7 @@
                                                                 <a href="/users/{{$user->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" onclick="deleteCustomer({{$user->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
+                                                                <a href="#" onclick="deleteUsers({{$user->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
                                                             </li>
                                                             <li>
                                                                 <a href="/users/{{$user->id}}/show"><em class="icon ni ni-eye"></em><span>View Details</span></a>
@@ -129,12 +129,12 @@
 <script src="/assets/js/data-tables/data-tables.js"></script>
 <script>
     // function for a tag onclick event to delete customer
-    function deleteCustomer(id) {
+    function deleteUsers(id) {
         event.preventDefault();
-        if(confirm('Are you sure you want to delete this customer?')) {
+        if(confirm('Are you sure you want to delete this user?')) {
             // create form and submit as destroy method
             let form = document.createElement('form');
-            form.action = '/customers/'+id;
+            form.action = '/users/'+id;
             form.method = 'POST';
             form.innerHTML = `
                 @csrf

@@ -9,10 +9,10 @@ class CustomerNotification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'email'];
+    protected $fillable = ['department_id', 'email'];
 
-    public function customer()
+    public function department()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Department::class);
     }
 }

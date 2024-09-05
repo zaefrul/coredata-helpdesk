@@ -103,14 +103,11 @@
 
                                 {{-- total incidence (add checkbox or switch first col-md-6 to indicate if support is unlimitted or not) --}}
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-flex align-items-center">
                                         <div class="form-group">
-                                            <label for="unlimited_support" class="form-label required" data-bs-toggle="tooltip" title="Check if the contract has unlimited support.">Unlimited Support</label>
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="unlimited_support" name="unlimited_support" value="1" {{ old('unlimited_support') == 1 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="unlimited_support">Yes</label>
-                                                </div>
+                                            <div class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input" id="unlimited_support" name="unlimited_support" value="1" {{ old('unlimited_support') == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="unlimited_support">Unlimited Support</label>
                                             </div>
                                             @error('unlimited_support')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -133,14 +130,11 @@
 
                                 {{-- total preventive maintenance (add checkbox or switch in the first col-md-6 to indicate if preventive maintenance is require or not. if not set value to -1) --}}
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-flex align-items-center">
                                         <div class="form-group">
-                                            <label for="preventive_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Check if preventive maintenance is required for this contract.">Preventive Maintenance</label>
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="preventive_maintenance" name="preventive_maintenance" value="1" {{ old('preventive_maintenance') == 1 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="preventive_maintenance">Yes</label>
-                                                </div>
+                                            <div class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input" id="preventive_maintenance" name="preventive_maintenance" value="1" {{ old('preventive_maintenance') == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="preventive_maintenance" data-bs-toggle="tooltip" title="Check if preventive maintenance is required for this contract.">Preventive Maintenance</label>
                                             </div>
                                             @error('preventive_maintenance')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -161,8 +155,8 @@
                                     </div>
                                 </div>
                                     
-                                    {{-- total corrective maintenance (add checkbox or switch in the first col-md-6 to indicate if corrective maintenance is require or not. if not set value to -1) --}}
-                                <div class="row g-3 gx-gs mb-3">
+                                {{-- total corrective maintenance (add checkbox or switch in the first col-md-6 to indicate if corrective maintenance is require or not. if not set value to -1) --}}
+                                {{-- <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="corrective_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Check if corrective maintenance is required for this contract.">Corrective Maintenance</label>
@@ -177,7 +171,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    {{-- if corrective maintenance is not required, set value to -1 --}}
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="total_corrective_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Enter the total number of corrective maintenance allowed for this contract.">Total Corrective Maintenance</label>
@@ -189,7 +182,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
 
                                 <!-- Description -->

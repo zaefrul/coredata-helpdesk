@@ -92,4 +92,10 @@ class UserController extends Controller
 
         return redirect(route('users.index'))->with('success', 'User Account password reset successfully');
     }
+
+    public function destroy($id)
+    {
+        User::destroy($id);
+        return redirect(route('users.index'))->with('success', 'User Account deleted successfully');
+    }
 }

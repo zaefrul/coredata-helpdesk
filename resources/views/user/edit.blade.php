@@ -22,8 +22,9 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
-                            <form method="POST" action="{{route('users.store')}}">
+                            <form method="POST" action="{{route('users.update', $user->id)}}">
                                 @csrf
+                                @method('PUT')
                                 <div class="row g-3 gx-gs">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -85,7 +86,7 @@
                                 </div>
                                 <div class="row g-3 gx-gs mt-3">  
                                     <div class="col-md-12">
-                                                <button type="submit" class="btn btn-primary">Create Account</button>
+                                                <button type="submit" class="btn btn-primary">Edit Account</button>
                                                 <a href="/users" class="btn btn-outline-secondary">Cancel</a>
                                     </div>
                                 </div>
