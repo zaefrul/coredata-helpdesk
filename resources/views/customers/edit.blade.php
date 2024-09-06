@@ -91,7 +91,7 @@
                                                         <div class="form-control-icon start">
                                                             <em class="icon ni ni-call"></em>
                                                         </div>
-                                                        <input type="text" class="form-control" id="department_phone_number_{{ $index }}" name="departments[{{ $index }}][department_phone_number]" value="{{ $department->pc_phone }}" required>
+                                                        <input type="text" class="form-control" id="department_phone_number_{{ $index }}" name="departments[{{ $index }}][department_phone_number]" value="{{ $department->pc_phone }}" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                         <div class="form-control-icon start">
                                                             <em class="icon ni ni-at"></em>
                                                         </div>
-                                                        <input type="email" class="form-control" id="department_email_{{ $index }}" name="departments[{{ $index }}][department_email]" value="{{ $department->pc_email }}" required>
+                                                        <input type="email" class="form-control" id="department_email_{{ $index }}" name="departments[{{ $index }}][department_email]" value="{{ $department->pc_email }}" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,7 +110,7 @@
                                                 <div class="form-group">
                                                     <label for="department_users_notification_{{ $index }}" class="form-label">Email Address (for Notifications)</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="js-tags" id="department_users_notification_{{ $index }}" name="departments[{{ $index }}][department_users_notification]" value="{{ $department->notifications->pluck('email')->implode(', ') }}" required>
+                                                        <input type="text" class="js-tags" id="department_users_notification_{{ $index }}" name="departments[{{ $index }}][department_users_notification]" value="{{ $department->notifications->pluck('email')->implode(', ') }}" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,6 +156,24 @@
 
 @section('js')
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('keyup', function(e) {
+            if(e.type === 'password' || e.type === 'email') return;
+
+            if (e.target && e.target.classList.contains('form-control')) {
+                e.target.value = e.target.value.toUpperCase();
+            }
+        });
+
+        document.body.addEventListener('change', function(e) {
+            if(e.type === 'password' || e.type === 'email') return;
+            if (e.target && e.target.classList.contains('form-control')) {
+                e.target.value = e.target.value.toUpperCase();
+            }
+        });
+    });
+
+
     let departmentIndex = {{ $customer->departments->count() }}; // Start index after the existing departments
 
     const departmentContainer = document.getElementById('department-container');
@@ -189,7 +207,7 @@
                             <label for="department_phone_number_${departmentIndex}" class="form-label">Phone number</label>
                             <div class="form-control-wrap">
                                 <div class="form-control-icon start"><em class="icon ni ni-call"></em></div>
-                                <input type="text" class="form-control" id="department_phone_number_${departmentIndex}" name="departments[${departmentIndex}][department_phone_number]" required>
+                                <input type="text" class="form-control" id="department_phone_number_${departmentIndex}" name="departments[${departmentIndex}][department_phone_number]" >
                             </div>
                         </div>
                     </div>
@@ -198,7 +216,7 @@
                             <label for="department_email_${departmentIndex}" class="form-label">Primary Email address</label>
                             <div class="form-control-wrap">
                                 <div class="form-control-icon start"><em class="icon ni ni-at"></em></div>
-                                <input type="email" class="form-control" id="department_email_${departmentIndex}" name="departments[${departmentIndex}][department_email]" required>
+                                <input type="email" class="form-control" id="department_email_${departmentIndex}" name="departments[${departmentIndex}][department_email]" >
                             </div>
                         </div>
                     </div>
@@ -206,7 +224,7 @@
                         <div class="form-group">
                             <label for="department_users_notification_${departmentIndex}" class="form-label">Email Address (for Notifications)</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="js-tags" id="department_users_notification_${departmentIndex}" name="departments[${departmentIndex}][department_users_notification]" required>
+                                <input type="text" class="js-tags" id="department_users_notification_${departmentIndex}" name="departments[${departmentIndex}][department_users_notification]" >
                             </div>
                         </div>
                     </div>

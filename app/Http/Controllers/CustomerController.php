@@ -12,7 +12,8 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::with('departments')->get();
+        Log::info(print_r($customers, true));
         return view('customers.index', compact('customers'));
     }
 
@@ -51,16 +52,16 @@ class CustomerController extends Controller
         {
             $data = request()->validate([
                 'departments.'.$key.'.department' => 'required',
-                'departments.'.$key.'.department_contact_person' => 'required',
-                'departments.'.$key.'.department_phone_number' => 'required',
-                'departments.'.$key.'.department_email' => 'required|email',
+                'departments.'.$key.'.department_contact_person' => 'nullable',
+                'departments.'.$key.'.department_phone_number' => 'nullable',
+                'departments.'.$key.'.department_email' => 'nullable|email',
             ]);
 
             $department = new Department();
             $department->name = $deparment['department'];
-            $department->pc_name = $deparment['department_contact_person'];
-            $department->pc_phone = $deparment['department_phone_number'];
-            $department->pc_email = $deparment['department_email'];
+            $department->pc_name = $deparment['department_contact_person'] ?? '';
+            $department->pc_phone = $deparment['department_phone_number'] ?? '';
+            $department->pc_email = $deparment['department_email'] ?? '';
             $department->customer_id = $customer->id;
             $department->save();
 
@@ -116,9 +117,9 @@ class CustomerController extends Controller
             // Validate the department fields
             $data = request()->validate([
                 'departments.' . $key . '.department' => 'required',
-                'departments.' . $key . '.department_contact_person' => 'required',
-                'departments.' . $key . '.department_phone_number' => 'required',
-                'departments.' . $key . '.department_email' => 'required|email',
+                'departments.' . $key . '.department_contact_person' => 'nullable',
+                'departments.' . $key . '.department_phone_number' => 'nullable',
+                'departments.' . $key . '.department_email' => 'nullable|email',
             ]);
 
             // Check if the department already exists (edit mode)
@@ -129,9 +130,9 @@ class CustomerController extends Controller
 
                 if ($department) {
                     $department->name = $departmentData['department'];
-                    $department->pc_name = $departmentData['department_contact_person'];
-                    $department->pc_phone = $departmentData['department_phone_number'];
-                    $department->pc_email = $departmentData['department_email'];
+                    $department->pc_name = $departmentData['department_contact_person'] ?? '';
+                    $department->pc_phone = $departmentData['department_phone_number'] ?? '';
+                    $department->pc_email = $departmentData['department_email'] ?? '';
                     $department->customer_id = $customer->id;
                     $department->save();
                 }
@@ -139,9 +140,9 @@ class CustomerController extends Controller
                 // Create a new department
                 $department = new Department();
                 $department->name = $departmentData['department'];
-                $department->pc_name = $departmentData['department_contact_person'];
-                $department->pc_phone = $departmentData['department_phone_number'];
-                $department->pc_email = $departmentData['department_email'];
+                $department->pc_name = $departmentData['department_contact_person'] ?? '';
+                $department->pc_phone = $departmentData['department_phone_number'] ?? '';
+                $department->pc_email = $departmentData['department_email'] ?? '';
                 $department->customer_id = $customer->id;
                 $department->save();
 

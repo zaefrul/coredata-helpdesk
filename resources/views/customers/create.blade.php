@@ -85,7 +85,7 @@
                                                     <label for="department_phone_number" class="form-label">Phone number</label>
                                                     <div class="form-control-wrap">
                                                         <div class="form-control-icon start"><em class="icon ni ni-call"></em></div>
-                                                        <input type="text" class="form-control" id="department_phone_number" name="departments[0][department_phone_number]" required>
+                                                        <input type="text" class="form-control" id="department_phone_number" name="departments[0][department_phone_number]">
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
                                                     <label for="department_email" class="form-label">Primary Email address</label>
                                                     <div class="form-control-wrap">
                                                         <div class="form-control-icon start"><em class="icon ni ni-at"></em></div>
-                                                        <input type="email" class="form-control" id="department_email" name="departments[0][department_email]" required>
+                                                        <input type="email" class="form-control" id="department_email" name="departments[0][department_email]">
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                 <div class="form-group">
                                                     <label for="department_users_notification" class="form-label">Email Address (for notifications)</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="js-tags" id="department_users_notification" name="departments[0][department_users_notification]" required>
+                                                        <input type="text" class="js-tags" id="department_users_notification" name="departments[0][department_users_notification]">
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,18 +148,21 @@
 
 @section('js')
 <script>
-    //all input fields with class 'form-control' will be affected. each key/change will convert to uppercase
-    //this is to ensure that all data entered are in uppercase pure javascript
-    // all input type exept for password and email
-    document.querySelectorAll('.form-control').forEach(function (input) {
-        console.log(input)
-        if(input.type === 'password' || input.type === 'email') return;
-        input.addEventListener('keyup', function (e) {
-            this.value = this.value.toUpperCase();
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('keyup', function(e) {
+            if(e.target.type === 'password' || e.target.type === 'email') return;
+
+            if (e.target && e.target.classList.contains('form-control')) {
+                e.target.value = e.target.value.toUpperCase();
+            }
         });
-        //change
-        input.addEventListener('change', function (e) {
-            this.value = this.value.toUpperCase();
+
+        document.body.addEventListener('change', function(e) {
+            console.loog(e, e.type);
+            if(e.target.type === 'password' || e.target.type === 'email') return;
+            if (e.target && e.target.classList.contains('form-control')) {
+                e.target.value = e.target.value.toUpperCase();
+            }
         });
     });
 
@@ -196,7 +199,7 @@
                             <label for="department_phone_number_${departmentIndex}" class="form-label">Phone number</label>
                             <div class="form-control-wrap">
                                 <div class="form-control-icon start"><em class="icon ni ni-call"></em></div>
-                                <input type="text" class="form-control" id="department_phone_number_${departmentIndex}" name="departments[${departmentIndex}][department_phone_number]" required>
+                                <input type="text" class="form-control" id="department_phone_number_${departmentIndex}" name="departments[${departmentIndex}][department_phone_number]" >
                             </div>
                         </div>
                     </div>
@@ -205,7 +208,7 @@
                             <label for="department_email_${departmentIndex}" class="form-label">Primary Email address</label>
                             <div class="form-control-wrap">
                                 <div class="form-control-icon start"><em class="icon ni ni-at"></em></div>
-                                <input type="email" class="form-control" id="department_email_${departmentIndex}" name="departments[${departmentIndex}][department_email]" required>
+                                <input type="email" class="form-control" id="department_email_${departmentIndex}" name="departments[${departmentIndex}][department_email]" >
                             </div>
                         </div>
                     </div>
@@ -213,7 +216,7 @@
                         <div class="form-group">
                             <label for="department_users_notification_${departmentIndex}" class="form-label">Email Address (for notifications)</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="js-tags" id="department_users_notification_${departmentIndex}" name="departments[${departmentIndex}][department_users_notification]" required>
+                                <input type="text" class="js-tags" id="department_users_notification_${departmentIndex}" name="departments[${departmentIndex}][department_users_notification]" >
                             </div>
                         </div>
                     </div>

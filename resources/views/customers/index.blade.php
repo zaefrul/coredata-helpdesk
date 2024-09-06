@@ -41,22 +41,16 @@
                             <thead class="table-light">
                                 <tr>
                                     <th class="tb-col">
-                                        <span class="overline-title">Company</span>
+                                        <span class="overline-title">Customer</span>
                                     </th>
                                     <th class="tb-col">
-                                        <span class="overline-title">Phone</span>
+                                        <span class="overline-title">Prefix</span>
                                     </th>
                                     <th class="tb-col">
-                                        <span class="overline-title">email</span>
+                                        <span class="overline-title">Contact</span>
                                     </th>
                                     <th class="tb-col tb-col-xl">
-                                        <span class="overline-title">prefix</span>
-                                    </th>
-                                    <th class="tb-col tb-col-xxl">
-                                        <span class="overline-title">Created</span>
-                                    </th>
-                                    <th class="tb-col">
-                                        <span class="overline-title">Status</span>
+                                        <span class="overline-title">Phone</span>
                                     </th>
                                     <th class="tb-col tb-col-end" data-sortable="false">
                                         <span class="overline-title">Action</span>
@@ -65,49 +59,54 @@
                             </thead>
                             <tbody>
                                 @foreach($customers as $customer)
-                                    <tr>
-                                        <td class="tb-col">
-                                            <div class="media-group">
-                                                <div class="media media-md media-middle media-circle text-bg-info-soft">
-                                                    <span class="smaller">{{$customer->prefix}}</span>
-                                                </div>
-                                                <div class="media-text">
-                                                    <a href="{{route('customers.show', $customer->id)}}" class="title">{{$customer->company_name}}</a>
-                                                    <span class="small text">{{$customer->contact_person}}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="tb-col">{{$customer->phone_number}}</td>
-                                        <td class="tb-col tb-col-xl">{{$customer->email}}</td>
-                                        <td class="tb-col">
-                                            <span class="badge text-bg-dark-soft">{{$customer->prefix}}</span></td>
-                                        <td class="tb-col tb-col-xxl">{{$customer->created_at->diffForHumans()}}</td>
-                                        <td class="tb-col">
-                                            <x-badge-status :status="$customer->status"/>
-                                        </td>
-                                        <td class="tb-col tb-col-end">
-                                            <div class="dropdown">
-                                                <a href="#" class="btn btn-sm btn-icon btn-zoom me-n1" data-bs-toggle="dropdown">
-                                                    <em class="icon ni ni-more-v"></em>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                                                    <div class="dropdown-content py-1">
-                                                        <ul class="link-list link-list-hover-bg-primary link-list-md">
-                                                            <li>
-                                                                <a href="/customers/{{$customer->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" onclick="deleteCustomer({{$customer->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="{{route('customers.show', $customer->id)}}"><em class="icon ni ni-eye"></em><span>View Details</span></a>
-                                                            </li>
-                                                        </ul>
+                                    @foreach($customer->departments as $department)
+                                        <tr>
+                                            <td class="tb-col">
+                                                <div class="media-group">
+                                                    <div class="media-text">
+                                                        <a href="{{route('customers.show', $customer->id)}}" class="title">{{$customer->company_name}}</a>
+                                                        <span class="small text">{{$department->name}}</span>
                                                     </div>
                                                 </div>
-                                            </div><!-- dropdown -->
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td class="tb-col">{{$customer->prefix}}</td>
+                                            <td class="tb-col tb-col-xl">
+                                                @if($department->pc_name == null)
+                                                    <span class="small text">No contact person</span>
+                                                @else
+                                                    <div class="media-text">
+                                                        <a href="#" class="title">{{$department->pc_name}}</a>
+                                                        <span class="small text">{{$department->pc_email}}</span>
+                                                    </div>
+                                                @endif
+                                            </td>
+                                            <td class="tb-col tb-col-xl">
+                                                <span class="small text">{{$department->pc_phone}}</span>
+                                            </td>
+                                            <td class="tb-col tb-col-end">
+                                                <div class="dropdown">
+                                                    <a href="#" class="btn btn-sm btn-icon btn-zoom me-n1" data-bs-toggle="dropdown">
+                                                        <em class="icon ni ni-more-v"></em>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                                                        <div class="dropdown-content py-1">
+                                                            <ul class="link-list link-list-hover-bg-primary link-list-md">
+                                                                <li>
+                                                                    <a href="/customers/{{$customer->id}}/edit"><em class="icon ni ni-edit"></em><span>Edit</span></a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" onclick="deleteCustomer({{$customer->id}})"><em class="icon ni ni-trash"></em><span>Delete</span></a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{route('customers.show', $customer->id)}}"><em class="icon ni ni-eye"></em><span>View Details</span></a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- dropdown -->
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                                 @if(count($customers) == 0)
                                     <tr>

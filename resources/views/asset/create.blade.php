@@ -179,18 +179,18 @@
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    document.body.addEventListener('keyup', function(e) {
-        if (e.target && e.target.classList.contains('form-control')) {
-            e.target.value = e.target.value.toUpperCase();
-        }
-    });
+        document.body.addEventListener('keyup', function(e) {
+            if (e.target && e.target.classList.contains('form-control')) {
+                e.target.value = e.target.value.toUpperCase();
+            }
+        });
 
-    document.body.addEventListener('change', function(e) {
-        if (e.target && e.target.classList.contains('form-control')) {
-            e.target.value = e.target.value.toUpperCase();
-        }
+        document.body.addEventListener('change', function(e) {
+            if (e.target && e.target.classList.contains('form-control')) {
+                e.target.value = e.target.value.toUpperCase();
+            }
+        });
     });
-});
 
 
     let componentIndex = 0;
