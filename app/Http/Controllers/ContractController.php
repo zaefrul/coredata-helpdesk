@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contract;
 use App\Models\Customer;
+use App\Models\Department;
 
 class ContractController extends Controller
 {
@@ -36,6 +37,7 @@ class ContractController extends Controller
             'total_preventive_maintenance' => 'nullable|numeric|gte:0',
             'total_corrective_maintenance' => 'nullable|numeric|gte:0',
             'customer_id' => 'required',
+            'department_id' => 'required',
             'contract_number' => 'required',
             'file' => 'nullable|file|mimes:pdf',
         ]);
@@ -62,6 +64,7 @@ class ContractController extends Controller
         $contract->preventive_maintenance = request('total_preventive_maintenance', 0);
         $contract->corrective_maintenance = request('total_corrective_maintenance', 0);
         $contract->customer_id = request('customer_id');
+        $contract->department_id = request('department_id');
         $contract->contract_number = request('contract_number');
         $contract->file_name = $file_name;
         $contract->save();
@@ -73,7 +76,8 @@ class ContractController extends Controller
     {
         $contract = Contract::findOrFail($id);
         $customers = Customer::all();
-        return view('contract.edit', compact('contract', 'customers'));
+        $departments = Department::where('customer_id', $contract->customer_id)->get();
+        return view('contract.edit', compact('contract', 'customers', 'departments'));
     }
 
     public function update($id)
@@ -87,6 +91,7 @@ class ContractController extends Controller
             'total_preventive_maintenance' => 'nullable|numeric|gte:0',
             'total_corrective_maintenance' => 'nullable|numeric|gte:0',
             'customer_id' => 'required',
+            'department_id' => 'required',
             'contract_number' => 'required',
         ]);
 
@@ -112,6 +117,7 @@ class ContractController extends Controller
         $contract->preventive_maintenance = request('total_preventive_maintenance', 0);
         $contract->corrective_maintenance = request('total_corrective_maintenance', 0);
         $contract->customer_id = request('customer_id');
+        $contract->department_id = request('department_id');
         $contract->contract_number = request('contract_number');
         $contract->file_name = $file_name;
         $contract->save();

@@ -45,6 +45,23 @@
                                     </div>
                                 </div>
 
+                                {{-- department selection --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="department_id" class="form-label" data-bs-toggle="tooltip" title="Select the department associated with this contract.">Department</label>
+                                            <div class="form-control-wrap">
+                                                <select class="js-select @error('department_id') is-invalid @enderror" data-search="true" data-placeholder="Select a department..." id="department_id" name="department_id">
+                                                    <option value="">Select Department</option>
+                                                </select>
+                                            </div>
+                                            @error('department_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Contract Name -->
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
@@ -76,27 +93,14 @@
 
                                 <!-- Dates -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="start_date" class="form-label required" data-bs-toggle="tooltip" title="Select the start date of the contract.">Start Date</label>
-                                            <div class="form-control-wrap">
-                                                <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
+                                            <label class="form-label">Contract Period</label>
+                                            <div class="input-group custom-datepicker" data-range="init" >
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="start_date">
+                                                <span class="input-group-text">to</span>
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="end_date">
                                             </div>
-                                            @error('start_date')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="end_date" class="form-label required" data-bs-toggle="tooltip" title="Select the end date of the contract.">End Date</label>
-                                            <div class="form-control-wrap">
-                                                <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date') }}" required>
-                                            </div>
-                                            @error('end_date')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -272,19 +276,83 @@
             });
 
             // Corrective Maintenance
-            document.getElementById('corrective_maintenance').addEventListener('change', function(e) {
-                if (this.checked) {
-                    document.getElementById('total_corrective_maintenance').disabled = false;
-                } else {
-                    document.getElementById('total_corrective_maintenance').disabled = true;
-                    document.getElementById('total_corrective_maintenance').value = '';
-                }
-            });
+            // document.getElementById('corrective_maintenance').addEventListener('change', function(e) {
+            //     if (this.checked) {
+            //         document.getElementById('total_corrective_maintenance').disabled = false;
+            //     } else {
+            //         document.getElementById('total_corrective_maintenance').disabled = true;
+            //         document.getElementById('total_corrective_maintenance').value = '';
+            //     }
+            // });
         });
 
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // get choice instance on the department_id select
+        var departmentChoice = new Choices(document.getElementById('department_id'), {
+            searchEnabled: true,
+            searchChoices: true,
+            removeItemButton: true,
+            placeholder: true,
+            placeholderValue: 'Select Department',
+            noResultsText: 'No department found, please notify the administrator.',
+            itemSelectText: 'Press to select',
+        });
+
+        departmentChoice.disable();
+
+        // if customer_id select change, query department from the server
+        document.getElementById('customer_id').addEventListener('change', function(e) {
+            var customer_id = this.value;
+            var department_id = document.getElementById('department_id');
+            var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            // clear department_id select
+            departmentChoice.clearStore();
+
+            if (customer_id) {
+                var url = "/customers/" + customer_id + "/departments";
+                console.log(url);
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    },
+                })
+                .then(response => {console.log(response); return response.json();})
+                .then(data => {
+                    console.log(data);
+                    if(data.length > 0) {
+                        const options = [];
+                        data.forEach(function(department) {
+                            options.push({value: department.id, label: department.name, selected: false, disabled: false});
+                        });
+                        departmentChoice.setChoices(options, 'value', 'label', true);
+                        departmentChoice.enable();
+                    } else {
+                        departmentChoice.disable();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                departmentChoice.disable();
+            }
+        });
+
+        // Date Picker
+        const dpElement = document.querySelector('.custom-datepicker');
+        const datepicker = new DateRangePicker(dpElement, {
+            autohide: true,
+            buttonClass: 'btn btn-md',
+            orientation: 'bottom',
+            todayButton: false,
+            format: 'dd/mm/yyyy',
         });
         
     </script>

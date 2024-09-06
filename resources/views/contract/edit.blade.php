@@ -46,6 +46,26 @@
                                     </div>
                                 </div>
 
+                                {{-- select department --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="department_id" class="form-label" data-bs-toggle="tooltip" title="Select the department associated with this contract.">Department</label>
+                                            <div class="form-control-wrap">
+                                                <select class="js-select @error('department_id') is-invalid @enderror" data-search="true" data-placeholder="Select a department..." id="department_id" name="department_id">
+                                                    <option value="">Select Department</option>
+                                                    @foreach($departments as $department)
+                                                    <option value="{{ $department->id }}" {{ old('department_id', $contract->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('department_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Contract Name -->
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
@@ -291,6 +311,60 @@
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // get choice instance on the department_id select
+        var departmentChoice = new Choices(document.getElementById('department_id'), {
+            searchEnabled: true,
+            searchChoices: true,
+            removeItemButton: true,
+            placeholder: true,
+            placeholderValue: 'Select Department',
+            noResultsText: 'No department found, please notify the administrator.',
+            itemSelectText: 'Press to select',
+        });
+
+        departmentChoice.disable();
+
+        // if customer_id select change, query department from the server
+        document.getElementById('customer_id').addEventListener('change', function(e) {
+            var customer_id = this.value;
+            var department_id = document.getElementById('department_id');
+            var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            // clear department_id select
+            departmentChoice.clearStore();
+
+            if (customer_id) {
+                var url = "/customers/" + customer_id + "/departments";
+                console.log(url);
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    },
+                })
+                .then(response => {console.log(response); return response.json();})
+                .then(data => {
+                    console.log(data);
+                    if(data.length > 0) {
+                        const options = [];
+                        data.forEach(function(department) {
+                            options.push({value: department.id, label: department.name, selected: false, disabled: false});
+                        });
+                        departmentChoice.setChoices(options, 'value', 'label', true);
+                        departmentChoice.enable();
+                    } else {
+                        departmentChoice.disable();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                departmentChoice.disable();
+            }
         });
     </script>
 @endsection

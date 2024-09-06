@@ -2574,7 +2574,7 @@ var FullCalendar=function(e){"use strict";var t=function(e,n){return(t=Object.se
     defaultViewDate: undefined, // placeholder, defaults to today() by the program
     disableTouchKeyboard: false,
     enableOnReadonly: true,
-    format: 'mm/dd/yyyy',
+    format: 'dd/mm/yyyy',
     language: 'en',
     maxDate: null,
     maxNumberOfDates: 1,
