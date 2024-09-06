@@ -61,7 +61,7 @@ class IncidentController extends Controller
     }
 
     public function show($id) {
-        $incident = Incident::find($id);
+        $incident = Incident::where('incident_number', $id)->first();
         return view('incident.show', compact('incident'));
     }
 
