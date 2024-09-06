@@ -35,6 +35,7 @@ class AssetController extends Controller
             'details' => 'required',
             'purchased_date' => 'required',
             'warranty_end' => 'required',
+            'warranty_level' => 'required',
         ]);
 
         $asset = new Asset();
@@ -47,6 +48,7 @@ class AssetController extends Controller
         $asset->details = $request->details;
         $asset->purchased_date = $request->purchased_date;
         $asset->warranty_end = $request->warranty_end;
+        $asset->warranty_level = $request->warranty_level;
         $asset->save();
 
         // Check if there are any components to save
@@ -102,6 +104,7 @@ class AssetController extends Controller
             'details' => 'required',
             'purchased_date' => 'required',
             'warranty_end' => 'required',
+            'warranty_level' => 'required',
         ]);
         
         $asset = Asset::findOrFail($id);
@@ -114,6 +117,7 @@ class AssetController extends Controller
         $asset->details = $request->details;
         $asset->purchased_date = $request->purchased_date;
         $asset->warranty_end = $request->warranty_end;
+        $asset->warranty_level = $request->warranty_level;
         $asset->save();
 
         // Handle components

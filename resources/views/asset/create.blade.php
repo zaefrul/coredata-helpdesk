@@ -115,6 +115,21 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="warranty_level" class="form-label">Warranty Level</label>
+                                            <div class="form-control-wrap">
+                                                <select class="js-select" id="warranty_level" name="warranty_level" required>
+                                                    <option>Select Warranty Level</option>
+                                                    <option value="third-party" {{ old('warranty_level') == '1' ? 'selected' : '' }}>3rd Party</option>
+                                                    <option value="back-to-back" {{ old('warranty_level') == '2' ? 'selected' : '' }}>Back to Back</option>
+                                                </select>
+                                            </div>
+                                            @error('warranty_level')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Purchase Date and Warranty End -->

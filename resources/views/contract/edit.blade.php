@@ -8,12 +8,12 @@
                 <div class="nk-block-head">
                     <div class="nk-block-head-between flex-wrap gap g-2">
                         <div class="nk-block-head-content">
-                            <h2 class="nk-block-title">Edit Contract</h2>
+                            <h2 class="nk-block-title">Edit Project</h2>
                             <nav>
                                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('contracts.index') }}">Contract Manager</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Edit Contract</li>
+                                    <li class="breadcrumb-item"><a href="{{ route('contracts.index') }}">Project Manager</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Edit Project</li>
                                 </ol>
                             </nav>
                         </div>

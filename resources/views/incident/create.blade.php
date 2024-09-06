@@ -28,28 +28,6 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label " for="title">Title</label>
-                                            <div class="form-control-wrap">
-                                                <div class="form-control-icon start"><em class="icon ni ni-tag"></em></div>
-                                                <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="description">Description</label>
-                                            <div class="form-control-wrap">
-                                                <div class="form-control-icon start"><em class="icon ni ni-notes-alt"></em></div>
-                                                <textarea class="form-control" name="description" id="description" rows="5">{{old('description')}}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
                                             <label class="form-label" for="contract_id">Contract</label>
                                             <div class="form-control-wrap">
                                                 <select class="js-select" name="contract_id" id="contract_id">
@@ -71,6 +49,29 @@
                                                     <option value="">Select Asset</option>
 
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label " for="title">Issue Summary</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-tag"></em></div>
+                                                <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="description">Issue Description</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-notes-alt"></em></div>
+                                                <textarea class="form-control" name="description" id="description" rows="5">{{old('description')}}</textarea>
                                             </div>
                                         </div>
                                     </div>

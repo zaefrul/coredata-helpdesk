@@ -18,6 +18,7 @@ class Asset extends Model
         'details',
         'purchased_date',
         'warranty_end',
+        'warranty_level'
     ];
 
     // cast

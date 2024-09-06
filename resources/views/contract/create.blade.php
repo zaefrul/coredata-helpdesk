@@ -8,12 +8,12 @@
                 <div class="nk-block-head">
                     <div class="nk-block-head-between flex-wrap gap g-2">
                         <div class="nk-block-head-content">
-                            <h2 class="nk-block-title">Add New Contract</h2>
+                            <h2 class="nk-block-title">Add New Project</h2>
                             <nav>
                                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('contracts.index') }}">Contract Manager</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Add New Contract</li>
+                                    <li class="breadcrumb-item"><a href="{{ route('contracts.index') }}">Project Manager</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Add New Project</li>
                                 </ol>
                             </nav>
                         </div>
@@ -43,10 +43,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
 
-                                {{-- department selection --}}
-                                <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="department_id" class="form-label" data-bs-toggle="tooltip" title="Select the department associated with this contract.">Department</label>
@@ -62,14 +59,20 @@
                                     </div>
                                 </div>
 
+                                {{-- department selection --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    
+                                </div>
+
                                 <!-- Contract Name -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="contract_name" class="form-label required" data-bs-toggle="tooltip" title="Enter the official name of the contract.">Contract Name</label>
+                                            <label for="contract_name" class="form-label required" data-bs-toggle="tooltip" title="Enter the official name of the contract.">Project Name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
-                                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" value="{{ old('name') }}" required>
+                                                {{-- <input type="text" class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" value="{{ old('name') }}" required> --}}
+                                                <textarea class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" required>{{ old('name') }}</textarea>
                                             </div>
                                             @error('name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -78,9 +81,9 @@
                                     </div>
 
                                     <!-- Contract Number -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Contract Number / LOA Number</label>
+                                            <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Letter of award / Purchase order number / Letter of intention</label>
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control @error('contract_number') is-invalid @enderror" id="contract_number" name="contract_number" value="{{ old('contract_number') }}" required>
                                             </div>
@@ -97,9 +100,10 @@
                                         <div class="form-group">
                                             <label class="form-label">Contract Period</label>
                                             <div class="input-group custom-datepicker" data-range="init" >
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="start_date">
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="start_date" id="contract_start_date">
                                                 <span class="input-group-text">to</span>
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="end_date">
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="end_date" id="contract_end_date">
+                                                <span class="input-group-text" id="how-many-month-days">0 day</span>
                                             </div>
                                         </div>
                                     </div>
@@ -191,9 +195,9 @@
 
                                 <!-- Description -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Description</label>
+                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Other Requirement</label>
                                             <div class="form-control-wrap">
                                                 <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" required>{{ old('description') }}</textarea>
                                             </div>
@@ -206,9 +210,9 @@
 
                                 <!-- file upload and display doc symbol -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="formFile" class="form-label" data-bs-toggle="tooltip" title="Select contract file in .pdf format.">LOA / PO - Document</label>
+                                            <label for="formFile" class="form-label" data-bs-toggle="tooltip" title="Select contract file in .pdf format.">LOA / PO / LOI</label>
                                             <div class="form-control-wrap">
                                                 <input class="form-control" type="file" id="formFile" name="file" accept=".pdf">
                                             </div>
@@ -353,7 +357,35 @@
             orientation: 'bottom',
             todayButton: false,
             format: 'dd/mm/yyyy',
+            
         });
-        
+
+        // calculate days month from contract period
+        // Function to calculate the difference in days
+        function calculateDateDifference() {
+            const startDate = startDatePicker.getDate();
+            const endDate = endDatePicker.getDate();
+
+            if (startDate && endDate) {
+                // Calculate difference in days
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert milliseconds to days
+
+                // Calculate difference in months
+                const diffMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+
+                // Display the result
+                document.getElementById('diffDays').innerText = `Difference in Days: ${diffDays}`;
+                document.getElementById('diffMonths').innerText = `Difference in Months: ${diffMonths}`;
+            }
+        }
+
+        document.querySelector('#contract_start_date').addEventListener('change', function() {
+            calculateDateDifference();
+        });
+
+        document.querySelector('#contract_end_date').addEventListener('change', function() {
+            calculateDateDifference();
+        });
     </script>
 @endsection

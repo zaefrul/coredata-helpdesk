@@ -64,6 +64,8 @@
                                                                 <span class="badge text-bg-danger-soft fs-6">High <em class="icon ni ni-chevron-up"></em></span>
                                                             @elseif($incident->priority == 'critical')
                                                                 <span class="badge text-bg-danger fs-6">Critical <em class="icon ni ni-chevrons-up"></em></span>
+                                                            @else
+                                                                <span class="badge text-bg-light fs-6">Unassigned</span>
                                                             @endif
                                                         </span>
                                                     </li>

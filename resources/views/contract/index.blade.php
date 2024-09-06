@@ -8,12 +8,12 @@
                 <div class="nk-block-head">
                     <div class="nk-block-head-between flex-wrap gap g-2">
                         <div class="nk-block-head-content">
-                            <h2 class="nk-block-title">Contract List</h1>
+                            <h2 class="nk-block-title">Project List</h1>
                                 <nav>
                                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="/contracts">Contract Manager</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Contract list</li>
+                                        <li class="breadcrumb-item"><a href="/contracts">Project Manager</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Project list</li>
                                     </ol>
                                 </nav>
                         </div>
@@ -70,7 +70,7 @@
                                                 </div> --}}
                                                 <div class="media-text">
                                                     <a href="/contracts/{{$contract->id}}/show" class="title">{{$contract->contract_name}}</a>
-                                                    <span class="small text">{{$contract->customer->company_name}}</span>
+                                                    <span class="small text">{{$contract->customer->company_name ?? ''}}</span>
                                                 </div>
                                             </div>
                                         </td>

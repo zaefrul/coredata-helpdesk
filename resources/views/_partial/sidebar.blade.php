@@ -77,17 +77,17 @@
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-file-docs"></em></span>
-                            <span class="nk-menu-text">Contract Management</span>
+                            <span class="nk-menu-text">Project Management</span>
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item {{request()->routeIs('contracts.index') ? 'active' : ''}}">
                                 <a href="/contracts" class="nk-menu-link">
-                                    <span class="nk-menu-text">Contract List</span>
+                                    <span class="nk-menu-text">Project List</span>
                                 </a>
                             </li>
                             <li class="nk-menu-item {{request()->routeIs('contracts.create') ? 'active' : ''}}">
                                 <a href="/contracts/create" class="nk-menu-link">
-                                    <span class="nk-menu-text">Add New Contract</span>
+                                    <span class="nk-menu-text">Add New Project</span>
                                 </a>
                             </li>
                         </ul>

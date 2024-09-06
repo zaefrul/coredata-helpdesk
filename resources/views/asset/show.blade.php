@@ -20,24 +20,24 @@
                         <div class="nk-block-head-content">
                             <ul class="d-flex">
                                 <li>
-                                    <a href="/assets/{{ $asset->id }}/edit" class="btn btn-md d-md-none btn-primary">
+                                    <a href="/resources/{{ $asset->id }}/edit" class="btn btn-md d-md-none btn-primary">
                                         <em class="icon ni ni-edit"></em>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/assets/{{ $asset->id }}/edit" class="btn btn-primary d-none d-md-inline-flex">
+                                    <a href="/resources/{{ $asset->id }}/edit" class="btn btn-primary d-none d-md-inline-flex">
                                         <em class="icon ni ni-edit"></em>
                                     </a>
                                 </li>
                             </ul>
                             <ul class="d-flex">
                                 <li>
-                                    <a href="/assets/{{ $asset->id }}/edit" class="btn btn-md d-md-none btn-danger">
+                                    <a href="/resources/{{ $asset->id }}/edit" class="btn btn-md d-md-none btn-danger">
                                         <em class="icon ni ni-trash"></em>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/assets/{{ $asset->id }}/edit" class="btn btn-danger d-none d-md-inline-flex">
+                                    <a href="/resources/{{ $asset->id }}/edit" class="btn btn-danger d-none d-md-inline-flex">
                                         <em class="icon ni ni-trash"></em>
                                     </a>
                                 </li>
@@ -72,9 +72,9 @@
                                             <li class="mb-1">
                                                 <strong class="text-dark">Category:</strong> 
                                                 @if($asset->category == 'hardware')
-                                                    <span class="badge bg-primary text-white">Hardware</span>
+                                                    <span class="badge bg-primary text-white fs-6">Hardware</span>
                                                 @else
-                                                    <span class="badge bg-secondary text-white">Software</span>
+                                                    <span class="badge bg-secondary text-white fs-6">Software</span>
                                                 @endif
                                             </li>
                                         </ul>
@@ -95,6 +95,16 @@
                                             <li class="mb-1">
                                                 <strong class="text-dark">Warranty End Date:</strong> 
                                                 <span class="text-secondary">{{ $asset->warranty_end->format('d-M-Y') }}</span>
+                                            </li>
+                                            <li class="mb-1">
+                                                <strong class="text-dark">Warranty Level:</strong> 
+                                                <span class="text-secondary">
+                                                    @if($asset->warranty_level == 'third-party')
+                                                        <span class="badge text-bg-warning fs-6">3rd Party</span>
+                                                    @else
+                                                        <span class="badge text-bg-success fs-6">Back to Back</span>
+                                                    @endif
+                                                </span>
                                             </li>
                                         </ul>
                                     </div>
@@ -155,13 +165,13 @@
 
 
 @section('js')
-<script src="/assets/js/data-tables/data-tables.js"></script>
+<script src="/resources/js/data-tables/data-tables.js"></script>
 <script>
     function deleteAsset(id) {
         event.preventDefault();
         if (confirm('Are you sure you want to delete this asset?')) {
             let form = document.createElement('form');
-            form.action = '/assets/' + id;
+            form.action = '/resources/' + id;
             form.method = 'POST';
             form.innerHTML = `
                 @csrf
