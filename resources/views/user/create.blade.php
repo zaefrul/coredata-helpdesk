@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <form method="POST" action="{{route('users.store')}}">
                                 @csrf
-                                <div class="row g-3 gx-gs">
+                                {{-- <div class="row g-3 gx-gs">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name" class="form-label">Customer</label>
@@ -38,7 +38,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row g-3 gx-gs mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -97,7 +97,6 @@
                                                 <select class="js-select" id="role" name="role" required>
                                                     <option value="admin">Admin</option>
                                                     <option value="agent">Agent</option>
-                                                    <option value="user">User</option>
                                                 </select>
                                             </div>
                                         </div>

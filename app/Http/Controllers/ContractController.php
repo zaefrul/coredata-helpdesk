@@ -128,6 +128,15 @@ class ContractController extends Controller
     public function destroy($id)
     {
         $contract = Contract::findOrFail($id);
+
+        // delete contracts assets components
+        foreach($contract->assets as $asset) {
+            foreach($asset->components as $component) {
+                $component->delete();
+            }
+            $asset->delete();
+        }
+
         $contract->delete();
 
         return redirect()->route('contracts.index')->with('success', 'Contract deleted successfully');

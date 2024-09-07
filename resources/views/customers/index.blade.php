@@ -129,7 +129,7 @@
     // function for a tag onclick event to delete customer
     function deleteCustomer(id) {
         event.preventDefault();
-        if(confirm('Are you sure you want to delete this customer?')) {
+        if(confirm('By removing this customer means you will remove all the associate projects, assets, components, and accounts. Are you sure to proceed?')) {
             // create form and submit as destroy method
             let form = document.createElement('form');
             form.action = '/customers/'+id;

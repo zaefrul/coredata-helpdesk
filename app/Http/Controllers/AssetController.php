@@ -171,8 +171,9 @@ class AssetController extends Controller
             ->with('success', 'Asset updated successfully');
     }
 
-    public function destroy(Asset $asset)
+    public function destroy($id)
     {
+        $asset = Asset::findOrFail($id);
         $asset->delete();
 
         return redirect()->route('assets.index')

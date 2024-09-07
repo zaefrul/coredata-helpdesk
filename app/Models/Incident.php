@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\IncludeTrashedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,28 +25,33 @@ class Incident extends Model
         'incident_number',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new IncludeTrashedScope());
+    }
+
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class)->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function asset()
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Asset::class)->withTrashed();
     }
 
     public function contract()
     {
-        return $this->belongsTo(Contract::class);
+        return $this->belongsTo(Contract::class)->withTrashed();
     }
 
     public function currentAssignee()
     {
-        return $this->belongsTo(User::class, 'current_assignee_id');
+        return $this->belongsTo(User::class, 'current_assignee_id')->withTrashed();
     }
 }

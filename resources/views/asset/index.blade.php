@@ -134,7 +134,7 @@
         if(confirm('Are you sure you want to delete this customer?')) {
             // create form and submit as destroy method
             let form = document.createElement('form');
-            form.action = '/assets/'+id;
+            form.action = '/resources/'+id;
             form.method = 'POST';
             form.innerHTML = `
                 @csrf

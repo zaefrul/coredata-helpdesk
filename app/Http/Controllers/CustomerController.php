@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\CustomerNotification;
 use App\Models\Department;
@@ -181,6 +182,30 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
+
+        // delete all related departments
+        foreach($customer->departments as $department) {
+            $department->notifications()->delete();
+        }
+
+        // delete projects assets components
+        $contracts = Contract::with('assets.components')->where('customer_id', $customer->id)->get();
+        foreach($contracts as $contract) {
+            foreach($contract->assets as $asset) {
+                foreach($asset->components as $component) {
+                    $component->delete();
+                }
+                $asset->delete();
+            }
+            $contract->delete();
+        }
+
+        // delete all users account
+        $users = User::where('customer_id', $customer->id)->get();
+        foreach($users as $user) {
+            $user->delete();
+        }
+
         $customer->delete();
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully');

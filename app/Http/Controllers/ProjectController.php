@@ -70,6 +70,16 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
+
+        // delete all related assets components
+        foreach ($project->assets as $asset) {
+            $asset->components()->delete();
+        }
+        
+        // delete all assets
+        $project->assets()->delete();
+
+        // delete project
         $project->delete();
 
         return redirect()->route('projects.index')->with('success', 'Project deleted successfully');

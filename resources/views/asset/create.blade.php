@@ -25,7 +25,7 @@
                             <form method="POST" action="{{ route('assets.store') }}">
                                 @csrf
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="contract_id" class="form-label">Contract</label>
                                             <div class="form-control-wrap">
