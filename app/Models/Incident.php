@@ -25,11 +25,6 @@ class Incident extends Model
         'incident_number',
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new IncludeTrashedScope());
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class)->withTrashed();

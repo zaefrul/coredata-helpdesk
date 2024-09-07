@@ -86,7 +86,7 @@
                                                     </div>
                                                     <div class="media-text">
                                                         <a href="/users/{{$incident->id}}/show" class="title">{{$assignTo->name}}</a>
-                                                        <span class="small text">{{$assignTo->customer->company_name}}</span>
+                                                        <span class="small text">{{$assignTo->customer ? $assignTo->customer->company_name : ''}}</span>
                                                     </div>
                                                 </div>
                                             @else
