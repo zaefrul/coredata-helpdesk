@@ -105,6 +105,15 @@ class AssetController extends Controller
 
     public function update(Request $request, $id)
     {
+        $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->purchased_date)->format('Y-m-d');
+        $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->warranty_end)->format('Y-m-d');
+
+        // Add the converted dates back into the request
+        request()->merge([
+            'purchased_date' => $startDate,
+            'warranty_end' => $endDate,
+        ]);
+        
         $request->validate([
             'name' => 'required',
             'brand' => 'required',
