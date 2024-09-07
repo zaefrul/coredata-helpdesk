@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Department;
+use Illuminate\Support\Facades\Log;
 
 class ContractController extends Controller
 {
@@ -28,6 +29,17 @@ class ContractController extends Controller
 
     public function store()
     {
+        $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->start_date)->format('Y-m-d');
+        $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->end_date)->format('Y-m-d');
+
+        // Add the converted dates back into the request
+        request()->merge([
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ]);
+
+        // Validate the input
+
         $data = request()->validate([
             'name' => 'required',
             'description' => 'required',
@@ -82,6 +94,16 @@ class ContractController extends Controller
 
     public function update($id)
     {
+        $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->start_date)->format('Y-m-d');
+        $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->end_date)->format('Y-m-d');
+
+        // Add the converted dates back into the request
+        request()->merge([
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ]);
+
+        // Validate the input
         $data = request()->validate([
             'name' => 'required',
             'description' => 'required',

@@ -360,32 +360,35 @@
             
         });
 
-        // calculate days month from contract period
-        // Function to calculate the difference in days
-        function calculateDateDifference() {
-            const startDate = startDatePicker.getDate();
-            const endDate = endDatePicker.getDate();
+        // Bind the change event directly on both input fields controlled by the date picker
+        const startDateInput = document.getElementById('contract_start_date');
+        const endDateInput = document.getElementById('contract_end_date');
 
-            if (startDate && endDate) {
-                // Calculate difference in days
+        startDateInput.addEventListener('changeDate', updateDateDifference);
+        endDateInput.addEventListener('changeDate', updateDateDifference);
+
+        function updateDateDifference() {
+            const startDateValue = startDateInput.value;
+            const endDateValue = endDateInput.value;
+
+            if (startDateValue && endDateValue) {
+                // Parse the dates in dd/mm/yyyy format
+                const [startDay, startMonth, startYear] = startDateValue.split('/');
+                const [endDay, endMonth, endYear] = endDateValue.split('/');
+
+                const startDate = new Date(`${startYear}-${startMonth}-${startDay}`);
+                const endDate = new Date(`${endYear}-${endMonth}-${endDay}`);
+
                 const diffTime = Math.abs(endDate - startDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert milliseconds to days
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
 
-                // Calculate difference in months
-                const diffMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+                // Update the difference display
+                document.getElementById('how-many-month-days').innerText = `${diffDays} day(s)`;
 
-                // Display the result
-                document.getElementById('diffDays').innerText = `Difference in Days: ${diffDays}`;
-                document.getElementById('diffMonths').innerText = `Difference in Months: ${diffMonths}`;
+                // Optionally, calculate the difference in months
+                const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+                console.log(`Difference in months: ${months}`);
             }
         }
-
-        document.querySelector('#contract_start_date').addEventListener('change', function() {
-            calculateDateDifference();
-        });
-
-        document.querySelector('#contract_end_date').addEventListener('change', function() {
-            calculateDateDifference();
-        });
     </script>
 @endsection

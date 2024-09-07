@@ -44,10 +44,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
-
-                                {{-- select department --}}
-                                <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="department_id" class="form-label" data-bs-toggle="tooltip" title="Select the department associated with this contract.">Department</label>
@@ -68,12 +64,12 @@
 
                                 <!-- Contract Name -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="contract_name" class="form-label required" data-bs-toggle="tooltip" title="Enter the official name of the contract.">Contract Name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
-                                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" value="{{ old('name', $contract->contract_name) }}" required>
+                                                <textarea class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" required>{{ old('name', $contract->contract_name) }}</textarea>
                                             </div>
                                             @error('name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -82,7 +78,7 @@
                                     </div>
 
                                     <!-- Contract Number -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Contract Number / LOA Number</label>
                                             <div class="form-control-wrap">
@@ -97,27 +93,15 @@
 
                                 <!-- Dates -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="start_date" class="form-label required" data-bs-toggle="tooltip" title="Select the start date of the contract.">Start Date</label>
-                                            <div class="form-control-wrap">
-                                                <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $contract->start_date->format('Y-m-d')) }}" required>
+                                            <label class="form-label">Contract Period</label>
+                                            <div class="input-group custom-datepicker" data-range="init" >
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $contract->start_date->format('d/m/Y')) }}">
+                                                <span class="input-group-text">to</span>
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date', $contract->end_date->format('d/m/Y')) }}">
+                                                <span class="input-group-text" id="how-many-month-days">{{ $contract->start_date->diffInDays($contract->end_date) - 1 }} day(s)</span>
                                             </div>
-                                            @error('start_date')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="end_date" class="form-label required" data-bs-toggle="tooltip" title="Select the end date of the contract.">End Date</label>
-                                            <div class="form-control-wrap">
-                                                <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date', $contract->end_date->format('Y-m-d')) }}" required>
-                                            </div>
-                                            @error('end_date')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -214,9 +198,9 @@
 
                                 <!-- Description -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Description</label>
+                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Other Requirements</label>
                                             <div class="form-control-wrap">
                                                 <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" required>{{ old('description', $contract->details) }}</textarea>
                                             </div>
@@ -324,7 +308,9 @@
             itemSelectText: 'Press to select',
         });
 
-        departmentChoice.disable();
+        if(document.getElementById('customer_id').value === '' || document.getElementById('customer_id').value === null || document.getElementById('department_id').value === '') {
+            departmentChoice.disable();
+        }
 
         // if customer_id select change, query department from the server
         document.getElementById('customer_id').addEventListener('change', function(e) {
@@ -366,5 +352,47 @@
                 departmentChoice.disable();
             }
         });
+
+        // Date Picker
+        const dpElement = document.querySelector('.custom-datepicker');
+        const datepicker = new DateRangePicker(dpElement, {
+            autohide: true,
+            buttonClass: 'btn btn-md',
+            orientation: 'bottom',
+            todayButton: false,
+            format: 'dd/mm/yyyy',
+            
+        });
+
+        // Bind the change event directly on both input fields controlled by the date picker
+        const startDateInput = document.getElementById('contract_start_date');
+        const endDateInput = document.getElementById('contract_end_date');
+
+        startDateInput.addEventListener('changeDate', updateDateDifference);
+        endDateInput.addEventListener('changeDate', updateDateDifference);
+
+        function updateDateDifference() {
+            const startDateValue = startDateInput.value;
+            const endDateValue = endDateInput.value;
+
+            if (startDateValue && endDateValue) {
+                // Parse the dates in dd/mm/yyyy format
+                const [startDay, startMonth, startYear] = startDateValue.split('/');
+                const [endDay, endMonth, endYear] = endDateValue.split('/');
+
+                const startDate = new Date(`${startYear}-${startMonth}-${startDay}`);
+                const endDate = new Date(`${endYear}-${endMonth}-${endDay}`);
+
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
+
+                // Update the difference display
+                document.getElementById('how-many-month-days').innerText = `${diffDays} day(s)`;
+
+                // Optionally, calculate the difference in months
+                const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+                console.log(`Difference in months: ${months}`);
+            }
+        }
     </script>
 @endsection
