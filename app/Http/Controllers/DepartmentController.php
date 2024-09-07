@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use Illuminate\Database\Eloquent\Casts\Json;
 
 class DepartmentController extends Controller
 {
