@@ -109,22 +109,16 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="purchased_date" class="form-label">Warranty Start</label>
-                                            <div class="form-control-wrap">
-                                                <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
-                                                <input type="date" class="form-control" id="purchased_date" name="purchased_date" value="{{$asset->purchased_date->format('Y-m-d')}}" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="warranty_end" class="form-label">Warranty Date</label>
-                                            <div class="form-control-wrap">
-                                                <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
-                                                <input type="date" class="form-control" id="warranty_end" name="warranty_end" value="{{$asset->warranty_end->format('Y-m-d')}}" required>
+                                            <label class="form-label">Warranty Period</label>
+                                            <div class="input-group custom-datepicker" data-range="init" >
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" id="warranty_start" name="purchased_date" value="{{ old('purchased_date', $asset->purchased_date->format('d/m/Y')) }}">
+                                                <span class="input-group-text">to</span>
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" id="warranty_end" name="warranty_end" value="{{ old('warranty_end', $asset->warranty_end->format('d/m/Y')) }}">
+                                                <span class="input-group-text" id="how-many-month-days">{{$asset->purchased_date->diffInDays($asset->warranty_end)}} day{s}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -311,5 +305,46 @@
                 );
             @endforeach
         @endif
+
+        const dpElement = document.querySelector('.custom-datepicker');
+        const datepicker = new DateRangePicker(dpElement, {
+            autohide: true,
+            buttonClass: 'btn btn-md',
+            orientation: 'bottom',
+            todayButton: false,
+            format: 'dd/mm/yyyy',
+            
+        });
+
+        // Bind the change event directly on both input fields controlled by the date picker
+        const startDateInput = document.getElementById('warranty_start');
+        const endDateInput = document.getElementById('warranty_end');
+
+        startDateInput.addEventListener('changeDate', updateDateDifference);
+        endDateInput.addEventListener('changeDate', updateDateDifference);
+
+        function updateDateDifference() {
+            const startDateValue = startDateInput.value;
+            const endDateValue = endDateInput.value;
+
+            if (startDateValue && endDateValue) {
+                // Parse the dates in dd/mm/yyyy format
+                const [startDay, startMonth, startYear] = startDateValue.split('/');
+                const [endDay, endMonth, endYear] = endDateValue.split('/');
+
+                const startDate = new Date(`${startYear}-${startMonth}-${startDay}`);
+                const endDate = new Date(`${endYear}-${endMonth}-${endDay}`);
+
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
+
+                // Update the difference display
+                document.getElementById('how-many-month-days').innerText = `${diffDays} day(s)`;
+
+                // Optionally, calculate the difference in months
+                const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+                console.log(`Difference in months: ${months}`);
+            }
+        }
 </script>
 @endsection

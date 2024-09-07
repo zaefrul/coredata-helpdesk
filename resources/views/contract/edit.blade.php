@@ -100,7 +100,7 @@
                                                 <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $contract->start_date->format('d/m/Y')) }}">
                                                 <span class="input-group-text">to</span>
                                                 <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date', $contract->end_date->format('d/m/Y')) }}">
-                                                <span class="input-group-text" id="how-many-month-days">{{ $contract->start_date->diffInDays($contract->end_date) - 1 }} day(s)</span>
+                                                <span class="input-group-text" id="how-many-month-days">{{ $contract->start_date->diffInDays($contract->end_date)}} day(s)</span>
                                             </div>
                                         </div>
                                     </div>
