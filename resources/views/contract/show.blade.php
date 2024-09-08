@@ -32,7 +32,7 @@
                                         <div class="form-group">
                                             <label for="customer_id" class="form-label" data-bs-toggle="tooltip" title="Select the customer associated with this contract.">Customer</label>
                                             <div class="form-control-wrap">
-                                                <input disabled type="text" class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" value="{{ old('name', $contract->customer->company_name) }}" required>
+                                                <input disabled type="text" class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" value="{{ $contract->customer->company_name }} [{{$contract->customer->prefix}}]" required>
                                             </div>
                                             @error('customer_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -54,12 +54,12 @@
 
                                 <!-- Contract Name -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="contract_name" class="form-label required" data-bs-toggle="tooltip" title="Enter the official name of the contract.">Contract Name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
-                                                <input disabled type="text" class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" value="{{ old('name', $contract->contract_name) }}" required>
+                                                <textarea disabled class="form-control @error('contract_name') is-invalid @enderror" id="contract_name" name="contract_name" required>{{ old('contract_name', $contract->contract_name) }}</textarea>
                                             </div>
                                             @error('name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -68,7 +68,7 @@
                                     </div>
 
                                     <!-- Contract Number -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Contract Number / LOA Number</label>
                                             <div class="form-control-wrap">
@@ -83,7 +83,7 @@
 
                                 <!-- Dates -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="start_date" class="form-label required" data-bs-toggle="tooltip" title="Select the start date of the contract.">Start Date</label>
                                             <div class="form-control-wrap">
@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="end_date" class="form-label required" data-bs-toggle="tooltip" title="Select the end date of the contract.">End Date</label>
                                             <div class="form-control-wrap">
@@ -106,17 +106,51 @@
                                             @enderror
                                         </div>
                                     </div>
+
+                                    @php
+                                        // Number of total days
+                                        $totalDays = $contract->start_date->diffInDays($contract->end_date);
+
+                                        // Calculate years, months, and days
+                                        $years = floor($totalDays / 365);
+                                        $remainingDaysAfterYear = $totalDays % 365;
+                                        $months = floor($remainingDaysAfterYear / 30);
+                                        $days = $remainingDaysAfterYear % 30;
+                                        $text = '';
+
+                                        // show different in human form
+                                        if($years > 0)
+                                            $text .= "$years year".($years > 1 ? 's' : ''). " ";
+                                        if($months > 0)
+                                            $text .= "$months month".($months > 1 ? 's' : ''). "";
+                                        if($days > 0)
+                                            $text .= "$days day".($days > 1 ? 's' : '');
+                                    @endphp
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="duration" class="form-label required" data-bs-toggle="tooltip" title="Select the duration of the contract.">Duration</label>
+                                            <div class="form-control-wrap">
+                                                <input disabled type="text" class="form-control @error('duration') is-invalid @enderror" id="duration" name="duration" value="{{ $text }}" required>
+                                            </div>
+                                            @error('duration')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {{-- Unlimited Support --}}
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="unlimited_support" class="form-label required" data-bs-toggle="tooltip" title="Check if the contract has unlimited support.">Unlimited Support</label>
+                                            <label for="unlimited_support" class="form-label required" data-bs-toggle="tooltip" title="Check if the contract has unlimited support.">Support Type</label>
                                             <div class="form-control-wrap">
                                                 <div class="custom-control custom-switch">
-                                                    <input disabled type="checkbox" class="custom-control-input" id="unlimited_support" name="unlimited_support" value="1" {{ old('unlimited_support', $contract->total_incidence) == -1 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="unlimited_support">Yes</label>
+                                                    @if($contract->total_incidence == -1)
+                                                        <span class="badge text-bg-success fs-6">Unlimited</span>
+                                                    @elseif($contract->total_incidence > 0)
+                                                        <span class="badge text-bg-info fs-6">Limited</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             @error('unlimited_support')
@@ -145,8 +179,11 @@
                                             <label for="preventive_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Check if preventive maintenance is required for this contract.">Preventive Maintenance</label>
                                             <div class="form-control-wrap">
                                                 <div class="custom-control custom-switch">
-                                                    <input disabled type="checkbox" class="custom-control-input" id="preventive_maintenance" name="preventive_maintenance" value="1" {{ old('preventive_maintenance', $contract->preventive_maintenance) > 0 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="preventive_maintenance">Yes</label>
+                                                    @if($contract->preventive_maintenance > 0)
+                                                        <span class="badge text-bg-info fs-6">Included</span>
+                                                    @else
+                                                        <span class="badge text-bg-danger fs-6">Not Included</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             @error('preventive_maintenance')
@@ -168,41 +205,11 @@
                                     </div>
                                 </div>
 
-                                {{-- Corrective Maintenance --}}
-                                <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="corrective_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Check if corrective maintenance is required for this contract.">Corrective Maintenance</label>
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-switch">
-                                                    <input disabled type="checkbox" class="custom-control-input" id="corrective_maintenance" name="corrective_maintenance" value="1" {{ old('corrective_maintenance', $contract->corrective_maintenance) > 0 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="corrective_maintenance">Yes</label>
-                                                </div>
-                                            </div>
-                                            @error('corrective_maintenance')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    {{-- Total Corrective Maintenance --}}
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="total_corrective_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Enter the total number of corrective maintenance allowed for this contract.">Total Corrective Maintenance</label>
-                                            <div class="form-control-wrap">
-                                                <input disabled type="number" class="form-control @error('total_corrective_maintenance') is-invalid @enderror" id="total_corrective_maintenance" name="total_corrective_maintenance" value="{{ old('total_corrective_maintenance', $contract->corrective_maintenance) }}" {{ old('corrective_maintenance', $contract->corrective_maintenance) > 0 ? '' : 'disabled' }} required>
-                                            </div>
-                                            @error('total_corrective_maintenance')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <!-- Description -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Description</label>
+                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Other Requirement(s)</label>
                                             <div class="form-control-wrap">
                                                 <textarea disabled class="form-control @error('description') is-invalid @enderror" id="description" name="description" required>{{ old('description', $contract->details) }}</textarea>
                                             </div>
@@ -215,12 +222,30 @@
 
                                 <!-- File Upload -->
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="formFile" class="form-label" data-bs-toggle="tooltip" title="Select contract file in .pdf format.">LOA / PO - Document</label>
-                                            <div class="form-control-wrap">
-                                                <input disabled class="form-control" type="file" id="formFile" name="file" accept=".pdf">
-                                            </div>
+                                            <label for="formFile" class="form-label" data-bs-toggle="tooltip" title="Select contract file in .pdf format.">LOA / PO / LOI</label>
+                                            @if($contract->file_name)
+                                                <div class="form-control-wrap">
+                                                    <a style="margin-left: 1rem;" href="{{ asset('uploads/'.$contract->file_name) }}" target="_blank">
+                                                        <div class="card border mb-3">
+                                                            <div class="card-body text-center">
+                                                                @if(pathinfo($contract->file_name, PATHINFO_EXTENSION) == 'pdf')
+                                                                    <em class="icon ni ni-file-pdf" style="font-size: 42px;"></em>
+                                                                @else
+                                                                    <em class="icon ni ni-file-text" style="font-size: 42px;"></em>
+                                                                @endif
+                                                                <p class="mt-2 mb-0">{{ $contract->file_name }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="form-control-wrap d-flex align-items-center">
+                                                    <em class="icon ni ni-upload-cloud"></em>
+                                                    <span class="badge text-bg-warning fs-6" style="margin-left: 1rem;">No File Uploaded</span>
+                                                </div>
+                                            @endif
                                             @error('file')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

@@ -40,17 +40,21 @@
                         <table class="datatable-init table" data-nk-container="table-responsive">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="tb-col">
+                                    <th class="tb-col tb-col-xxl">
                                         <span class="overline-title">Contract Name</span>
                                     </th>
                                     <th class="tb-col">
                                         <span class="overline-title">Contract Number</span>
                                     </th>
-                                    <th class="tb-col">
+                                    <th class="tb-col tb-col-xl">
                                         <span class="overline-title">Start Date</span>
                                     </th>
-                                    <th class="tb-col">
+                                    <th class="tb-col tb-col-xl">
                                         <span class="overline-title">End Date</span>
+                                    </th>
+                                    {{-- header untuk phone --}}
+                                    <th class="tb-col">
+                                        <span class="overline-title">Period</span>
                                     </th>
                                     <th class="tb-col">
                                         <span class="overline-title">Status</span>
@@ -63,7 +67,7 @@
                             <tbody>
                                 @foreach($contracts as $contract)
                                     <tr>
-                                        <td class="tb-col">
+                                        <td class="tb-col tb-col-xxl">
                                             <div class="media-group">
                                                 {{-- <div class="media media-md media-middle media-circle text-bg-info-soft">
                                                     <span class="smaller">{{$contract->project->prefix}}</span>
@@ -75,8 +79,32 @@
                                             </div>
                                         </td>
                                         <td class="tb-col">{{$contract->contract_number}}</td>
-                                        <td class="tb-col">{{$contract->start_date->format('d-M-Y')}}</td>
-                                        <td class="tb-col">{{$contract->end_date->format('d-M-Y')}}</td>
+                                        <td class="tb-col tb-col-xl">{{$contract->start_date->format('d-M-Y')}}</td>
+                                        <td class="tb-col tb-col-xl">{{$contract->end_date->format('d-M-Y')}}</td>
+                                        {{-- value untuk phone --}}
+                                        <td class="tb-col">
+                                            @php
+                                                // Number of total days
+                                                $totalDays = $contract->start_date->diffInDays($contract->end_date);
+
+                                                // Calculate years, months, and days
+                                                $years = floor($totalDays / 365);
+                                                $remainingDaysAfterYear = $totalDays % 365;
+                                                $months = floor($remainingDaysAfterYear / 30);
+                                                $days = $remainingDaysAfterYear % 30;
+
+                                            @endphp
+                                            {{-- show different in human form --}}
+                                            @if($years > 0)
+                                                {{$years}} year{{ $years > 1 ? 's' : ''}}
+                                            @endif
+                                            @if($months > 0)
+                                                {{$months}} month{{ $months > 1 ? 's' : ''}}
+                                            @endif
+                                            @if($days > 0)
+                                                {{$days}} day{{ $days > 1 ? 's' : ''}}
+                                            @endif
+                                        </td>
                                         <td class="tb-col">
                                             {{-- if date < end_date show active --}}
                                             @if($contract->start_date > now())

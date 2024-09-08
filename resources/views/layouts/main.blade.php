@@ -42,4 +42,5 @@
 <script src="/assets/js/scripts.js"></script>
 @include('_partial.notification')
 @yield('js')
+@stack('js-stack')
 </html>

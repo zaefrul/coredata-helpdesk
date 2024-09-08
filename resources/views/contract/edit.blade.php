@@ -35,7 +35,7 @@
                                                 <select class="js-select @error('customer_id') is-invalid @enderror" data-search="true" data-placeholder="Select a customer..." id="customer_id" name="customer_id">
                                                     <option value="">Select Customer</option>
                                                     @foreach($customers as $customer)
-                                                    <option value="{{ $customer->id }}" {{ old('customer_id', $contract->customer_id) == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
+                                                    <option value="{{ $customer->id }}" {{ old('customer_id', $contract->customer_id) == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }} [{{$customer->prefix}}]</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -66,7 +66,7 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="contract_name" class="form-label required" data-bs-toggle="tooltip" title="Enter the official name of the contract.">Contract Name</label>
+                                            <label for="contract_name" class="form-label required" data-bs-toggle="tooltip" title="Enter the official name of the contract.">Project Name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
                                                 <textarea class="form-control @error('name') is-invalid @enderror" id="contract_name" name="name" required>{{ old('name', $contract->contract_name) }}</textarea>
@@ -80,7 +80,7 @@
                                     <!-- Contract Number -->
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Contract Number / LOA Number</label>
+                                            <label for="contract_number" class="form-label required" data-bs-toggle="tooltip" title="Enter the unique contract number.">Letter of award / Purchase order number / Letter of intention</label>
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control @error('contract_number') is-invalid @enderror" id="contract_number" name="contract_number" value="{{ old('contract_number', $contract->contract_number) }}" required>
                                             </div>
@@ -94,28 +94,17 @@
                                 <!-- Dates -->
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Contract Period</label>
-                                            <div class="input-group custom-datepicker" data-range="init" >
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $contract->start_date->format('d/m/Y')) }}">
-                                                <span class="input-group-text">to</span>
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date', $contract->end_date->format('d/m/Y')) }}">
-                                                <span class="input-group-text" id="how-many-month-days">{{ $contract->start_date->diffInDays($contract->end_date)}} day(s)</span>
-                                            </div>
-                                        </div>
+                                        <x-date-range-picker label="Contract Period" startDate="{{ old('start_date', $contract->start_date->format('d/m/Y')) }}" endDate="{{ old('end_date', $contract->end_date->format('d/m/Y')) }}" />
                                     </div>
-                                </div>
+                                </div>    
 
                                 {{-- Unlimited Support --}}
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-flex align-items-center">
                                         <div class="form-group">
-                                            <label for="unlimited_support" class="form-label required" data-bs-toggle="tooltip" title="Check if the contract has unlimited support.">Unlimited Support</label>
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="unlimited_support" name="unlimited_support" value="1" {{ old('unlimited_support', $contract->total_incidence) == -1 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="unlimited_support">Yes</label>
-                                                </div>
+                                            <div class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input" id="unlimited_support" name="unlimited_support" value="1" {{ old('unlimited_support', $contract->total_incidence) == -1 ? 'checked' : '' }}>
+                                                <label style="line-height: 1.75rem;padding-left: 0.75rem;" class="form-label" for="unlimited_support">Unlimited Support</label>
                                             </div>
                                             @error('unlimited_support')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -138,14 +127,11 @@
 
                                 {{-- Preventive Maintenance --}}
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-flex align-items-center">
                                         <div class="form-group">
-                                            <label for="preventive_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Check if preventive maintenance is required for this contract.">Preventive Maintenance</label>
-                                            <div class="form-control-wrap">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="preventive_maintenance" name="preventive_maintenance" value="1" {{ old('preventive_maintenance', $contract->preventive_maintenance) > 0 ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="preventive_maintenance">Yes</label>
-                                                </div>
+                                            <div class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input" id="preventive_maintenance" name="preventive_maintenance" value="1" {{ old('preventive_maintenance', $contract->preventive_maintenance) > 0 ? 'checked' : '' }}>
+                                                <label style="line-height: 1.75rem;padding-left: 0.75rem;" class="form-label" for="preventive_maintenance" data-bs-toggle="tooltip" title="Check if preventive maintenance is required for this contract.">Preventive Maintenance</label>
                                             </div>
                                             @error('preventive_maintenance')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -167,7 +153,7 @@
                                 </div>
 
                                 {{-- Corrective Maintenance --}}
-                                <div class="row g-3 gx-gs mb-3">
+                                {{-- <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="corrective_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Check if corrective maintenance is required for this contract.">Corrective Maintenance</label>
@@ -182,7 +168,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    {{-- Total Corrective Maintenance --}}
+                                    {{-- Total Corrective Maintenance 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="total_corrective_maintenance" class="form-label required" data-bs-toggle="tooltip" title="Enter the total number of corrective maintenance allowed for this contract.">Total Corrective Maintenance</label>
@@ -194,15 +180,15 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- Description -->
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Other Requirements</label>
+                                            <label for="description" class="form-label required" data-bs-toggle="tooltip" title="Provide a brief description of the contract.">Other Requirement(s)</label>
                                             <div class="form-control-wrap">
-                                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" required>{{ old('description', $contract->details) }}</textarea>
+                                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description', $contract->details) }}</textarea>
                                             </div>
                                             @error('description')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -215,7 +201,7 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="formFile" class="form-label" data-bs-toggle="tooltip" title="Select contract file in .pdf format.">LOA / PO - Document</label>
+                                            <label for="formFile" class="form-label" data-bs-toggle="tooltip" title="Select contract file in .pdf format.">LOA / PO / LOI</label>
                                             <div class="form-control-wrap">
                                                 <input class="form-control" type="file" id="formFile" name="file" accept=".pdf">
                                             </div>
@@ -280,16 +266,6 @@
                     document.getElementById('total_preventive_maintenance').value = '';
                 }
             });
-
-            // Corrective Maintenance toggle
-            document.getElementById('corrective_maintenance').addEventListener('change', function(e) {
-                if (this.checked) {
-                    document.getElementById('total_corrective_maintenance').disabled = false;
-                } else {
-                    document.getElementById('total_corrective_maintenance').disabled = true;
-                    document.getElementById('total_corrective_maintenance').value = '';
-                }
-            });
         });
 
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -352,47 +328,5 @@
                 departmentChoice.disable();
             }
         });
-
-        // Date Picker
-        const dpElement = document.querySelector('.custom-datepicker');
-        const datepicker = new DateRangePicker(dpElement, {
-            autohide: true,
-            buttonClass: 'btn btn-md',
-            orientation: 'bottom',
-            todayButton: false,
-            format: 'dd/mm/yyyy',
-            
-        });
-
-        // Bind the change event directly on both input fields controlled by the date picker
-        const startDateInput = document.getElementById('contract_start_date');
-        const endDateInput = document.getElementById('contract_end_date');
-
-        startDateInput.addEventListener('changeDate', updateDateDifference);
-        endDateInput.addEventListener('changeDate', updateDateDifference);
-
-        function updateDateDifference() {
-            const startDateValue = startDateInput.value;
-            const endDateValue = endDateInput.value;
-
-            if (startDateValue && endDateValue) {
-                // Parse the dates in dd/mm/yyyy format
-                const [startDay, startMonth, startYear] = startDateValue.split('/');
-                const [endDay, endMonth, endYear] = endDateValue.split('/');
-
-                const startDate = new Date(`${startYear}-${startMonth}-${startDay}`);
-                const endDate = new Date(`${endYear}-${endMonth}-${endDay}`);
-
-                const diffTime = Math.abs(endDate - startDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
-
-                // Update the difference display
-                document.getElementById('how-many-month-days').innerText = `${diffDays} day(s)`;
-
-                // Optionally, calculate the difference in months
-                const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
-                console.log(`Difference in months: ${months}`);
-            }
-        }
     </script>
 @endsection
