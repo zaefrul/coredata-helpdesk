@@ -22,14 +22,6 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
-                            {{-- <pre>
-                                @if($errors->any())
-                                    {{ print_r($errors->all()) }}
-                                @endif
-                                @if(old())
-                                    {{ print_r(old()) }}
-                                @endif
-                            </pre> --}}
                             <form method="POST" action="{{ route('contracts.store') }}" enctype="multipart/form-data" novalidate>
                                 @csrf
 
@@ -107,19 +99,18 @@
                                     <div class="col-md-12">
                                         @php
                                             if(old('start_date') && old('end_date')) {
-                                                $oldStartDate = \Carbon\Carbon::createFromFormat('Y-m-d', old('start_date'))->format('d/m/Y');
-                                                $oldEndDate = \Carbon\Carbon::createFromFormat('Y-m-d', old('end_date'))->format('d/m/Y');
-                                                $duration = \Carbon\Carbon::createFromFormat('Y-m-d', old('start_date'))->diffInDays(\Carbon\Carbon::createFromFormat('Y-m-d', old('end_date'))) - 1;
+                                                $oldStartDate = \Carbon\Carbon::createFromFormat('d/m/Y', old('start_date'));
+                                                $oldEndDate = \Carbon\Carbon::createFromFormat('d/m/Y', old('end_date'));
+                                                $duration = $oldStartDate->diffInDays($oldEndDate) - 1;
                                             } else {
                                                 $oldStartDate = '';
                                                 $oldEndDate = '';
                                                 $duration = '';
                                             }
-
                                             $errorStartDate = $errors->has('start_date') ? $errors->first('start_date') : '';
                                             $errorEndDate = $errors->has('end_date') ? $errors->first('end_date') : '';
                                         @endphp
-                                        <x-date-range-picker label="Contract Period" startDate="{{ $oldStartDate }}" endDate="{{ $oldEndDate }}" duration="{{$duration}}" errorStartDate="{{$errorStartDate}}" errorEndDate="{{$errorEndDate}}" />
+                                        <x-date-range-picker label="Contract Period" startDate="{{ old('start_date') }}" endDate="{{ old('end_date') }}" duration="{{$duration}}" errorStartDate="{{$errorStartDate}}" errorEndDate="{{$errorEndDate}}" />
                                     </div>
                                 </div>
 

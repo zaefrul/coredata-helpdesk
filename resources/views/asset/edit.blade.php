@@ -43,7 +43,7 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="name" class="form-label">Model name</label>
+                                            <label for="name" class="form-label">Model Name / Software Name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
                                                 <input type="text" class="form-control " id="name" name="name" value="{{$asset->name}}" required>
@@ -63,7 +63,7 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="serial_number" class="form-label">Serian Number</label>
+                                            <label for="serial_number" class="form-label">Serian Number / Software Contract Number</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
                                                 <input type="text" class="form-control" id="serial_number" name="serial_number" value="{{$asset->serial_number}}" required>
@@ -123,6 +123,20 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- location --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="location" class="form-label">Location</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
+                                                <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $asset->location) }}" /ß>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row g-3 gx-gs mb-3 mt-3">
                                     <div class="col-12">
                                         <h5>Asset Components</h5>

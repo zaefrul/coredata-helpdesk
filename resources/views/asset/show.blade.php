@@ -80,23 +80,23 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="nk-invoice-head-item text-sm-end mt-5">
+                                <div class="nk-invoice-head-item text-sm-end mt-5 nk-invoice-contract">
                                     <h5 class="text-uppercase text-muted">Contract Details</h5>
                                     <div class="nk-invoice-details mt-2">
                                         <ul class="list-unstyled mb-0">
-                                            <li class="mb-1">
+                                            <li class="mb-3" style="text-align: justify;">
                                                 <strong class="text-dark">Contract:</strong> 
-                                                <span class="text-secondary">{{ $asset->contract->contract_name }} [{{ $asset->contract->contract_number }}]</span>
+                                                <span class="text-secondary">{{ $asset->contract->contract_name }}</span>
                                             </li>
-                                            <li class="mb-1">
-                                                <strong class="text-dark">Warranty Start:</strong> 
-                                                <span class="text-secondary">{{ $asset->purchased_date->format('d-M-Y') }}</span>
+                                            <li class="mb-3">
+                                                <strong class="text-dark">Contract Number:</strong> 
+                                                <span class="badge text-bg-light fs-6">{{ $asset->contract->contract_number }}</span>
                                             </li>
-                                            <li class="mb-1">
-                                                <strong class="text-dark">Warranty End Date:</strong> 
-                                                <span class="text-secondary">{{ $asset->warranty_end->format('d-M-Y') }}</span>
+                                            <li class="mb-3">
+                                                <strong class="text-dark">Warranty:</strong> 
+                                                <span class="text-secondary">{{ $asset->purchased_date->format('d/M/Y') }} - {{ $asset->warranty_end->format('d/M/Y') }}</span> @if($asset->warranty_end->isPast()) <span class="badge text-bg-danger text-white fs-6">Expired</span> @else <span class="badge text-bg-success text-white fs-6">Active</span> @endif
                                             </li>
-                                            <li class="mb-1">
+                                            <li class="mb-3">
                                                 <strong class="text-dark">Warranty Level:</strong> 
                                                 <span class="text-secondary">
                                                     @if($asset->warranty_level == 'third-party')
@@ -106,6 +106,12 @@
                                                     @endif
                                                 </span>
                                             </li>
+                                            @if($asset->location)
+                                            <li class="mb-3">
+                                                <strong class="text-dark">Location:</strong> 
+                                                <span class="text-secondary">{{$asset->location}}</span>
+                                            </li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
