@@ -26,28 +26,38 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {   
-        $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->purchased_date)->format('Y-m-d');
-        $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->warranty_end)->format('Y-m-d');
-
-        // Add the converted dates back into the request
-        request()->merge([
-            'purchased_date' => $startDate,
-            'warranty_end' => $endDate,
-        ]);
-
-
         $request->validate([
             'name' => 'required',
             'brand' => 'required',
             'serial_number' => 'required',
             'category' => 'required',
             'contract_id' => 'required',
-            'details' => 'required',
-            'purchased_date' => 'required',
-            'warranty_end' => 'required',
+            'details' => 'nullable',
+            'purchased_date' => 'required_unless:same_as_contract,1|date|date_format:d/m/Y',
+            'warranty_end' => 'required_unless:same_as_contract,1|date|date_format:d/m/Y',
             'warranty_level' => 'required',
+            'location' => 'nullable',
+            'same_as_contract' => 'nullable',
         ]);
 
+        if(request()->has('same_as_contract')) {
+            $contract = Contract::findOrFail($request->contract_id);
+            $request->merge([
+                'purchased_date' => $contract->start_date,
+                'warranty_end' => $contract->end_date,
+            ]);
+        }
+        else {
+            $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->purchased_date)->format('Y-m-d');
+            $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->warranty_end)->format('Y-m-d');
+            
+            // Add the converted dates back into the request
+            request()->merge([
+                'purchased_date' => $startDate,
+                'warranty_end' => $endDate,
+            ]);
+        }
+    
         $asset = new Asset();
 
         $asset->name = $request->name;
@@ -59,6 +69,7 @@ class AssetController extends Controller
         $asset->purchased_date = $request->purchased_date;
         $asset->warranty_end = $request->warranty_end;
         $asset->warranty_level = $request->warranty_level;
+        $asset->location = $request->location;
         $asset->save();
 
         // Check if there are any components to save
@@ -105,6 +116,19 @@ class AssetController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'brand' => 'required',
+            'serial_number' => 'required',
+            'category' => 'required',
+            'contract_id' => 'required',
+            'details' => 'nullable',
+            'purchased_date' => 'required|date|date_format:d/m/Y',
+            'warranty_end' => 'required|date|date_format:d/m/Y',
+            'warranty_level' => 'required',
+            'location' => 'nullable'
+        ]);
+
         $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->purchased_date)->format('Y-m-d');
         $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->warranty_end)->format('Y-m-d');
 
@@ -112,18 +136,6 @@ class AssetController extends Controller
         request()->merge([
             'purchased_date' => $startDate,
             'warranty_end' => $endDate,
-        ]);
-        
-        $request->validate([
-            'name' => 'required',
-            'brand' => 'required',
-            'serial_number' => 'required',
-            'category' => 'required',
-            'contract_id' => 'required',
-            'details' => 'required',
-            'purchased_date' => 'required',
-            'warranty_end' => 'required',
-            'warranty_level' => 'required',
         ]);
         
         $asset = Asset::findOrFail($id);
@@ -137,6 +149,7 @@ class AssetController extends Controller
         $asset->purchased_date = $request->purchased_date;
         $asset->warranty_end = $request->warranty_end;
         $asset->warranty_level = $request->warranty_level;
+        $asset->location = $request->location;
         $asset->save();
 
         // Handle components

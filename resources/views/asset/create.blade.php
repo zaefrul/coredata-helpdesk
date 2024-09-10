@@ -22,23 +22,31 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('assets.store') }}">
+                            <pre>
+                                @if($errors->any())
+                                    {{ print_r($errors->all()) }}
+                                @endif
+                                @if(old())
+                                    {{ print_r(old()) }}
+                                @endif
+                            </pre>
+                            <form method="POST" action="{{ route('assets.store') }}" novalidate>
                                 @csrf
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="contract_id" class="form-label">Contract</label>
-                                            <div class="form-control-wrap">
+                                            <div class="form-control-wrap" @error('contract_id') style="border: solid 1px red; border-radius: 0.375rem" @enderror>
                                                 <select class="js-select" data-search="true" data-sort="false" id="contract_id" name="contract_id" required>
                                                     <option>Select Contract</option>
                                                     @foreach($contracts as $contract)
                                                         <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>{{ $contract->contract_name }} [{{ $contract->contract_number }}]</option>
                                                     @endforeach
                                                 </select>
+                                                @error('contract_id')
+                                                    <div class="invalid-feedback" style="display:block !important;">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('contract_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -47,14 +55,14 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="name" class="form-label">Model name</label>
+                                            <label for="name" class="form-label required">Model Name / Software Name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
-                                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                                                @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -62,11 +70,11 @@
                                             <label for="brand" class="form-label">Brand name</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-tag"></em></div>
-                                                <input type="text" class="form-control" id="brand" name="brand" value="{{ old('brand') }}" required>
+                                                <input type="text" class="form-control @error('brand') is-invalid @enderror" id="brand" name="brand" value="{{ old('brand') }}" required>
+                                                @error('brand')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('brand')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -74,14 +82,14 @@
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="serial_number" class="form-label">Serial Number</label>
+                                            <label for="serial_number" class="form-label"> Serial Number / Software Contract Number</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
-                                                <input type="text" class="form-control" id="serial_number" name="serial_number" value="{{ old('serial_number') }}" required>
+                                                <input type="text" class="form-control @error('serial_number') is-invalid @enderror" id="serial_number" name="serial_number" value="{{ old('serial_number') }}" required>
+                                                @error('serial_number')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('serial_number')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -89,7 +97,7 @@
                                             <label for="category" class="form-label">Category</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
-                                                <select class="js-select" data-search="true" data-sort="true" name="category" id="category" required>
+                                                <select class="js-select" data-search="true" name="category" id="category" required>
                                                     <option>Select Category</option>
                                                     <option value="hardware" {{ old('category') == 'hardware' ? 'selected' : '' }}>Hardware</option>
                                                     <option value="software" {{ old('category') == 'software' ? 'selected' : '' }}>Software</option>
@@ -108,11 +116,12 @@
                                         <div class="form-group">
                                             <label for="details" class="form-label">Asset Description</label>
                                             <div class="form-control-wrap">
-                                                <textarea class="form-control" id="details" name="details" required>{{ old('details') }}</textarea>
+                                                <textarea class="form-control @error('details') is-invalid @enderror" id="details" name="details" required>{{ old('details') }}</textarea>
+                                                @error('details')
+                                                    <div class="invalid-feedback" style="display:block;">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('details')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
+                                            
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -138,10 +147,41 @@
                                         <div class="form-group">
                                             <label class="form-label">Warranty Period</label>
                                             <div class="input-group custom-datepicker" data-range="init" >
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" id="warranty_start" name="purchased_date" value="{{ old('purchased_date') }}">
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('purchased_date') is-invalid @enderror" id="warranty_start" name="purchased_date" value="{{ old('purchased_date') }}">
                                                 <span class="input-group-text">to</span>
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" id="warranty_end" name="warranty_end" value="{{ old('warranty_end') }}">
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('warranty_end') is-invalid @enderror" id="warranty_end" name="warranty_end" value="{{ old('warranty_end') }}">
                                                 <span class="input-group-text" id="how-many-month-days">0 day</span>
+                                            </div>
+                                            @error('purchased_date')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                            @error('warranty_end')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{-- checkbox for user who want to take date the same like contract period --}}
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="same_as_contract" name="same_as_contract" value="1">
+                                                <label class="custom-control-label" for="same_as_contract">Same as Contract Period</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- location --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="location" class="form-label">Location</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-map-pin"></em></div>
+                                                <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location') }}" required>
+                                                @error('location')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -204,25 +244,25 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="components[${componentIndex}][name]" class="form-label">Model</label>
-                            <input type="text" class="form-control" name="components[${componentIndex}][name]" value="${name}" placeholder="HP, DELL, IBM..." required>
+                            <input type="text" class="form-control @error('') is-invalid @enderror" name="components[${componentIndex}][name]" value="${name}" placeholder="HP, DELL, IBM..." required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="components[${componentIndex}][item]" class="form-label">Component</label>
-                            <input type="text" class="form-control" name="components[${componentIndex}][item]" value="${item}">
+                            <input type="text" class="form-control @error('') is-invalid @enderror" name="components[${componentIndex}][item]" value="${item}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="components[${componentIndex}][serial]" class="form-label">Serial Number</label>
-                            <input type="text" class="form-control" name="components[${componentIndex}][serial]" value="${serial}" required>
+                            <input type="text" class="form-control @error('') is-invalid @enderror" name="components[${componentIndex}][serial]" value="${serial}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="components[${componentIndex}][part]" class="form-label">Part Number</label>
-                            <input type="text" class="form-control" name="components[${componentIndex}][part]" value="${part}" required>
+                            <input type="text" class="form-control @error('') is-invalid @enderror" name="components[${componentIndex}][part]" value="${part}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -316,5 +356,17 @@
                 console.log(`Difference in months: ${months}`);
             }
         }
+
+        // if the user wants to take the same date as the contract period disabled the input for date and warranty end
+        const sameAsContractCheckbox = document.getElementById('same_as_contract');
+        sameAsContractCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                startDateInput.disabled = true;
+                endDateInput.disabled = true;
+            } else {
+                startDateInput.disabled = false;
+                endDateInput.disabled = false;
+            }
+        });
 </script>
 @endsection

@@ -15,11 +15,12 @@ class Asset extends Model
         'brand',
         'serial_number',
         'category',
-        'project_id',
+        'contract_id',
         'details',
         'purchased_date',
         'warranty_end',
-        'warranty_level'
+        'warranty_level',
+        'location'
     ];
 
     // cast
