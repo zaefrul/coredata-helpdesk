@@ -29,6 +29,25 @@ class ContractController extends Controller
 
     public function store()
     {
+        Log::info(print_r(request()->all(), true));
+
+        // Validate the input
+
+        $data = request()->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'start_date' => 'required|date_format:d/m/Y',
+            'end_date' => 'required|date_format:d/m/Y|after:start_date',
+            'unlimited_support' => 'nullable',
+            'total_incidence' => 'required_without:unlimited_support|numeric|gte:0',
+            'total_preventive_maintenance' => 'required_if:preventive_maintenance,1|numeric|gte:0',
+            'total_corrective_maintenance' => 'nullable|numeric|gte:0',
+            'customer_id' => 'required',
+            'department_id' => 'required',
+            'contract_number' => 'required',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,jpg,jpeg,png|max:2048',
+        ]);
+
         $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->start_date)->format('Y-m-d');
         $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->end_date)->format('Y-m-d');
 
@@ -36,22 +55,6 @@ class ContractController extends Controller
         request()->merge([
             'start_date' => $startDate,
             'end_date' => $endDate,
-        ]);
-
-        // Validate the input
-
-        $data = request()->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'total_incidence' => 'nullable|numeric|gte:0',
-            'total_preventive_maintenance' => 'nullable|numeric|gte:0',
-            'total_corrective_maintenance' => 'nullable|numeric|gte:0',
-            'customer_id' => 'required',
-            'department_id' => 'required',
-            'contract_number' => 'required',
-            'file' => 'nullable|file|mimes:pdf',
         ]);
 
         // file upload

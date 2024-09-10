@@ -2,11 +2,14 @@
     <div class="form-group">
         <label class="form-label">{{$label}}</label>
         <div class="input-group custom-datepicker" data-range="init">
-            <input placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="start_date" id="component_start_date" value="{{ $startDate }}">
+            <input placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control {{$errorStartDate ? 'is-invalid' : ''}}" name="start_date" id="component_start_date" value="{{ $startDate }}">
             <span class="input-group-text">to</span>
-            <input placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control" name="end_date" id="component_end_date" value="{{ $endDate }}">
+            <input placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control {{$errorEndDate ? 'is-invalid' : ''}}" name="end_date" id="component_end_date" value="{{ $endDate }}">
             <span class="input-group-text" id="how-many-month-days">0 day</span>
         </div>
+        @if($errorStartDate || $errorEndDate)
+            <div class="invalid-feedback" style="display: block !important;">{{ $errorStartDate }} {{ $errorEndDate }}</div>
+        @endif
 
         <div class="mt-3">
             <label class="form-label">Duration</label>
@@ -159,15 +162,21 @@
                     this.daysDisplay.textContent = displayText;
                 }
             }
+
+            // helper function to check if start date and end date is set, trigger changeDate event
+            triggerChangeDateEvent() {
+                if (this.startDateInput.value && this.endDateInput.value) {
+                    const event = new Event('changeDate');
+                    this.startDateInput.dispatchEvent(event);
+                }
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const dateRangePickerElement = document.querySelector('.date-range-picker-component');
-            new DateRangePickerComponent(dateRangePickerElement);
+            const drObj = new DateRangePickerComponent(dateRangePickerElement);
 
-            // trigger change function
-            const event = new Event('changeDate');
-            dateRangePickerElement.querySelector('#component_start_date').dispatchEvent(event);
+            drObj.triggerChangeDateEvent();
         });
     </script>
 @endpush

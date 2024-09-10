@@ -11,14 +11,20 @@ class DateRangePicker extends Component
     public $label;
     public $startDate;
     public $endDate;
+    public $errorStartDate;
+    public $errorEndDate;
+    public $required;
     /**
      * Create a new component instance.
      */
-    public function __construct($label = 'Date Range', $startDate = null, $endDate = null)
+    public function __construct($label = 'Date Range', $startDate = null, $endDate = null, $required = false, $errorStartDate = null, $errorEndDate = null)
     {
         $this->label = $label;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->required = $required;
+        $this->errorStartDate = $errorStartDate;
+        $this->errorEndDate = $errorEndDate;
     }
 
     /**
