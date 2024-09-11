@@ -105,8 +105,8 @@
                                             @endif
                                         </td>
                                         <td class="tb-col">
-                                            @if($incident->priority == 'unassigned')
-                                                <span class="badge text-bg-light">Unassigned</span>
+                                            @if($incident->priority == 'unasigned')
+                                                <span class="badge text-bg-light">Unasigned</span>
                                             @elseif($incident->priority == 'low')
                                                 <span class="badge text-bg-info">Low</span>
                                             @elseif($incident->priority == 'medium')

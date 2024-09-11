@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Scopes\IncludeTrashedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Incident extends Model
 {
@@ -48,5 +49,37 @@ class Incident extends Model
     public function currentAssignee()
     {
         return $this->belongsTo(User::class, 'current_assignee_id')->withTrashed();
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(IncidentConversation::class);
+    }
+
+    // event
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($incident) {
+            // Get the fields that have been changed
+            $changes = $incident->getChanges();
+    
+            // Loop through each changed field and create a log entry
+            foreach ($changes as $field => $newValue) {
+                if ($field !== 'updated_at') { // Ignore the updated_at field
+                    ActivityLog::create([
+                        'incident_id' => $incident->id,
+                        'user_id' => Auth::user()->id, // Assuming the user is authenticated
+                        'description' => "Changed {$field} from '{$incident->getOriginal($field)}' to '{$newValue}'",
+                    ]);
+                }
+            }
+        });
     }
 }

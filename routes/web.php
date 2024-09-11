@@ -72,6 +72,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/incidents/{id}/edit', [IncidentController::class, 'edit'])->name('incidents.edit');
     Route::put('/incidents/{id}', [IncidentController::class, 'update'])->name('incidents.update');
     Route::delete('/incidents/{id}', [IncidentController::class, 'destroy'])->name('incidents.destroy');
+    Route::put('/incident/{incident}/assign', [IncidentController::class, 'assign'])->name('incident.assign');
+    Route::put('/incident/{incident}/status', [IncidentController::class, 'status'])->name('incident.status');
+    Route::put('/incident/{incident}/priority', [IncidentController::class, 'priority'])->name('incident.priority');
+    Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('incident.comment');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
