@@ -82,9 +82,15 @@ class IncidentController extends Controller
                 $from = User::where('id', explode(' ', $activity->description)[3])->first();
                 $to = User::where('id', explode(' ', $activity->description)[5])->first();
 
-                //construct description with user link to route users.show
-                $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to <a href="'. route('users.show', $to->id) .'">' . $to->name . '</a>';
+                Log::info($activity->description);
+                Log::info(print_r($from, true));
+                Log::info(print_r($to, true));
 
+                //construct description with user link to route users.show
+                if($from && $to)
+                    $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to <a href="'. route('users.show', $to->id) .'">' . $to->name . '</a>';
+                else
+                    $activity->description = 'Incident assigned changed.';
                 // $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to ' . $to;
             }
         });
