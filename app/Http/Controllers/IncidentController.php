@@ -74,6 +74,18 @@ class IncidentController extends Controller
             if($activity->description == 'Comment added') {
                 $activity->user = $activity->user;
                 $activity->comment = IncidentConversation::where('id', $activity->comment_id)->first()->message;
+            } else if (str_contains($activity->description, 'Changed current_assignee_id')) {
+                $activity->user = $activity->user;
+                //remove single quote from string
+                $activity->description = str_replace("'", "", $activity->description);
+
+                $from = User::where('id', explode(' ', $activity->description)[3])->first();
+                $to = User::where('id', explode(' ', $activity->description)[5])->first();
+
+                //construct description with user link to route users.show
+                $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to <a href="'. route('users.show', $to->id) .'">' . $to->name . '</a>';
+
+                // $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to ' . $to;
             }
         });
         return view('incident.show', compact('incident', 'agents', 'activityLogs'));
