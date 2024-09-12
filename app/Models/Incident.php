@@ -81,5 +81,13 @@ class Incident extends Model
                 }
             }
         });
+
+        static::created(function ($incident) {
+            ActivityLog::create([
+                'incident_id' => $incident->id,
+                'user_id' => $incident->user_id,
+                'description' => "Created incident",
+            ]);
+        });
     }
 }

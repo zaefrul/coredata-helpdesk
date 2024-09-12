@@ -25,7 +25,7 @@
                             <form method="POST" action="{{route('users.update', $user->id)}}">
                                 @csrf
                                 @method('PUT')
-                                <div class="row g-3 gx-gs">
+                                {{-- <div class="row g-3 gx-gs">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name" class="form-label">Customer</label>
@@ -39,7 +39,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row g-3 gx-gs mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -64,7 +64,7 @@
                                             <label for="password" class="form-label">Phone No.</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-call"></em></div>
-                                                <input type="text" class="form-control" id="phone" name="phone" value="{{old('phone', $user->phone_number)}}" required>
+                                                <input type="text" class="form-control" id="phone" name="phone" value="{{old('phone', $user->phone_number)}}">
                                             </div>
                                         </div>
                                     </div>

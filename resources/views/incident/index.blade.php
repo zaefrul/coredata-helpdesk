@@ -144,7 +144,7 @@
                                 @endforeach
                                 @if(count($incidents) == 0)
                                     <tr>
-                                        <td colspan="7" class="text-center">No project found. Please add project in the create project form.</td>
+                                        <td colspan="7" class="text-center">No incidence found. You can create incidence in Add Incidence form located at the side menu.</td>
                                     </tr>
                                 @endif
                             </tbody>

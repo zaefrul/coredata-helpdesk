@@ -78,8 +78,10 @@
                                         <td class="tb-col">
                                             @if($user->role == 'admin')
                                                 <span class="badge text-bg-primary">Admin</span>
-                                            @else($user->role == 'agent')
+                                            @elseif($user->role == 'agent')
                                                 <span class="badge text-bg-info">Agent</span>
+                                            @else
+                                                <span class="badge text-bg-success">User</span>
                                             @endif
                                         </td>
                                         <td class="tb-col">{{$user->created_at->diffForHumans()}}</td>

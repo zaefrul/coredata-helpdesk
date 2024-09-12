@@ -30,11 +30,11 @@ class UserController extends Controller
         $data = request()->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'customer_id' => 'required',
+            'customer_id' => 'nullable',
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
             'role' => 'required',
-            'phone' => 'required',
+            'phone' => 'nullable',
         ]);
 
         $user = new User();
@@ -61,9 +61,8 @@ class UserController extends Controller
         $data = request()->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'customer_id' => 'required',
             'role' => 'required',
-            'phone' => 'required',
+            'phone' => 'nullable',
         ]);
 
         $user = User::findOrFail($id);

@@ -22,14 +22,6 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
-                            <pre>
-                                @if($errors->any())
-                                    {{ print_r($errors->all()) }}
-                                @endif
-                                @if(old())
-                                    {{ print_r(old()) }}
-                                @endif
-                            </pre>
                             <form method="POST" action="{{ route('assets.store') }}" novalidate>
                                 @csrf
                                 <div class="row g-3 gx-gs mb-3">
@@ -129,7 +121,7 @@
                                             <label for="warranty_level" class="form-label">Warranty Level</label>
                                             <div class="form-control-wrap">
                                                 <select class="js-select" id="warranty_level" name="warranty_level" required>
-                                                    <option>Select Warranty Level</option>
+                                                    <option value="">Select Warranty Level</option>
                                                     <option value="third-party" {{ old('warranty_level') == '1' ? 'selected' : '' }}>3rd Party</option>
                                                     <option value="back-to-back" {{ old('warranty_level') == '2' ? 'selected' : '' }}>Back to Back</option>
                                                 </select>
@@ -147,9 +139,9 @@
                                         <div class="form-group">
                                             <label class="form-label">Warranty Period</label>
                                             <div class="input-group custom-datepicker" data-range="init" >
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('purchased_date') is-invalid @enderror" id="warranty_start" name="purchased_date" value="{{ old('purchased_date') }}">
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('purchased_date') is-invalid @enderror" id="warranty_start" name="purchased_date" value="{{ old('purchased_date') }}" {{old('same_as_contract') == "1" ? 'disabled' : ''}}>
                                                 <span class="input-group-text">to</span>
-                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('warranty_end') is-invalid @enderror" id="warranty_end" name="warranty_end" value="{{ old('warranty_end') }}">
+                                                <input  placeholder="dd/mm/yyyy" data-format="dd/mm/yyyy" type="text" class="form-control @error('warranty_end') is-invalid @enderror" id="warranty_end" name="warranty_end" value="{{ old('warranty_end') }}" {{old('same_as_contract') == "1" ? 'disabled' : ''}}>
                                                 <span class="input-group-text" id="how-many-month-days">0 day</span>
                                             </div>
                                             @error('purchased_date')
@@ -164,7 +156,7 @@
                                         {{-- checkbox for user who want to take date the same like contract period --}}
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="same_as_contract" name="same_as_contract" value="1">
+                                                <input type="checkbox" class="custom-control-input" id="same_as_contract" name="same_as_contract" value="1" {{old('same_as_contract') == "1" ? 'checked' : ''}}>
                                                 <label class="custom-control-label" for="same_as_contract">Same as Contract Period</label>
                                             </div>
                                         </div>

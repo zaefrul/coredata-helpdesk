@@ -10,7 +10,7 @@
                         <div class="tab-pane show active" id="tab-1" tabindex="0">
                             <div class="card card-gutter-md">
                                 <div class="card-row card-row-lg col-sep col-sep-lg">
-                                    <div class="card-aside">
+                                    <div class="card-aside" >
                                         <div class="card-body">
                                             <div class="bio-block">
                                                 <h4 class="bio-block-title">Details</h4>
@@ -44,15 +44,19 @@
                                                             </ul>
                                                         </div>
                                                     </li>
-                                                    <li class="list-group-item">
-                                                        <span class="title fw-medium w-40 d-inline-block">Reporter</span>
-                                                        <span class="text">
+                                                    <li class="list-group-item" style="display: flex">
+                                                        <div class="title fw-medium w-40 d-inline-block">Reporter</div>
+                                                        <div class="text">
                                                             @if($incident->user)
-                                                                {{$incident->user->name}}
+                                                                {{-- {{$incident->user->name}} --}}
+                                                                {{-- uppercase each word --}}
+                                                                {{-- {{ucwords(strtolower($incident->user->name))}} --}}
+                                                                {{-- truncate to two words --}}
+                                                                <a href="{{route('users.show', $incident->user->id)}}">{{implode(' ', array_slice(explode(' ', $incident->user->name), 0, 2))}}</a>
                                                             @else
                                                                 Unassigned
                                                             @endif
-                                                        </span>
+                                                        </div>
                                                     </li>
                                                     <li class="list-group-item" style="display: flex;">
                                                         <div class="title fw-medium w-40 d-inline-block">Status</div>

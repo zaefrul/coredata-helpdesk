@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard2', function () { return view('dashboard'); })->name('dashboard2');
 
     Route::get('/admin/migration', [AdminController::class, 'runMigration'])->name('admin.migration');
+    Route::get('/admin/seeder', [AdminController::class, 'runSeeder'])->name('admin.seeder');
 });
 
 require __DIR__.'/auth.php';

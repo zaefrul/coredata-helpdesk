@@ -13,6 +13,15 @@ class AdminController extends Controller
             return redirect()->route('admin.index')->with('error', 'You are not authorized to run migration');
         }
         Artisan::call('migrate');
-        return redirect()->route('admin.index')->with('success', 'Migration has been run successfully');
+        return redirect()->route('dashboard')->with('success', 'Migration has been run successfully');
+    }
+
+    public function runSeeder()
+    {
+        if(Auth::user()->role != 'admin') {
+            return redirect()->route('admin.index')->with('error', 'You are not authorized to run seeder');
+        }
+        Artisan::call('db:seed');
+        return redirect()->route('dashboard')->with('success', 'Seeder has been run successfully');
     }
 }
