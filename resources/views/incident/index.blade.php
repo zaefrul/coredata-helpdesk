@@ -1,8 +1,4 @@
 @extends('layouts.main')
-
-@section('content')
-@extends('layouts.main')
-
 @section('content')
 <div class="nk-content">
     <div class="container">
