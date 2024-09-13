@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -86,8 +87,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard2', function () { return view('dashboard'); })->name('dashboard2');
 
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/components', [AdminController::class, 'components'])->name('admin.components');
+    Route::get('/admin/components', [AdminController::class, 'components'])->name('admin.components.edit');
     Route::get('/admin/migration', [AdminController::class, 'runMigration'])->name('admin.migration');
     Route::get('/admin/seeder', [AdminController::class, 'runSeeder'])->name('admin.seeder');
+
+    Route::post('admin/components', [SettingController::class, 'store_component_type'])->name('components.store');
+    Route::delete('admin/components/{id}', [SettingController::class, 'destroy_component_type'])->name('components.destroy');
+    Route::put('admin/components/{id}', [SettingController::class, 'update_component_type'])->name('components.update');
 });
 
 require __DIR__.'/auth.php';
