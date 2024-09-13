@@ -1,4 +1,4 @@
-<div class="nk-header nk-header-fixed">
+    <div class="nk-header nk-header-fixed">
     <div class="container-fluid">
         <div class="nk-header-wrap">
             <div class="nk-header-logo ms-n1">
@@ -12,9 +12,9 @@
                 </div>
                 <a href="./html/index.html" class="logo-link">
                     <div class="logo-wrap">
-                        <img class="logo-img logo-light" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="">
-                        <img class="logo-img logo-dark" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="">
-                        <img class="logo-img logo-icon" src="./images/logo-icon.png" srcset="./images/logo-icon2x.png 2x" alt="">
+                        <img class="logo-img logo-light" src="./images/2.png" srcset="./images/2.png 2x" alt="">
+                        <img class="logo-img logo-dark" src="./images/2.png" srcset="./images/2.png 2x" alt="">
+                        <img class="logo-img logo-icon" src="./images/2.png" srcset="./images/2.png 2x" alt="">
                     </div>
                 </a>
             </div>

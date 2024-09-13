@@ -60,7 +60,7 @@
                 </div><!-- .card-body -->
             </div><!-- .card -->
         </div><!-- .col -->
-        <div class="col-lg-7 align-self-center">
+        <div class="d-none d-md-block col-lg-7 align-self-center">
             <div class="card-body is-theme ps-lg-4 pt-5 pt-lg-0">
                 <div class="row">
                     <div class="col-sm-8">

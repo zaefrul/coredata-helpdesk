@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\IncludeTrashedScope;
+use App\Services\EmailService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -88,6 +89,11 @@ class Incident extends Model
                 'user_id' => $incident->user_id,
                 'description' => "Created incident",
             ]);
+
+            $incident->user = User::find($incident->user_id);
+
+            $admins = User::where('role', 'admin')->pluck('email')->toArray();
+            EmailService::sendIncidentNotification($incident, $admins, [$incident->user->email]);
         });
     }
 }

@@ -1,5 +1,21 @@
 @extends('layouts.main')
 
+@section('css')
+<style type="text/css">
+    .chart-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%; /* This ensures the container takes the available height */
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto; /* This will make sure the chart takes the height dynamically */
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="nk-content">
     <div class="container-fluid">
@@ -20,7 +36,7 @@
                                 <div class="mt-2 mb-4">
                                     <div class="amount h1">{{array_sum($incidentChartData['datasets'][0]['data'])}}</div>
                                 </div>
-                                <div class="nk-chart-analytics-session">
+                                <div class="chart-container">
                                     <canvas data-nk-chart="bar" id="sessionChart"></canvas>
                                 </div>
                             </div><!-- .card-body -->
@@ -38,9 +54,19 @@
                         </div>
                     </div>
                     <!-- Card for Incident Priority Pie Chart -->
+                    <div class="col-sm-6 col-xl-6 col-xxl-3">
+                        <div class="card card-bordered h-100">
+                            <div class="card card-bordered">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Incidents by Status</h5>
+                                    <canvas id="incidentStatusChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row g-gs mt-3">
+                <div class="row g-gs mt-1">
                     <div class="col-md-12 col-xxl-6">
                         <div class="card h-100">
                             <div class="card-body">
@@ -87,9 +113,9 @@
                                                         </div>
                                                         <div class="nk-timeline-content">
                                                             @if(str_contains($incident->description, 'Comment added'))
-                                                                <p class="small"><strong>{{$incident->incident->incident_number}}</strong>  - {!! $incident->description !!} by <a href="{{route('users.show', $incident->user->id)}}">{{ $incident->user->name }}</a> - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
+                                                                <p class="small"><strong><a class="link-info" href="/incidents/{{$incident->incident->incident_number}}/show">{{$incident->incident->incident_number}}</a></strong>  - {!! $incident->description !!} by <a href="{{route('users.show', $incident->user->id)}}">{{ $incident->user->name }}</a> - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
                                                             @else
-                                                            <p class="small"><strong>{{$incident->incident->incident_number}}</strong>  - {!! $incident->description !!} - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
+                                                            <p class="small"><strong><a class="link-info" href="/incidents/{{$incident->incident->incident_number}}/show">{{$incident->incident->incident_number}}</a></strong>  - {!! $incident->description !!} - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -205,7 +231,7 @@
                     },
                 },
                 responsive: true,
-                maintainAspectRatio:false,
+                maintainAspectRatio:true,
                 scales: {
                     x: {
                         stacked: chartStacked,
@@ -287,6 +313,60 @@
                 datasets: [{
                     data: counts, // e.g., [5, 10, 15]
                     backgroundColor: [NioApp.Colors.danger, NioApp.Colors.warning, NioApp.Colors.purple, NioApp.Colors.info, NioApp.Colors.light], // Colors for each slice
+                    // backgroundColor: ['#df3c4e', '#f2bc16', '#f24a8b', '#478ffc', '#E5E7EB'], // Colors for each slice
+                    // hoverBackgroundColor: ['#df3c4e', '#f2bc16', '#f24a8b', '#478ffc', '#E5E7EB']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: ''
+                    }
+                }
+            }
+        });
+
+        // Incident Status Pie Chart
+        // Get the incident status data from the controller (passed from PHP)
+        let incidentStatus = @json($incidentStatus);
+
+        // Convert the data to an array for Chart.js
+        let statuses = Object.keys(incidentStatus);
+
+        // change value to proper string
+        statuses = statuses.map(function(status) {
+            if (status == 'open') {
+                return ' Open';
+            } else if (status == 'closed') {
+                return ' Closed';
+            } else if (status == 'resolved') {
+                return ' Resolved';
+            } else if (status == 'in_progress') {
+                return ' In Progress';
+            } else {
+                return ' Unasigned';
+            }
+        });
+
+        let statusCounts = Object.values(incidentStatus);
+
+        console.log(statuses);
+        console.log(statusCounts);
+
+        // Create the pie chart
+        var ctx = document.getElementById('incidentStatusChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: statuses, // e.g., ['High', 'Medium', 'Low']
+                datasets: [{
+                    data: statusCounts, // e.g., [5, 10, 15]
+                    backgroundColor: [NioApp.Colors.light, NioApp.Colors.info, NioApp.Colors.warning, NioApp.Colors.success], // Colors for each slice
                     // backgroundColor: ['#df3c4e', '#f2bc16', '#f24a8b', '#478ffc', '#E5E7EB'], // Colors for each slice
                     // hoverBackgroundColor: ['#df3c4e', '#f2bc16', '#f24a8b', '#478ffc', '#E5E7EB']
                 }]

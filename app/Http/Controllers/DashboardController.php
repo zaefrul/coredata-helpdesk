@@ -16,8 +16,9 @@ class DashboardController extends Controller
         $incidents = Incident::all();
         $incidentChartData = $this->getWeeklyIncidentData();
         $incidentPriority = $this->priorityPie();
+        $incidentStatus = $this->statusPie();
         $recentIncidents = $this->getTop3RecentActivity();
-        return view('dashboard.index', compact('incidents', 'incidentChartData', 'incidentPriority', 'recentIncidents'));
+        return view('dashboard.index', compact('incidents', 'incidentChartData', 'incidentPriority', 'incidentStatus', 'recentIncidents'));
     }
 
     public function getIncidentChartData()
@@ -200,5 +201,15 @@ class DashboardController extends Controller
         Log::info(print_r($activityLogs, true));
 
         return $activityLogs;
+    }
+
+    public function statusPie()
+    {
+        // Query to get the count of incidents based on their status
+        $incidentStatus = Incident::selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
+        
+        return $incidentStatus;
     }
 }

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class IncidentController extends Controller 
 {
     public function index() {
-        $incidents = Incident::all();
+        $incidents = Incident::orderBy('created_at', 'desc')->get();
         return view('incident.index', compact('incidents'));
     }
 
@@ -64,6 +64,9 @@ class IncidentController extends Controller
 
     public function show($id) {
         $incident = Incident::where('incident_number', $id)->first();
+        if(!$incident) {
+            return back()->with('error', 'Incident not found');
+        }
         $agents = User::where('role', 'agent')
             ->orWhere('role', 'admin')
             ->get();
