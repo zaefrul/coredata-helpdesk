@@ -28,6 +28,11 @@ class UserDepartmentSeeder extends Seeder
                     throw new \Exception('No email address for department');
                 }
 
+                if(User::where('email', $department->pc_email)->exists())
+                {
+                    throw new \Exception('User already exists');
+                }
+
                 User::create([
                     'name' => $department->pc_name,
                     'email' => $department->pc_email,

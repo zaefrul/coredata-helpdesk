@@ -89,13 +89,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/components', [AdminController::class, 'components'])->name('admin.components');
-    Route::get('/admin/components', [AdminController::class, 'components'])->name('admin.components.edit');
     Route::get('/admin/migration', [AdminController::class, 'runMigration'])->name('admin.migration');
     Route::get('/admin/seeder', [AdminController::class, 'runSeeder'])->name('admin.seeder');
 
     Route::post('admin/components', [SettingController::class, 'store_component_type'])->name('components.store');
     Route::delete('admin/components/{id}', [SettingController::class, 'destroy_component_type'])->name('components.destroy');
     Route::put('admin/components/{id}', [SettingController::class, 'update_component_type'])->name('components.update');
+
+    Route::get('/admin/emails/on', [SettingController::class, 'turnEmailOn'])->name('settings.email.on');
+    Route::get('/admin/emails/off', [SettingController::class, 'turnEmailOff'])->name('settings.email.off');
 });
 
 require __DIR__.'/auth.php';

@@ -262,14 +262,9 @@
                             <label for="components[${componentIndex}][type]" class="form-label">Type</label>
                             <div class="form-control-wrap">
                                 <select class="form-select" name="components[${componentIndex}][type]" required>
-                                    <option>Select component type</option>
-                                    <option value="hard_disk" ${type === 'hard_disk' ? 'selected' : ''}>Hard Disk</option>
-                                    <option value="memory" ${type === 'memory' ? 'selected' : ''}>Memory</option>
-                                    <option value="power_supply" ${type === 'power_supply' ? 'selected' : ''}>Power Supply</option>
-                                    <option value="pcie" ${type === 'pcie' ? 'selected' : ''}>PCIE</option>
-                                    <option value="switch" ${type === 'switch' ? 'selected' : ''}>Switch</option>
-                                    <option value="system_board" ${type === 'system_board' ? 'selected' : ''}>System Board</option>
-                                    <option value="storage" ${type === 'storage' ? 'selected' : ''}>Storage</option>
+                                    @foreach($component_types as $type)
+                                        <option value="{{ $type->value }}" ${type === '{{ $type->value }}' ? 'selected' : ''}>{{ ucfirst($type->label) }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

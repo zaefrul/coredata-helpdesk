@@ -132,6 +132,25 @@
                             </li>
                         </ul>
                     </li>
+                    {{-- end incident --}}
+
+                    @if (Auth::user()->role == 'admin')
+                    {{-- admin --}}
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+                            <span class="nk-menu-text">Admin Management</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item {{request()->routeIs('admins.index') ? 'active' : ''}}">
+                                <a href="/admin" class="nk-menu-link">
+                                    <span class="nk-menu-text">Control Panel</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- end admin --}}
+                    @endif
                 </ul><!-- .nk-menu -->
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->

@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(UserDepartmentSeeder::class);
-        $this->call([IncidentSeeder::class]);
+        // $this->call(UserDepartmentSeeder::class);
+        // $this->call([IncidentSeeder::class]);
 
         // Customer::create([
         //     'company_name' => 'Core Data',
@@ -36,6 +36,6 @@ class DatabaseSeeder extends Seeder
         //     'customer_id' => 1,
         // ]);
 
-
+        $this->call(SettingSeeder::class);
     }
 }

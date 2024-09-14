@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helper\SettingHelper;
 use App\Mail\IncidentNotificationMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -20,6 +21,15 @@ class EmailService
     public static function sendIncidentNotification($incident, $recipients, $cc = [], $bcc = [])
     {
         try {
+            $emailServiceOn = SettingHelper::getValue('email_service', 'switch');
+
+            if(!$emailServiceOn || $emailServiceOn == 'off') {
+                Log::debug('Email service is disabled');
+                return;
+            }
+
+            Log::debug('Email service is enabled');
+
             // Send the email to recipients, handle if it's a string or array
             $mail = Mail::to(is_array($recipients) ? $recipients : [$recipients]);
 
@@ -38,7 +48,7 @@ class EmailService
             
 
             // Send the email
-            $mail->send(new IncidentNotificationMail($incident, $incident->user));
+            // $mail->send(new IncidentNotificationMail($incident, $incident->user));
         } catch (\Exception $e) {
             // Log the exception or handle it
             Log::error("Email sending failed: " . $e->getMessage());

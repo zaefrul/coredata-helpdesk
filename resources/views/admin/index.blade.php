@@ -19,20 +19,44 @@
                         
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
-                <div class="nk-block">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title"></h5>
-                                </div>
                                 <div class="card-body">
-                                    <p class="card-text">Manage Component Type Option</p>
-
+                                    <p class="card-title">Application Settings</p>
+                                    <p class="text-info small fw-ligt fst-italic">Adjust value for the application</p>
                                     {{-- list group button --}}
                                     <div class="list-group">
-                                        <a href="/admin/migration" class="list-group-item list-group-item-action">Run Migration</a>
-                                        <a href="/admin/seeder" class="list-group-item list-group-item-action">Run Seeder</a>
+                                        <a href="/admin/components" class="list-group-item list-group-item-action">Component Type Setting</a>
+                                        @php($switch = \App\Helper\SettingHelper::getValue('email_service', 'switch') == 'on' ? true : false)
+                                        <div class="list-group-item d-flex justify-content-between">
+                                            <span>Email Service</span>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" value="on" id="emailService" @if($switch) checked @endif>
+                                                <label class="form-check-label" for="emailService">
+                                                    @if($switch)
+                                                        <span class="badge text-bg-success">ON</span>
+                                                    @else
+                                                        <span class="badge text-bg-danger-soft">OFF</span>
+                                                    @endif
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title">Critical Component [Developer Option]</p>
+                                    <p class="text-danger small fw-ligt fst-italic">* Danger! this option could potentialy break the application!</p>
+                                    {{-- list group button --}}
+                                    <div class="list-group">
+                                        <a href="/admin/migration" class="list-group-item list-group-item-action bg-danger-soft">Run Migration</a>
+                                        <a href="/admin/seeder" class="list-group-item list-group-item-action bg-danger-soft">Run Seeder</a>
                                     </div>
                                 </div>
                             </div>
@@ -43,4 +67,17 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailService = document.getElementById('emailService');
+        emailService.addEventListener('change', function() {
+            const status = emailService.checked ? 'on' : 'off';
+            const url = status == 'on' ? '/admin/emails/on' : '/admin/emails/off';
+            window.location.href = url;
+        });
+    });
+</script>
 @endsection
