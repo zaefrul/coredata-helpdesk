@@ -23,7 +23,7 @@
                 <div class="card card-bordered">
                     <div class="card-body">
                         <div class="card-inner card-inner-lg">
-                            <form action="{{ route('incidents.store') }}" method="POST">
+                            <form action="{{ route('user.incidents.store') }}" method="POST">
                                 @csrf
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
@@ -41,17 +41,37 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="asset_id">Asset</label>
                                             <div class="form-control-wrap">
                                                 <select name="asset_id" id="asset_id">
                                                     <option value="">Select Asset</option>
-
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {{-- priority  --}}
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="priority">Priority</label>
+                                            <div class="form-control-wrap">
+                                                <select class="js-select" name="priority" id="priority">
+                                                    <option value="">Select Priority</option>
+                                                    <option value="unasigned" {{ old('priority') == 'unasigned' ? 'selected' : '' }}>Unasigned - Select this if you don't know the priority</option>
+                                                    <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Low</option>
+                                                    <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
+                                                    <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High</option>
+                                                    <option value="critical" {{ old('priority') == 'critical' ? 'selected' : '' }}>Critical</option> 
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 gx-gs mb-3">
+                                    
                                 </div>
                                 
                                 <div class="row g-3 gx-gs mb-3">
@@ -65,6 +85,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -77,27 +98,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="site_location">Site Location</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-map-pin"></em></div>
                                                 <input type="text" class="form-control" name="site_location" id="site_location">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- incident type --}}
-                                <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="incident_type">Incident Type</label>
-                                            <div class="form-control-wrap">
-                                                <select class="js-select" name="incident_type" id="incident_type" required>
-                                                    <option value="">Select Incident Type</option>
-                                                    <option value="incident" selected>Incident</option>
-                                                    <option value="preventive-maintenance">Preventive Maintenance</option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +149,7 @@
             if(selectedContractId === '') {
                 return;
             }
-            var url = "{{ route('assets.getbycontract', ':contract_id') }}";
+            var url = "{{ route('user.assets.getbycontract', ':contract_id') }}";
             url = url.replace(':contract_id', selectedContractId);
 
             var xhr = new XMLHttpRequest();

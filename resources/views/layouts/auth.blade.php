@@ -27,5 +27,25 @@
 <!-- JavaScript -->
 <script src="./assets/js/bundle.js"></script>
 <script src="./assets/js/scripts.js"></script>
+<script>
+    // Check if the session has a 'success' message and trigger SweetAlert
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: "{{ session('success') }}",
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: "{{ session('error') }}",
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 
 </html>

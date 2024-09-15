@@ -30,7 +30,7 @@ class IncidentController extends Controller
             'description' => 'required',
             'contract_id' => 'required',
             'asset_id' => 'required',
-            'site_location' => 'required',
+            'site_location' => 'nullable',
             'incident_type' => 'required',
         ]);
 
@@ -112,7 +112,7 @@ class IncidentController extends Controller
             'severity' => 'required',
             'status' => 'required',
             'customer_id' => 'required',
-            'project_id' => 'required',
+            'contract_id' => 'required',
         ]);
 
         $incident = Incident::find($id);
