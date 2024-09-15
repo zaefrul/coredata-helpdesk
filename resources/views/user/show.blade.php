@@ -44,78 +44,40 @@
                 </div><!-- .nk-block-head -->
 
                 <div class="nk-block">
-                    <div class="card card-bordered">
-                        <div class="card-body">
-                            <div class="row g-3 gx-gs">
-                                <!-- Customer -->
-                                @if($user->customer)
-                                <div class="col-md-6">
-                                    <div class="card card-bordered h-100">
-                                        <div class="card-body">
-                                            <em class="icon ni ni-building fs-2 text-primary me-3"></em>
-                                            <h6 class="title text-uppercase text-muted">Customer</h6>
-                                            <p class="font-weight-bold fs-5">{{ $user->customer->company_name }} [{{ $user->customer->prefix }}]</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-
-                                <!-- Name -->
-                                <div class="col-md-6">
-                                    <div class="card card-bordered h-100">
-                                        <div class="card-body">
-                                            <em class="icon ni ni-user fs-2 text-primary me-3"></em>
-                                            <h6 class="title text-uppercase text-muted">Name</h6>
-                                            <p class="font-weight-bold fs-5">{{ $user->name }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Email -->
-                                <div class="col-md-6">
-                                    <div class="card card-bordered h-100">
-                                        <div class="card-body">
-                                            <em class="icon ni ni-mail fs-2 text-primary me-3"></em>
-                                            <h6 class="title text-uppercase text-muted">Email</h6>
-                                            <p class="font-weight-bold fs-5">{{ $user->email }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Phone -->
-                                <div class="col-md-6">
-                                    <div class="card card-bordered h-100">
-                                        <div class="card-body">
-                                            <em class="icon ni ni-call fs-2 text-primary me-3"></em>
-                                            <h6 class="title text-uppercase text-muted">Phone Number</h6>
-                                            <p class="font-weight-bold fs-5">{{ $user->phone_number }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Role -->
-                                <div class="col-md-6">
-                                    <div class="card card-bordered h-100">
-                                        <div class="card-body">
-                                            <em class="icon ni ni-users fs-2 text-primary me-3"></em>
-                                            <h6 class="title text-uppercase text-muted">Role</h6>
-                                            <p class="font-weight-bold fs-5">
-                                                @if($user->role == 'admin')
-                                                    <span class="badge text-bg-primary">Admin</span>
-                                                @elseif($user->role == 'agent')
-                                                    <span class="badge text-bg-info">Agent</span>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-4">
+                            <div class="card card-bordered">
+                                <div class="card-body">
+                                    <div class="user-card user-card-s2">
+                                        <div class="d-flex flex-column flex-md-row align-items-md-center">
+                                            <div class="media media-huge media-circle">
+                                                @if($user->role != 'user')
+                                                    <img src="/images/avatar/agent.png" class="img-thumbnail" alt="">
                                                 @else
-                                                    <span class="badge text-bg-secondary">User</span>
+                                                    <img src="/images/avatar/3.png" class="img-thumbnail" alt="">
                                                 @endif
-                                            </p>
+                                            </div>
+                                            <div class="mt-3 mt-md-0 ms-md-3">
+                                                <h3 class="title mb-1">{{$user->name}}</h3>
+                                                <span class="small">
+                                                    @if($user->role == 'admin')
+                                                        <span class="badge text-bg-primary">Admin</span>
+                                                    @elseif($user->role == 'agent')
+                                                        <span class="badge text-bg-info">Agent</span>
+                                                    @else
+                                                        <span class="badge text-bg-success">User</span>
+                                                    @endif
+                                                </span>
+                                                <div class="d-flex align-items-center mt-1"><em class="icon ni ni-mail" style="margin-right: 0.5rem"></em><span class="small">{{$user->email}}</span></div>
+                                                <div class="d-flex align-items-center"><em class="icon ni ni-mobile" style="margin-right: 0.5rem"></em><span class="small">{{$user->phone_number}}</span></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                </div><!-- .nk-block -->
+                </div>
             </div>
         </div>
     </div>

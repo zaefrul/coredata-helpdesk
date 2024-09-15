@@ -77,6 +77,20 @@ class CustomerController extends Controller
                     ]);
                 }
             }
+
+            // create user account
+            if(User::where('email', $deparment['department_email'])->exists()) {
+                continue;
+            }
+
+            $user = new User();
+            $user->name = $deparment['department_contact_person'];
+            $user->email = $deparment['department_email'];
+            $user->phone_number = $deparment['department_phone_number'] ?? '';
+            $user->password = bcrypt('password');
+            $user->customer_id = $customer->id;
+            $user->department_id = $department->id;
+            $user->save();
         }
 
         return redirect()->route('customers.index')->with('success', 'Customer created successfully');
@@ -167,6 +181,21 @@ class CustomerController extends Controller
                     ]);
                 }
             }
+
+            // check if user already exist
+            if (User::where('email', $departmentData['department_email'])->exists()) {
+                continue;
+            }
+
+            // Create user account
+            $user = new User();
+            $user->name = $departmentData['department_contact_person'];
+            $user->email = $departmentData['department_email'];
+            $user->phone_number = $departmentData['department_phone_number'] ?? '';
+            $user->password = bcrypt('password');
+            $user->customer_id = $customer->id;
+            $user->department_id = $department->id;
+            $user->save();
         }
 
         // Remove any departments that were not handled during the update (deleted departments)

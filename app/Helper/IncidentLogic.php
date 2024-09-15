@@ -67,8 +67,9 @@ class IncidentLogic
             );
 
             $activity->description = str_replace(
-                ["'low'", "'medium'", "'high'", "'critical'"],
+                ["'unasigned'", "'low'", "'medium'", "'high'", "'critical'"],
                 [
+                    '<span class="badge text-bg-light fs-6">Unassigned <em class="icon ni ni-cross"></em></span>',
                     '<span class="badge text-bg-info fs-6">Low <em class="icon ni ni-chevrons-down"></em></span>',
                     '<span class="badge text-bg-warning fs-6">Medium <em class="icon ni ni-chevron-down"></em></span>',
                     '<span class="badge text-bg-danger-soft fs-6">High <em class="icon ni ni-chevron-up"></em></span>',

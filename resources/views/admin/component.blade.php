@@ -122,18 +122,12 @@
         // monitor label input field for change and keyup event then convert to uppercase. at the sametime set the value field to lowercase and replace space with underscore
         document.getElementById('label').addEventListener('change', function() {
             var label = this.value;
-            var ucLabel = label.toUpperCase();
-            this.value = ucLabel;
-
             var value = label.toLowerCase().replace(/\s/g, '_');
             document.getElementById('value').value = value;
         });
 
         document.getElementById('label').addEventListener('keyup', function() {
             var label = this.value;
-            var ucLabel = label.toUpperCase();
-            this.value = ucLabel;
-
             var value = label.toLowerCase().replace(/\s/g, '_');
             document.getElementById('value').value = value;
         });

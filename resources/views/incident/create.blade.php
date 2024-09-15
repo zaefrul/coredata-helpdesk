@@ -122,6 +122,7 @@
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        assetLocation = [];
 
         const element = document.getElementById('asset_id');
         const asset_selector = new Choices(element, {
@@ -153,6 +154,8 @@
                     var options = [];
                     
                     response.forEach(function(asset) {
+                        assetLocation[asset.id] = asset.location;
+
                         var option = {
                             value: asset.id,
                             label: asset.name,
@@ -166,6 +169,17 @@
                 }
             };
             xhr.send();
+        });
+
+        var assetId = document.getElementById('asset_id');
+        assetId.addEventListener('change', function() {
+            var selectedAssetId = this.value;
+            if(selectedAssetId === '') {
+                return;
+            }
+            var siteLocation = assetLocation[selectedAssetId];
+            var siteLocationInput = document.getElementById('site_location');
+            siteLocationInput.value = siteLocation;
         });
     });
 </script>
