@@ -29,7 +29,7 @@ class AssetController extends Controller
         $request->validate([
             'name' => 'required',
             'brand' => 'required',
-            'serial_number' => 'required',
+            'serial_number' => 'nullable',
             'category' => 'required',
             'contract_id' => 'required',
             'details' => 'nullable',
@@ -119,7 +119,7 @@ class AssetController extends Controller
         $request->validate([
             'name' => 'required',
             'brand' => 'required',
-            'serial_number' => 'required',
+            'serial_number' => 'nullable',
             'category' => 'required',
             'contract_id' => 'required',
             'details' => 'nullable',

@@ -45,7 +45,7 @@ class ContractController extends Controller
             'customer_id' => 'required',
             'department_id' => 'required',
             'contract_number' => 'required',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,jpg,jpeg,png|max:2048',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,jpg,jpeg,png',
         ]);
 
         $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', request()->start_date)->format('Y-m-d');
@@ -118,19 +118,12 @@ class ContractController extends Controller
             'customer_id' => 'required',
             'department_id' => 'required',
             'contract_number' => 'required',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,jpg,jpeg,png',
         ]);
 
         $total_incidence = request('total_incidence', 0);
         if(request('unlimited_support') == '1') {
             $total_incidence = -1;
-        }
-
-        // file upload
-        $file_name = null;
-        if(request()->hasFile('file')) {
-            $file = request()->file('file');
-            $file_name = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $file_name);
         }
 
         $contract = Contract::findOrFail($id);
@@ -144,6 +137,19 @@ class ContractController extends Controller
         $contract->customer_id = request('customer_id');
         $contract->department_id = request('department_id');
         $contract->contract_number = request('contract_number');
+
+        // file upload
+        $file_name = null;
+        if(request()->hasFile('file')) {
+            if($contract->file_name) {
+                unlink(public_path('uploads/' . $contract->file_name));
+            }
+
+            $file = request()->file('file');
+            $file_name = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $file_name);
+        }
+
         $contract->file_name = $file_name;
         $contract->save();
 

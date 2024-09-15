@@ -48,6 +48,7 @@
                         <div class="card-body">
                             <div class="row g-3 gx-gs">
                                 <!-- Customer -->
+                                @if($user->customer)
                                 <div class="col-md-6">
                                     <div class="card card-bordered h-100">
                                         <div class="card-body">
@@ -57,6 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
 
                                 <!-- Name -->
                                 <div class="col-md-6">
