@@ -181,7 +181,7 @@
                                             @endforeach
                                             @if($recentIncidents->count() == 0)
                                                 <tr>
-                                                    <td class="tb-col">
+                                                    <td class="tb-col" colspan="4">
                                                         <div class="media media-md">
                                                             <div class="media-text">
                                                                 <span class="title">No recent incidents</span>

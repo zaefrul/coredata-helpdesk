@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     if(Auth::check()) {
         if(Auth::user()->role == 'admin') {
-            return redirect()->route('previllage.dashboard');
+            return redirect()->route('dashboard');
         } else {
             return redirect()->route('user.dashboard');
         }
@@ -109,10 +109,6 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/admin/emails/on', [SettingController::class, 'turnEmailOn'])->name('settings.email.on');
             Route::get('/admin/emails/off', [SettingController::class, 'turnEmailOff'])->name('settings.email.off');
-        });
-
-        Route::group(['prefix' => 'user', 'middleware' => EnsureRoleIsUser::class], function () {
-            Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('previllage.dashboard');
         });
     });
 

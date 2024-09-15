@@ -30,7 +30,7 @@
                     <li class="nk-menu-item">
                         @php
                             if(Auth::user()->role != 'user'){
-                                $dashboard = route('previllage.dashboard');
+                                $dashboard = route('dashboard');
                             } else {
                                 $dashboard = route('user.dashboard');
                             }

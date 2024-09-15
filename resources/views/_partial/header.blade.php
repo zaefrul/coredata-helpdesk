@@ -19,67 +19,7 @@
                 </a>
             </div>
             <nav class="nk-header-menu nk-navbar">
-                <ul class="nk-nav">
-                    <li class="nk-nav-item has-sub">
-                        <a href="#" class="nk-nav-link nk-nav-toggle">
-                            <span class="nk-nav-text">Management</span>
-                        </a>
-                        <ul class="nk-nav-sub nk-nav-sub-lg">
-                            <li class="nk-nav-item">
-                                <a href="{{route('customers.index')}}" class="nk-nav-link bg-primary-soft-hover">
-                                    <div class="media-group flex-grow-1">
-                                        <div class="media media-md media-middle media-border text-bg-primary-soft-outline">
-                                            <em class="icon ni ni-users"></em>
-                                        </div>
-                                        <div class="media-text flex-grow-1">
-                                            <span class="title">Customer</span>
-                                            <span class="sub-text d-block">Manage Customer</span>
-                                        </div>
-                                    </div><!-- .media-group -->
-                                </a>
-                            </li>
-                            <li class="nk-nav-item">
-                                <a href="{{route('users.index')}}" class="nk-nav-link bg-warning-soft-hover">
-                                    <div class="media-group flex-grow-1">
-                                        <div class="media media-md media-middle media-border text-bg-warning-soft-outline">
-                                            <em class="icon ni ni-user"></em>
-                                        </div>
-                                        <div class="media-text flex-grow-1">
-                                            <span class="title">Account</span>
-                                            <span class="sub-text d-block">Manage Account</span>
-                                        </div>
-                                    </div><!-- .media-group -->
-                                </a>
-                            </li>
-                            <li class="nk-nav-item">
-                                <a href="{{route('contracts.index')}}" class="nk-nav-link bg-secondary-soft-hover">
-                                    <div class="media-group flex-grow-1">
-                                        <div class="media media-md media-middle media-border text-bg-secondary-soft-outline">
-                                            <em class="icon ni ni-file-docs"></em>
-                                        </div>
-                                        <div class="media-text flex-grow-1">
-                                            <span class="title">Contract</span>
-                                            <span class="sub-text d-block">Manage Contract</span>
-                                        </div>
-                                    </div><!-- .media-group -->
-                                </a>
-                            </li>
-                            <li class="nk-nav-item">
-                                <a href="{{route('assets.index')}}" class="nk-nav-link bg-success-soft-hover">
-                                    <div class="media-group flex-grow-1">
-                                        <div class="media media-md media-middle media-border text-bg-success-soft-outline">
-                                            <em class="icon ni ni-layers"></em>
-                                        </div>
-                                        <div class="media-text flex-grow-1">
-                                            <span class="title">Asset</span>
-                                            <span class="sub-text d-block">Manage Customer Asset</span>
-                                        </div>
-                                    </div><!-- .media-group -->
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                
             </nav>
             <div class="nk-header-tools">
                 <ul class="nk-quick-nav ms-2">
@@ -149,19 +89,19 @@
                         <a href="#" data-bs-toggle="dropdown">
                             <div class="d-sm-none">
                                 <div class="media media-md media-circle">
-                                    <img src="./images/avatar/a.jpg" alt="" class="img-thumbnail">
+                                    <img src="/images/avatar/3.png" alt="" class="img-thumbnail">
                                 </div>
                             </div>
                             <div class="d-none d-sm-block">
                                 <div class="media media-circle">
-                                    <img src="./images/avatar/a.jpg" alt="" class="img-thumbnail">
+                                    <img src="/images/avatar/3.png" alt="" class="img-thumbnail">
                                 </div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-md">
                             <div class="dropdown-content dropdown-content-x-lg py-3 border-bottom border-light">
                                 <div class="media-group">
-                                    <div class="media media-xl media-middle media-circle"><img src="./images/avatar/a.jpg" alt="" class="img-thumbnail"></div>
+                                    <div class="media media-xl media-middle media-circle"><img src="/images/avatar/3.png" alt="" class="img-thumbnail"></div>
                                     <div class="media-text">
                                         <div class="lead-text">{{ auth()->user()->name }}</div>
                                         <span class="sub-text">
