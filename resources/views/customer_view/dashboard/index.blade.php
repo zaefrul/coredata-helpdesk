@@ -182,11 +182,7 @@
                                             @if($recentIncidents->count() == 0)
                                                 <tr>
                                                     <td class="tb-col" colspan="4">
-                                                        <div class="media media-md">
-                                                            <div class="media-text">
-                                                                <span class="title">No recent incidents</span>
-                                                            </div>
-                                                        </div>
+                                                        <span class="small fst-italic">No recent incidents found. For new incident, please submit thru <strong>Add New Incident</strong> page.</span>
                                                     </td>
                                                 </tr>
                                             @endif

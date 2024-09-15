@@ -8,12 +8,12 @@
                     <div class="nk-block-head-between flex-wrap gap g-2">
                         <div class="nk-block-head-content">
                             <h2 class="nk-block-title">Incidents</h1>
-                                <nav>
-                                    <ol class="breadcrumb breadcrumb-arrow mb-0">
-                                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Incident list</li>
-                                    </ol>
-                                </nav>
+                            <nav>
+                                <ol class="breadcrumb breadcrumb-arrow mb-0">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Incident list</li>
+                                </ol>
+                            </nav>
                         </div>
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
