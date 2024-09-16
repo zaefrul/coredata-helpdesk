@@ -120,6 +120,7 @@
                     </div>
 
                     {{-- Edit Button --}}
+                    @if(Auth::user()->role == 'admin')
                     <div class="card card-bordered mt-3">
                         <div class="card-body">
                             <div class="row mt-3 g-3 gx-gs">
@@ -134,6 +135,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div><!-- .nk-block -->
             </div>
         </div>

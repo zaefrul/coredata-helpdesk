@@ -41,6 +41,9 @@
                         </a>
                     </li>
                     @if (Auth::user()->role != 'user')
+                        @php
+                            $isAadmin = Auth::user()->role == 'admin';
+                        @endphp
                         {{-- customer --}}
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -53,15 +56,18 @@
                                         <span class="nk-menu-text">Customer List</span>
                                     </a>
                                 </li>
+                                @if($isAadmin)
                                 <li class="nk-menu-item {{request()->routeIs('customers.create') ? 'active' : ''}}">
                                     <a href="/customers/create" class="nk-menu-link">
                                         <span class="nk-menu-text">Add New Customer</span>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                         {{-- end customer --}}
                         {{-- user management --}}
+                        @if($isAadmin)
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><em class="icon ni ni-user"></em></span>
@@ -73,13 +79,16 @@
                                         <span class="nk-menu-text">Account List</span>
                                     </a>
                                 </li>
+                                @if($isAadmin)
                                 <li class="nk-menu-item {{request()->routeIs('users.create') ? 'active' : ''}}">
                                     <a href="/users/create" class="nk-menu-link">
                                         <span class="nk-menu-text">Add New Account</span>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
+                        @endif
                         {{-- end user management --}}
                         {{-- contract management --}}
                         <li class="nk-menu-item has-sub">
@@ -93,11 +102,13 @@
                                         <span class="nk-menu-text">Project List</span>
                                     </a>
                                 </li>
+                                @if($isAadmin)
                                 <li class="nk-menu-item {{request()->routeIs('contracts.create') ? 'active' : ''}}">
                                     <a href="/contracts/create" class="nk-menu-link">
                                         <span class="nk-menu-text">Add New Project</span>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                         {{-- end contract management --}}
@@ -113,11 +124,13 @@
                                         <span class="nk-menu-text">Asset List</span>
                                     </a>
                                 </li>
+                                @if($isAadmin)
                                 <li class="nk-menu-item {{request()->routeIs('assets.create') ? 'active' : ''}}">
                                     <a href="/resources/create" class="nk-menu-link">
                                         <span class="nk-menu-text">Add New Asset</span>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                         {{-- end asset --}}
@@ -133,11 +146,13 @@
                                         <span class="nk-menu-text">Incident List</span>
                                     </a>
                                 </li>
+                                @if($isAadmin)
                                 <li class="nk-menu-item {{request()->routeIs('incidents.create') ? 'active' : ''}}">
                                     <a href="/incidents/create" class="nk-menu-link">
                                         <span class="nk-menu-text">Add New Incident</span>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                         {{-- end incident --}}

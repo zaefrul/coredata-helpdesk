@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+@php $isAdmin = Auth::user()->role == 'admin' @endphp
 <div class="nk-content">
     <div class="container">
         <div class="nk-content-inner">
@@ -17,6 +18,7 @@
                                 </nav>
                         </div>
                         <div class="nk-block-head-content">
+                            @if($isAdmin)
                             <ul class="d-flex">
                                 <li>
                                     <a href="/incidents/create" class="btn btn-md d-md-none btn-primary">
@@ -31,6 +33,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            @endif
                         </div>
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
@@ -57,9 +60,11 @@
                                     <th class="tb-col">
                                         <span class="overline-title">Created</span>
                                     </th>
+                                    @if($isAdmin)
                                     <th class="tb-col tb-col-end" data-sortable="false">
                                         <span class="overline-title">Action</span>
                                     </th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,7 +91,7 @@
                                                     </div>
                                                 </div>
                                             @else
-                                                <span class="badge text-bg-primary">Not Assigned</span>
+                                                <span class="badge text-bg-light">Not Assigned</span>
                                             @endif
                                         </td>
                                         <td>
@@ -114,6 +119,7 @@
                                             @endif
                                         </td>
                                         <td class="tb-col">{{$incident->created_at->diffForHumans()}}</td>
+                                        @if($isAdmin)
                                         <td class="tb-col tb-col-end">
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-sm btn-icon btn-zoom me-n1" data-bs-toggle="dropdown">
@@ -136,6 +142,7 @@
                                                 </div>
                                             </div><!-- dropdown -->
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 @if(count($incidents) == 0)

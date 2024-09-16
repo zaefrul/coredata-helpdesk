@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+@php $isAdmin = Auth::user()->role == 'admin' @endphp
 <div class="nk-content">
     <div class="container">
         <div class="nk-content-inner">
@@ -18,6 +19,7 @@
                                 </nav>
                         </div>
                         <div class="nk-block-head-content">
+                            @if($isAdmin)
                             <ul class="d-flex">
                                 <li>
                                     <a href="/customers/create" class="btn btn-md d-md-none btn-primary">
@@ -32,6 +34,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            @endif
                         </div>
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
@@ -52,9 +55,11 @@
                                     <th class="tb-col tb-col-xl">
                                         <span class="overline-title">Phone</span>
                                     </th>
+                                    @if($isAdmin)
                                     <th class="tb-col tb-col-end" data-sortable="false">
                                         <span class="overline-title">Action</span>
                                     </th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,6 +88,7 @@
                                             <td class="tb-col tb-col-xl">
                                                 <span class="small text">{{$department->pc_phone}}</span>
                                             </td>
+                                            @if($isAdmin)
                                             <td class="tb-col tb-col-end">
                                                 <div class="dropdown">
                                                     <a href="#" class="btn btn-sm btn-icon btn-zoom me-n1" data-bs-toggle="dropdown">
@@ -105,6 +111,7 @@
                                                     </div>
                                                 </div><!-- dropdown -->
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 @endforeach

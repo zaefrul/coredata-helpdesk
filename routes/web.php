@@ -121,7 +121,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/incidents/create', [CustomerIncidentController::class, 'create'])->name('user.incidents.create');
         Route::post('/incidents', [CustomerIncidentController::class, 'store'])->name('user.incidents.store');
         Route::get('/incidents/{id}/show', [CustomerIncidentController::class, 'show'])->name('user.incidents.show');
-        Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('incident.comment');
+        Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('user.incident.comment');
         Route::get('/incident/resources/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('user.assets.getbycontract');
     });
 

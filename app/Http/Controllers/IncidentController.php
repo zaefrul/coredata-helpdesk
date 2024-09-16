@@ -67,9 +67,15 @@ class IncidentController extends Controller
         if(!$incident) {
             return back()->with('error', 'Incident not found');
         }
-        $agents = User::where('role', 'agent')
-            ->orWhere('role', 'admin')
-            ->get();
+
+        if(Auth::user()->role == 'agent') {
+            $agents = User::where('id', Auth::id())->get();
+        }
+        else {
+            $agents = User::where('role', 'agent')
+                ->orWhere('role', 'admin')
+                ->get();
+        }
         $activityLogs = $incident->activityLogs;
         $activityLogs = $activityLogs->reverse(); //show latest first
         // if activity contains comment, get the user, and comments from conversation
@@ -85,10 +91,6 @@ class IncidentController extends Controller
                 $from = User::where('id', explode(' ', $activity->description)[3])->first();
                 $to = User::where('id', explode(' ', $activity->description)[5])->first();
 
-                Log::info($activity->description);
-                Log::info(print_r($from, true));
-                Log::info(print_r($to, true));
-
                 //construct description with user link to route users.show
                 if($from && $to)
                     $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to <a href="'. route('users.show', $to->id) .'">' . $to->name . '</a>';
@@ -97,6 +99,7 @@ class IncidentController extends Controller
                 // $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to ' . $to;
             }
         });
+
         return view('incident.show', compact('incident', 'agents', 'activityLogs'));
     }
 

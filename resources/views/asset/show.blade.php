@@ -18,6 +18,7 @@
                             </nav>
                         </div>
                         <div class="nk-block-head-content">
+                            @if(Auth::user()->role == 'admin')
                             <ul class="d-flex">
                                 <li>
                                     <a href="/resources/{{ $asset->id }}/edit" class="btn btn-md d-md-none btn-primary">
@@ -42,6 +43,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            @endif
                         </div>
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->

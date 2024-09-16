@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+@php $isAdmin = Auth::user()->role == 'admin' @endphp
 <div class="nk-content">
     <div class="container">
         <div class="nk-content-inner">
@@ -261,9 +262,11 @@
                                 </div>
                                 <div class="row g-3 gx-gs mn-3">
                                     <div class="col-12">
+                                        @if($isAdmin)
                                         <a href="{{ route('contracts.edit', $contract->id) }}" class="btn btn-warning">
                                             <em class="icon ni ni-edit"></em> Edit
                                         </a>
+                                        @endif
                                         <a href="{{ URL::previous() }}" class="btn btn-light">
                                             <em class="icon ni ni-arrow-left"></em> Back
                                         </a>

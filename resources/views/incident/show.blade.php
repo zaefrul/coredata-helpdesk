@@ -210,63 +210,77 @@
                                                 <h5 class="small">{{$incident->customer->company_name}} [{{$incident->customer->prefix}}]</h5>
                                             </div><!-- .col -->
                                         </div><!-- .row -->
+
+                                        {{-- asset info --}}
+                                        <div class="row g-gs mt-1">
+                                            <div class="col-lg-12">
+                                                <div class="small">Asset / Software Name</div>
+                                                <h5 class="small">{{$incident->asset->name}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-6">
+                                                <div class="small">Serial Number</div>
+                                                <h5 class="small">{{$incident->asset->serial_number}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-3">
+                                                <div class="small">Model</div>
+                                                <h5 class="small">{{$incident->asset->brand ?? '-'}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-3">
+                                                <div class="small">Location</div>
+                                                <h5 class="small">{{$incident->asset->location ?? '-'}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-3">
+                                                <div class="small">Category</div>
+                                                <h5 class="small">{{ucfirst($incident->asset->category) ?? '-'}}</h5>
+                                            </div><!-- .col -->
+                                        </div><!-- .row -->
+
+                                        <div class="row mt-3">
+                                            <div class="col-lg-3">
+                                                <div class="small">Warranty Level</div>
+                                                <h5 class="small">{{ucfirst($incident->asset->warranty_level) ?? '-'}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-3">
+                                                <div class="small">Warranty Start</div>
+                                                <h5 class="small">{{$incident->asset->purchased_date ? $incident->asset->purchased_date->format('d M Y') : '-'}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-3">
+                                                <div class="small">Warranty End</div>
+                                                <h5 class="small">{{$incident->asset->warranty_end ? $incident->asset->warranty_end->format('d M Y') : '-'}}</h5>
+                                            </div><!-- .col -->
+                                            <div class="col-lg-3">
+                                                <div class="small">Warranty Status</div>
+                                                <h5 class="small">
+                                                    @if($incident->asset->warranty_end && $incident->asset->warranty_end->isPast())
+                                                        <span class="badge text-bg-danger">Expired</span>
+                                                    @else
+                                                        <span class="badge text-bg-success">Active</span>
+                                                    @endif
+                                                </h5>
+                                            </div><!-- .col -->
+                                        </div>
+
                                     </div><!-- .bio-block -->
                                 </div><!-- .card-body -->
                                 <div class="card-body">
                                     <div class="bio-block">
-                                        <h4 class="bio-block-title">Recent Activity</h4>
-                                        <ul class="nk-schedule mt-4">
-                                            @foreach($activityLogs as $activityLog)
-                                                <li class="nk-schedule-item">
-                                                    <div class="nk-schedule-item-inner">
-                                                        <div class="nk-schedule-symbol active"></div>
-                                                        <div class="nk-schedule-content">
-                                                            <span class="smaller">{{$activityLog->created_at->diffForHumans()}}</span>
-                                                            <div class="h6">
-                                                                @php
-                                                                    $activityLog->description = str_replace(
-                                                                        ["'open'", "'in_progress'", "'resolved'", "'closed'"],
-                                                                        [
-                                                                            '<span class="badge text-bg-info fs-6">Open</span>',
-                                                                            '<span class="badge text-bg-info fs-6">In Progress</span>',
-                                                                            '<span class="badge text-bg-success fs-6">Resolved</span>',
-                                                                            '<span class="badge text-bg-warning fs-6">Closed</span>'
-                                                                        ],
-                                                                        $activityLog->description
-                                                                    );
+                                        <ul class="nav nav-tabs mb-3 nav-tabs-s1">
+                                            <li class="nav-item">
+                                              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#custom-home-tab-pane" type="button">Recent Activities</button>
+                                            </li>
+                                            <li class="nav-item">
+                                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#custom-profile-tab-pane" type="button">Components</button>
+                                            </li>
+                                          </ul>
+                                          <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="custom-home-tab-pane">
+                                                @include('incident._partial.recent_activities', ['activityLogs' => $activityLogs])
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-profile-tab-pane">
+                                                @include('incident._partial.component', ['components' => $incident->asset->components])
+                                            </div>
+                                          </div>
 
-                                                                    $activityLog->description = str_replace(
-                                                                        ["'low'", "'medium'", "'high'", "'critical'"],
-                                                                        [
-                                                                            '<span class="badge text-bg-info fs-6">Low <em class="icon ni ni-chevrons-down"></em></span>',
-                                                                            '<span class="badge text-bg-warning fs-6">Medium <em class="icon ni ni-chevron-down"></em></span>',
-                                                                            '<span class="badge text-bg-danger-soft fs-6">High <em class="icon ni ni-chevron-up"></em></span>',
-                                                                            '<span class="badge text-bg-danger fs-6">Critical <em class="icon ni ni-chevrons-up"></em></span>'
-                                                                        ],
-                                                                        $activityLog->description
-                                                                    );
-                                                                @endphp
-                                                                {{-- print description html --}}
-                                                                {!! $activityLog->description !!}
-                                                            </div>
-                                                            @if($activityLog->comment)
-                                                                <div class="alert alert-info mt-2" role="alert">
-                                                                    <div class="d-flex">
-                                                                        <em class="icon icon-lg ni ni-user-round"></em>
-                                                                        <div class="ms-2 d-flex flex-wrap flex-grow-1 justify-content-between">
-                                                                            <div>
-                                                                                <h6 class="alert-heading mb-0">{{$activityLog->user->name}} commented:</h6>
-                                                                                <span class="smaller">{{$activityLog->comment}}</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
                                     </div><!-- .bio-block -->
                                 </div><!-- .card-body -->
                             </div><!-- .card-content -->
@@ -277,4 +291,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script src="/assets/js/data-tables/data-tables.js"></script>
 @endsection

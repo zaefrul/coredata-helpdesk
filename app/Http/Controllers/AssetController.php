@@ -8,6 +8,7 @@ use App\Models\Contract;
 use App\Models\Project;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AssetController extends Controller
 {
@@ -19,6 +20,11 @@ class AssetController extends Controller
 
     public function create()
     {
+        if(Auth::user()->role == 'agent')
+        {
+            return redirect()->route('assets.index')
+                ->with('error', 'You are not authorized to create an asset');
+        }
         $contracts = Contract::all();
         $component_types = Setting::where('field', 'component_type')->get();
         return view('asset.create', compact('contracts', 'component_types'));
@@ -108,6 +114,11 @@ class AssetController extends Controller
 
     public function edit($id)
     {
+        if(Auth::user()->role == 'agent')
+        {
+            return redirect()->route('assets.index')
+                ->with('error', 'You are not authorized to edit an asset');
+        }
         $asset = Asset::findOrFail($id);
         $contracts = Contract::all();
         $component_types = Setting::where('field', 'component_type')->get();

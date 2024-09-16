@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Department;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ContractController extends Controller
@@ -23,6 +24,11 @@ class ContractController extends Controller
 
     public function create()
     {
+        if(Auth::user()->role == 'agent')
+        {
+            return redirect()->route('contracts.index')
+                ->with('error', 'You are not authorized to create a contract');
+        }
         $customers = Customer::all();
         return view('contract.create', compact('customers'));
     }
@@ -89,6 +95,11 @@ class ContractController extends Controller
 
     public function edit($id)
     {
+        if(Auth::user()->role == 'agent')
+        {
+            return redirect()->route('contracts.index')
+                ->with('error', 'You are not authorized to edit a contract');
+        }
         $contract = Contract::findOrFail($id);
         $customers = Customer::all();
         $departments = Department::where('customer_id', $contract->customer_id)->get();
@@ -158,6 +169,11 @@ class ContractController extends Controller
 
     public function destroy($id)
     {
+        if(Auth::user()->role == 'agent')
+        {
+            return redirect()->route('contracts.index')
+                ->with('error', 'You are not authorized to delete a contract');
+        }
         $contract = Contract::findOrFail($id);
 
         // delete contracts assets components
