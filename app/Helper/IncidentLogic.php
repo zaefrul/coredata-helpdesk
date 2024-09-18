@@ -5,6 +5,7 @@ namespace App\Helper;
 use App\Models\Customer;
 use App\Models\Incident;
 use App\Models\IncidentConversation;
+use App\Models\Inventory;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -53,6 +54,20 @@ class IncidentLogic
                 else
                     $activity->description = 'Incident assigned changed.';
                 // $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to ' . $to;
+            } 
+            // if description contains word 'Component Replaced:, get the id 'number' and translate it to component name
+            else if (str_contains($activity->description, 'Component Replaced:')) {
+            
+                $componentId = explode(' ', $activity->description);
+                // remove '' from the string
+                $componentId[2] = str_replace("'", "", $componentId[2]);
+                $componentId[6] = str_replace("'", "", $componentId[6]);
+                $oldItem = $componentId[2];
+                $newItem = $componentId[6];
+                $oldIv = Inventory::withoutGlobalScope('withoutReplacement')->find($oldItem);
+                $newIv = Inventory::withoutGlobalScope('withoutReplacement')->find($newItem) ?? Inventory::withTrashed()->find($newItem);
+                $activity->description = 'Component Replaced: ' . SettingHelper::getLabelValue('component_type', $oldIv->type) . ' ' . $oldIv->model . ' ['. $oldIv->part_number .'] to ' . $newIv->model . ' ['. $newIv->part_number .']';
+
             }
 
             $activity->description = str_replace(
@@ -77,6 +92,8 @@ class IncidentLogic
                 ],
                 $activity->description
             );
+
+            // translate componentId to component name
         });
 
         return $activityLogs;

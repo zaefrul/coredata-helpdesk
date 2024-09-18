@@ -104,4 +104,35 @@ class InventoryController extends Controller
         return redirect()->route('inventory.index')
             ->with('success', 'Inventory deleted successfully');
     }
+
+    public function search(Request $request)
+    {
+        try
+        {
+            $request->validate([
+                'search' => 'required'
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+
+        try
+        {
+            $inventories = Inventory::where('model', 'like', '%'.$request->search.'%')
+                ->orWhere('serial_number', 'like', '%'.$request->search.'%')
+                ->orWhere('part_number', 'like', '%'.$request->search.'%')
+                ->orWhere('item', 'like', '%'.$request->search.'%')
+                ->orWhere('type', 'like', '%'.$request->search.'%')
+                ->orWhere('mfg_part_number', 'like', '%'.$request->search.'%')
+                ->get();
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+
+        return response()->json($inventories);
+    }
 }

@@ -17,4 +17,11 @@ class Inventory extends Model
         'mfg_part_number',
         'type' //this will follow component_type
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('withoutReplacement', function ($builder) {
+            $builder->whereNull('replaced_incident_id');
+        });
+    }
 }

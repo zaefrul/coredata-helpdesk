@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helper\IncidentLogic;
+use App\Models\Asset;
+use App\Models\Component;
 use App\Models\IncidentConversation;
+use App\Models\Inventory;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -79,6 +82,7 @@ class IncidentController extends Controller
         $activityLogs = $incident->activityLogs;
         $activityLogs = $activityLogs->reverse(); //show latest first
         // if activity contains comment, get the user, and comments from conversation
+        IncidentLogic::processActivityLogsDescription($activityLogs);
         $activityLogs->map(function($activity) {
             if($activity->description == 'Comment added') {
                 $activity->user = $activity->user;
@@ -186,5 +190,69 @@ class IncidentController extends Controller
         $convo->save();
 
         return back()->with('success', 'Comment added successfully');
+    }
+
+    public function replacePart(Request $request, $id)
+    {
+        // Validate the request to ensure a valid part_id is provided
+        try
+        {
+            $request->validate([
+                'inventoryId' => 'required|exists:inventories,id',
+                'componentId' => 'required|exists:components,id',
+                'incidentId' => 'required|exists:incidents,id',
+            ]);
+
+            // Find the incident by id
+            $incident = Incident::findOrFail($id);
+
+            // Find the inventory by id
+            $inventory = Inventory::findOrFail($request->input('inventoryId'));
+
+            // Find the component by id
+            $component = Component::findOrFail($request->input('componentId'));
+
+            DB::beginTransaction();
+
+            $inventory->replaced_incident_id = $incident->id;
+            $inventory->save();
+
+            // create new inventory with replaced incident id
+            $newInventory = new Inventory();
+            $newInventory->model = $component->component_model;
+            $newInventory->serial_number = $component->serial_number;
+            $newInventory->part_number = $component->part_number;
+            $newInventory->item = $component->component_name;
+            $newInventory->type = $component->component_type;
+            $newInventory->replaced_incident_id = $incident->id;
+            $newInventory->old_item = $inventory->id;
+            $newInventory->save();
+
+            $component->component_model = $inventory->model;
+            $component->serial_number = $inventory->serial_number;
+            $component->part_number = $inventory->part_number;
+            $component->component_name = $inventory->item;
+            $component->save();
+
+            
+        }
+        catch(\Exception $e)
+        {
+            Log::info($e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
+            DB::rollback();
+        }
+        
+        DB::commit();
+
+        // write changes to activity Logs
+        $incident->activityLogs()->create([
+            'user_id' => Auth::id(),
+            'incident_id' => $incident->id,
+            'description' => "Component Replaced: '" . $newInventory->id . "' is replaced with '". $inventory->id ."'",
+        ]);
+
+        
+        return response()->json(['success' => 'Part replaced successfully']);
     }
 }

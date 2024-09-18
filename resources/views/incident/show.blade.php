@@ -211,54 +211,7 @@
                                             </div><!-- .col -->
                                         </div><!-- .row -->
 
-                                        {{-- asset info --}}
-                                        <div class="row g-gs mt-1">
-                                            <div class="col-lg-12">
-                                                <div class="small">Asset / Software Name</div>
-                                                <h5 class="small">{{$incident->asset->name}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-6">
-                                                <div class="small">Serial Number</div>
-                                                <h5 class="small">{{$incident->asset->serial_number}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-3">
-                                                <div class="small">Model</div>
-                                                <h5 class="small">{{$incident->asset->brand ?? '-'}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-3">
-                                                <div class="small">Location</div>
-                                                <h5 class="small">{{$incident->asset->location ?? '-'}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-3">
-                                                <div class="small">Category</div>
-                                                <h5 class="small">{{ucfirst($incident->asset->category) ?? '-'}}</h5>
-                                            </div><!-- .col -->
-                                        </div><!-- .row -->
-
-                                        <div class="row mt-3">
-                                            <div class="col-lg-3">
-                                                <div class="small">Warranty Level</div>
-                                                <h5 class="small">{{ucfirst($incident->asset->warranty_level) ?? '-'}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-3">
-                                                <div class="small">Warranty Start</div>
-                                                <h5 class="small">{{$incident->asset->purchased_date ? $incident->asset->purchased_date->format('d M Y') : '-'}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-3">
-                                                <div class="small">Warranty End</div>
-                                                <h5 class="small">{{$incident->asset->warranty_end ? $incident->asset->warranty_end->format('d M Y') : '-'}}</h5>
-                                            </div><!-- .col -->
-                                            <div class="col-lg-3">
-                                                <div class="small">Warranty Status</div>
-                                                <h5 class="small">
-                                                    @if($incident->asset->warranty_end && $incident->asset->warranty_end->isPast())
-                                                        <span class="badge text-bg-danger">Expired</span>
-                                                    @else
-                                                        <span class="badge text-bg-success">Active</span>
-                                                    @endif
-                                                </h5>
-                                            </div><!-- .col -->
-                                        </div>
+                                        @include('incident._partial.asset_row', ['asset' => $incident->asset])
 
                                     </div><!-- .bio-block -->
                                 </div><!-- .card-body -->

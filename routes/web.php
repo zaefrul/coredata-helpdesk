@@ -105,6 +105,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/inventories/{id}/edit', [InventoryController::class, 'edit'])->name('inventories.edit');
         Route::put('/inventories/{id}', [InventoryController::class, 'update'])->name('inventories.update');
         Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
+        Route::post('/inventories/search', [InventoryController::class, 'search'])->name('inventories.search');
+
+        Route::post('/incident/{id}/replace/part', [IncidentController::class, 'replacePart'])->name('incident.replace.part');
 
         Route::group(['middleware' => EnsureUserIsAdmin::class], function () {
             Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
