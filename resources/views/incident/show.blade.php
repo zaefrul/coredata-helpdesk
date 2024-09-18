@@ -192,7 +192,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="bio-block">
+                                    {{-- <div class="bio-block">
                                         <form method="POST" action="" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
@@ -210,7 +210,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </div>
+                                    </div> --}}
                                 </div><!-- .card-body -->
                             </div>
                             <div class="card-content col-sep">
