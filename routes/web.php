@@ -49,13 +49,13 @@ Route::middleware(['auth'])->group(function () {
         // department json
         Route::get('/customers/{customer_id}/departments', [DepartmentController::class, 'customerDepartments'])->name('departments.customer');
 
-        Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-        Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-        Route::get('/projects/{id}/show', [ProjectController::class, 'show'])->name('projects.show');
-        Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-        Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
-        Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+        // Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+        // Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+        // Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+        // Route::get('/projects/{id}/show', [ProjectController::class, 'show'])->name('projects.show');
+        // Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+        // Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
+        // Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 
         Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
         Route::get('/contracts/create', [ContractController::class, 'create'])->name('contracts.create');
@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/incident/{incident}/status', [IncidentController::class, 'status'])->name('incident.status');
         Route::put('/incident/{incident}/priority', [IncidentController::class, 'priority'])->name('incident.priority');
         Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('incident.comment');
+        Route::post('/incidentπ/attachment', [IncidentController::class, 'uploadAttachment'])->name('incident.attachment');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');

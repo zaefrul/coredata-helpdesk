@@ -21,6 +21,9 @@ class IncidentLogic
             $newIncidentNumber = 1;
         }
 
+        // 3 digit number
+        $newIncidentNumber = str_pad($newIncidentNumber, 3, '0', STR_PAD_LEFT);
+
         // get customer prefix select only prefix
         $customerPrefix = Customer::find($customer_id)->prefix;
 
@@ -31,6 +34,13 @@ class IncidentLogic
         $newIncidentNumber = $customerPrefix . '-' . $newIncidentNumber;
 
         return $newIncidentNumber;
+    }
+
+    public static function createScheduleTaskNumber(int $customer_id): string
+    {
+        $incidentNumber = self::createIncidentNumber($customer_id);
+        $incidentNumber = $incidentNumber . '-ST';
+        return $incidentNumber;
     }
 
     public static function processActivityLogsDescription($activityLogs, $skipComment = false)

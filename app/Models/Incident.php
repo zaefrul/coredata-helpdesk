@@ -62,6 +62,11 @@ class Incident extends Model
         return $this->hasMany(IncidentConversation::class);
     }
 
+    public function attachments()
+    {
+        return $this->hasMany(IncidentAttachment::class);
+    }
+
     // event
     public static function boot()
     {

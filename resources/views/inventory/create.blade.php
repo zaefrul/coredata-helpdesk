@@ -126,3 +126,20 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.form-control').forEach(function(el) {
+                el.addEventListener('keyup', function(e) {
+                    if(el.type === 'email' || el.type === 'password') return;
+                    this.value = this.value.toUpperCase();
+                });
+                el.addEventListener('change', function(e) {
+                    if(el.type === 'email' || el.type === 'password') return;
+                    this.value = this.value.toUpperCase();
+                });
+            });
+    });
+</script>
+@endsection

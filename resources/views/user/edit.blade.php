@@ -25,21 +25,6 @@
                             <form method="POST" action="{{route('users.update', $user->id)}}">
                                 @csrf
                                 @method('PUT')
-                                {{-- <div class="row g-3 gx-gs">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name" class="form-label">Customer</label>
-                                            <div class="form-control-wrap">
-                                                <select class="js-select" id="customer_id" name="customer_id" required>
-                                                    <option>Select Customer</option>
-                                                    @foreach($customers as $customer)
-                                                        <option value="{{ $customer->id }}" {{ old('customer_id', $user->customer_id) == $customer->id ? 'selected' : ''}}>{{ $customer->company_name }} [{{$customer->prefix}}]</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
                                 <div class="row g-3 gx-gs mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">

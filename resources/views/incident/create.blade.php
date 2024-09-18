@@ -96,7 +96,7 @@
                                                 <select class="js-select" name="incident_type" id="incident_type" required>
                                                     <option value="">Select Incident Type</option>
                                                     <option value="incident" selected>Incident</option>
-                                                    <option value="preventive-maintenance">Preventive Maintenance</option>
+                                                    <option value="schedule-task">Schedule Task</option>
                                                 </select>
                                             </div>
                                         </div>

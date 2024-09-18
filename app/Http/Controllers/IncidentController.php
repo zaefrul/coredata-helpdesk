@@ -42,7 +42,7 @@ class IncidentController extends Controller
         try
         {
             $contracts = Contract::findOrfail($request->contract_id);
-            $incident_number = IncidentLogic::createIncidentNumber($contracts->customer_id);
+            $incident_number = $request->incident_type == "incident" ? IncidentLogic::createIncidentNumber($contracts->customer_id) : IncidentLogic::createScheduleTaskNumber($contracts->customer_id);
 
             Log::info('Creating ticket ' . $incident_number);
     
@@ -81,28 +81,7 @@ class IncidentController extends Controller
         }
         $activityLogs = $incident->activityLogs;
         $activityLogs = $activityLogs->reverse(); //show latest first
-        // if activity contains comment, get the user, and comments from conversation
-        IncidentLogic::processActivityLogsDescription($activityLogs);
-        $activityLogs->map(function($activity) {
-            if($activity->description == 'Comment added') {
-                $activity->user = $activity->user;
-                $activity->comment = IncidentConversation::where('id', $activity->comment_id)->first()->message;
-            } else if (str_contains($activity->description, 'Changed current_assignee_id')) {
-                $activity->user = $activity->user;
-                //remove single quote from string
-                $activity->description = str_replace("'", "", $activity->description);
-
-                $from = User::where('id', explode(' ', $activity->description)[3])->first();
-                $to = User::where('id', explode(' ', $activity->description)[5])->first();
-
-                //construct description with user link to route users.show
-                if($from && $to)
-                    $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to <a href="'. route('users.show', $to->id) .'">' . $to->name . '</a>';
-                else
-                    $activity->description = 'Incident assigned changed.';
-                // $activity->description = 'Incident assigned from <a href="'. route('users.show', $from->id) .'">' . $from->name . '</a> to ' . $to;
-            }
-        });
+        $activityLogs = IncidentLogic::processActivityLogsDescription($activityLogs);
 
         return view('incident.show', compact('incident', 'agents', 'activityLogs'));
     }
@@ -254,5 +233,39 @@ class IncidentController extends Controller
 
         
         return response()->json(['success' => 'Part replaced successfully']);
+    }
+
+    public function uploadAttachment(Request $request, $id)
+    {
+        // Validate the request to ensure a valid incident_id is provided
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+
+        // Find the incident by id
+        $incident = Incident::findOrFail($id);
+
+        // Get the file from the request
+        $file = $request->file('file');
+        
+        $currFileExtension = $file->getClientOriginalExtension();
+
+        // rename file to incident number + datetime
+        $newFileName = $incident->incident_number . '_' . date('YmdHis') . '.' . $currFileExtension;
+
+        // Store the file in the storage directory
+        $path = $file->storeAs('attachments', $newFileName);
+
+        // Create a new attachment record in the database
+        $incident->attachments()->create([
+            'file_name' => $file->getClientOriginalName(),
+            'file_path' => $path,
+            'file_type' => $file->getClientMimeType(),
+            'file_size' => $file->getSize(),
+            'file_extension' => $file->getClientOriginalExtension(),
+            'incident_id' => $incident->id,
+        ]);
+
+        return back()->with('success', 'Attachment uploaded successfully');
     }
 }

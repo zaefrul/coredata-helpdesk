@@ -20,13 +20,13 @@
                         <div class="nk-block-head-content">
                             <ul class="d-flex">
                                 <li>
-                                    <a href="/projects/create" class="btn btn-md d-md-none btn-primary">
+                                    <a href="{{route('inventories.create')}}" class="btn btn-md d-md-none btn-primary">
                                         <em class="icon ni ni-plus"></em>
                                         <span>Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/projects/create" class="btn btn-primary d-none d-md-inline-flex">
+                                    <a href="{{route('inventories.create')}}" class="btn btn-primary d-none d-md-inline-flex">
                                         <em class="icon ni ni-plus"></em>
                                         <span>Add Inventory</span>
                                     </a>
