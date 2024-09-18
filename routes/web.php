@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\SettingController;
 use App\Http\Middleware\EnsureRoleIsAgentOrAdmin;
 use App\Http\Middleware\EnsureRoleIsUser;
@@ -96,6 +97,14 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard2', function () { return view('dashboard'); })->name('dashboard2');
+
+        Route::get('/inventories', [InventoryController::class, 'index'])->name('inventories.index');
+        Route::get('/inventories/create', [InventoryController::class, 'create'])->name('inventories.create');
+        Route::post('/inventories', [InventoryController::class, 'store'])->name('inventories.store');
+        Route::get('/inventories/{id}/show', [InventoryController::class, 'show'])->name('inventories.show');
+        Route::get('/inventories/{id}/edit', [InventoryController::class, 'edit'])->name('inventories.edit');
+        Route::put('/inventories/{id}', [InventoryController::class, 'update'])->name('inventories.update');
+        Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
 
         Route::group(['middleware' => EnsureUserIsAdmin::class], function () {
             Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

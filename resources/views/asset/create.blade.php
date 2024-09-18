@@ -77,7 +77,7 @@
                                             <label for="serial_number" class="form-label"> Serial Number / Software Contract Number</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
-                                                <input type="text" class="form-control @error('serial_number') is-invalid @enderror" id="serial_number" name="serial_number" value="{{ old('serial_number') }}" required>
+                                                <input type="text" class="form-control @error('serial_number') is-invalid @enderror" id="serial_number" name="serial_number" value="{{ old('serial_number') }}">
                                                 @error('serial_number')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -108,7 +108,7 @@
                                         <div class="form-group">
                                             <label for="details" class="form-label">Asset Description</label>
                                             <div class="form-control-wrap">
-                                                <textarea class="form-control @error('details') is-invalid @enderror" id="details" name="details" required>{{ old('details') }}</textarea>
+                                                <textarea class="form-control @error('details') is-invalid @enderror" id="details" name="details">{{ old('details') }}</textarea>
                                                 @error('details')
                                                     <div class="invalid-feedback" style="display:block;">{{ $message }}</div>
                                                 @enderror
@@ -254,7 +254,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="components[${componentIndex}][part]" class="form-label">Part Number</label>
-                            <input type="text" class="form-control @error('') is-invalid @enderror" name="components[${componentIndex}][part]" value="${part}" required>
+                            <input type="text" class="form-control @error('') is-invalid @enderror" name="components[${componentIndex}][part]" value="${part}">
                         </div>
                     </div>
                     <div class="col-md-4">

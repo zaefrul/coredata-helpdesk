@@ -66,7 +66,7 @@
                                             <label for="serial_number" class="form-label">Serian Number / Software Contract Number</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
-                                                <input type="text" class="form-control" id="serial_number" name="serial_number" value="{{$asset->serial_number}}" required>
+                                                <input type="text" class="form-control" id="serial_number" name="serial_number" value="{{$asset->serial_number}}">
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                         <div class="form-group">
                                             <label for="details" class="form-label">Asset description</label>
                                             <div class="form-control-wrap">
-                                                <textarea class="form-control" id="details" name="details" required>{{$asset->details}}</textarea>
+                                                <textarea class="form-control" id="details" name="details">{{$asset->details}}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="components[{{ $index }}][part]" class="form-label">Part Number</label>
-                                                            <input type="text" class="form-control" name="components[{{ $index }}][part]" value="{{ old("components.$index.part", $component->part_number) }}" required>
+                                                            <input type="text" class="form-control" name="components[{{ $index }}][part]" value="{{ old("components.$index.part", $component->part_number) }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -273,7 +273,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="components[${componentIndex}][part]" class="form-label">Part Number</label>
-                            <input type="text" class="form-control" name="components[${componentIndex}][part]" value="${part}" required>
+                            <input type="text" class="form-control" name="components[${componentIndex}][part]" value="${part}">
                         </div>
                     </div>
                     <div class="col-md-4">

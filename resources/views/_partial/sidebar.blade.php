@@ -134,6 +134,29 @@
                             </ul>
                         </li>
                         {{-- end asset --}}
+                        {{-- inventory --}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-box"></em></span>
+                                <span class="nk-menu-text">Inventory Management</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item {{request()->routeIs('inventories.index') ? 'active' : ''}}">
+                                    <a href="/inventories" class="nk-menu-link">
+                                        <span class="nk-menu-text">Inventory List</span>
+                                    </a>
+                                </li>
+                                @if($isAadmin)
+                                <li class="nk-menu-item {{request()->routeIs('inventories.create') ? 'active' : ''}}">
+                                    <a href="/inventories/create" class="nk-menu-link">
+                                        <span class="nk-menu-text">Add New Inventory</span>
+                                    </a>
+                                </li>
+                                @endif
+                            </ul>
+                        </li>
+                        {{-- end inventory --}}
+                        {{-- service --}}
                         {{-- incident --}}
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
