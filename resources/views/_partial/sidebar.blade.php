@@ -169,13 +169,11 @@
                                         <span class="nk-menu-text">Incident List</span>
                                     </a>
                                 </li>
-                                @if($isAadmin)
                                 <li class="nk-menu-item {{request()->routeIs('incidents.create') ? 'active' : ''}}">
                                     <a href="/incidents/create" class="nk-menu-link">
                                         <span class="nk-menu-text">Add New Incident</span>
                                     </a>
                                 </li>
-                                @endif
                             </ul>
                         </li>
                         {{-- end incident --}}
