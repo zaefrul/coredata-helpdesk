@@ -158,15 +158,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.body.addEventListener('keyup', function(e) {
-            if(e.type === 'password' || e.type === 'email') return;
-
+            if(e.target.type === 'password' || e.target.type === 'email') return;
             if (e.target && e.target.classList.contains('form-control')) {
                 e.target.value = e.target.value.toUpperCase();
             }
         });
 
         document.body.addEventListener('change', function(e) {
-            if(e.type === 'password' || e.type === 'email') return;
+            if(e.target.type === 'password' || e.target.type === 'email') return;
             if (e.target && e.target.classList.contains('form-control')) {
                 e.target.value = e.target.value.toUpperCase();
             }
