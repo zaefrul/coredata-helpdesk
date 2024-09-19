@@ -225,6 +225,8 @@
                                 </li>
                             </ul>
                         </li>
+                        {{-- end asset --}}
+                        {{-- incident --}}
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><em class="icon ni ni-alert-circle"></em></span>
