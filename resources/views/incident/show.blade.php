@@ -188,7 +188,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-3 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary btn-sm">Add Comment</button>
+                                                <button type="submit" class="btn btn-light btn-sm">Add Comment</button>
                                             </div>
                                         </form>
                                     </div>
@@ -203,7 +203,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-3 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary btn-sm">Upload Attachment</button>
+                                                <button type="submit" class="btn btn-light btn-sm">Upload Attachment</button>
                                             </div>
                                         </form>
                                     </div>

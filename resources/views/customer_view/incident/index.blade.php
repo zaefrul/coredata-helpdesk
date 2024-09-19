@@ -45,12 +45,8 @@
                             <tbody>
                                 @foreach($incidents as $incident)
                                     <tr>
-                                        <td class="tb-col">
-                                            <div class="media-group">
-                                                <div class="media-text">
-                                                    <a href="/user/incidents/{{$incident->incident_number}}/show" class="title">{{$incident->incident_number}}</a>
-                                                </div>
-                                            </div>
+                                        <td class="tb-col tb-col-end">
+                                            <a class="link-dark fw-bold" href="/incidents/{{$incident->incident_number}}/show" class="title">{{$incident->incident_number}}</a>
                                         </td>
                                         <td class="tb-col">{{$incident->title}}</td>
                                         <td class="tb-col">
