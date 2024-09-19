@@ -39,19 +39,24 @@
     boards: [{
         'id': '_open',
         'title': 'Open',
-        'item': [{ title: '<span class="badge text-bg-primary">Hello</span>'}, ...kanbanItems['open']]
+        'item': kanbanItems['open'],
+        'class': 'bg-light',
     }, {
         'id': '_inprogress',
         'title': 'In Progress',
-        'item': kanbanItems["in_progress"]
+        'item': kanbanItems["in_progress"],
+        'class': 'bg-info',
+
     }, {
         'id': '_resolved',
         'title': 'Resolved',
-        'item': kanbanItems['resolved']
+        'item': kanbanItems['resolved'],
+        'class': 'bg-success',
     }, {
         'id': '_closed',
         'title': 'Closed',
-        'item': kanbanItems['closed']
+        'item': kanbanItems['closed'],
+        'class': 'bg-warning',
     }]
 } 
 
@@ -90,7 +95,45 @@ let kanbanColored = {
         element: `#${item.id}`,
         gutter: getOptions.gutter ? getOptions.gutter : 0,
         widthBoard: getOptions.widthBoard ? getOptions.widthBoard : '250px',
-        boards: setBoard
+        boards: setBoard,
+        dropEl: function (el, target, source, sibling) {
+            // This function is triggered when an item is dropped into a board
+
+            // get url in a tag from the element
+            const link = el.querySelector('a').getAttribute('href');
+            const breakdown = link.split('/');
+
+            const ticketNumber = breakdown[2].trim();
+
+            //get the board id
+            switch(target.parentElement.dataset.id)
+            {
+                case '_open':
+                    var status = 'open';
+                    break;
+                case '_inprogress':
+                    var status = 'in_progress';
+                    break;
+                case '_resolved':
+                    var status = 'resolved';
+                    break;
+                case '_closed':
+                    var status = 'closed';
+                    break;
+            }
+
+            //create form
+            const form = document.createElement('form');
+            form.action = "{{ route('incident.kanban.status') }}";
+            form.method = 'POST';
+            form.innerHTML = `
+                @csrf
+                <input type="hidden" name="status" value="${status}">
+                <input type="hidden" name="id" value="${ticketNumber}">
+            `;
+            document.body.appendChild(form);
+            form.submit();
+        },
     });
 </script>
 @endsection

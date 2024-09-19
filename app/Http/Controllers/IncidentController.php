@@ -281,4 +281,25 @@ class IncidentController extends Controller
 
         return back()->with('success', 'Images uploaded successfully');
     }
+
+    public function updateStatusFromKanban(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:incidents,incident_number',
+            'status' => 'required|in:open,in_progress,resolved,closed',
+        ]);
+
+        Log::info('Updating ticket status from kanban ' . $request->id);
+
+        $incident = Incident::where('incident_number', $request->id)->first();
+
+        if(!$incident) {
+            return redirect()->route('dashboard3')->with('error', 'Incident not found');
+        }
+
+        $incident->status = $request->status;
+        $incident->save();
+
+        return redirect()->route('dashboard3')->with('success', 'Incident '.$incident->incident_number.' status updated successfully');
+    }
 }

@@ -29,15 +29,30 @@
                                     <div class="card-title">
                                         <h4 class="title">Incidents Created</h4>
                                     </div>
-                                    <div class="media media-middle media-circle media-sm text-bg-primary-soft">
-                                        <em class="icon icon-md ni ni-user-alt-fill"></em>
-                                    </div>
                                 </div><!-- .card-title-group -->
                                 <div class="mt-2 mb-4">
                                     <div class="amount h1">{{array_sum($incidentChartData['datasets'][0]['data'])}}</div>
                                 </div>
                                 <div class="chart-container">
                                     <canvas data-nk-chart="bar" id="sessionChart"></canvas>
+                                </div>
+                            </div><!-- .card-body -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+
+                    <div class="col-sm-6 col-xl-6 col-xxl-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="card-title-group align-items-start">
+                                    <div class="card-title">
+                                        <h4 class="title">No. of Incidents (Quarterly)</h4>
+                                    </div>
+                                </div><!-- .card-title-group -->
+                                <div class="mt-2 mb-4">
+                                    <div class="amount h1">{{array_sum($incidentByQuarter['datasets'][0]['data'])}}</div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas data-nk-chart="bar" id="incidentBar"></canvas>
                                 </div>
                             </div><!-- .card-body -->
                         </div><!-- .card -->
@@ -128,6 +143,38 @@
                         </div><!-- .card -->
                     </div><!-- .col -->
                     
+                    <div class="col-md-12 col-xxl-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h5 class="title">Top Contract with Incidents</h5>
+                                </div>
+                                <div class="nk-tb-list mt-5">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr class="table-light">
+                                                <th class="tb-col"><span class="">Contract</span></th>
+                                                <th class="tb-col"><span class="">No. of Incidents</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($contracts as $contract)
+                                                <tr>
+                                                    <td class="tb-col">
+                                                        {!! $contract['contract_name'] !!}
+                                                    </td>
+                                                    <td class="tb-col">
+                                                        <span class="tb-tnx-id">{{$contract['total_incidents']}}</span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div><!-- .nk-tb-list -->
+                            </div><!-- .card-body -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+
                 </div>
 
             </div>
@@ -143,6 +190,11 @@
     var sessionChartBE = {
         labels : @json($incidentChartData['labels']),
         datasets : @json($incidentChartData['datasets'])
+    };
+
+    var incidentBarBE = {
+        labels : @json($incidentByQuarter['labels']),
+        datasets : @json($incidentByQuarter['datasets'])
     };
 
     let setData = {
@@ -170,10 +222,36 @@
         ]
     };
 
+    let setDataBar = {
+        labels : incidentBarBE.labels,
+        legend: false,
+        xAxis:  false,
+        barThickness: 6,
+        ticksColor: '#787c9e',
+        ticksFontSize: 11,
+        ticksFontWeight: 300,
+        gridBorderDash: [8, 4],
+        gridColorX: NioApp.Colors.gray100,
+        gridColorY: NioApp.Colors.gray100,
+        gridBorderColorX: NioApp.Colors.gray100,
+        gridBorderColorY: NioApp.Colors.gray100,
+        datasets: [
+            {
+                borderRadius: 2,
+                borderWidth: 1,
+                color: NioApp.Colors.primary,
+                background: NioApp.Colors.primary,
+                label: " Incident(s)",
+                data: incidentBarBE.datasets[0].data
+            },
+        ]
+    };
+
     console.log(sessionChart);
 
     // Global variable to hold chart instance
     var sessionChart;
+    var incidentBar;
 
     document.addEventListener('DOMContentLoaded', function () {
         let chartLegend = false;   
@@ -276,6 +354,88 @@
                 }
             }
         });
+
+        // Incident Bar Chart
+        let chartDataBar = [];
+
+        for (let i = 0; i < setDataBar.datasets.length; i++) {
+            chartDataBar.push({
+                label: setDataBar.datasets[i].label,
+                backgroundColor: (typeof setDataBar.datasets[i].background === 'undefined') ? 'transparent' : setDataBar.datasets[i].background,
+                borderWidth: (typeof setDataBar.datasets[i].border === 'undefined') ? 1 : setDataBar.datasets[i].border,
+                borderColor: setDataBar.datasets[i].color,
+                data: setDataBar.datasets[i].data,
+                borderRadius: (typeof setDataBar.datasets[i].borderRadius === 'undefined') ? 0 : setDataBar.datasets[i].borderRadius,
+                borderSkipped: false,
+                hoverBackgroundColor: setDataBar.datasets[i].hoverBackgroundColor
+            });
+        }
+
+        let canvasBar = document.getElementById('incidentBar').getContext("2d");
+        incidentBar = new Chart(canvasBar, {
+            type:'bar',
+            data:{ 
+                labels : setDataBar.labels,
+                datasets : chartDataBar
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: chartLegend,
+                        ...NioApp.Chart.legend,
+                    },
+                    tooltip: {
+                        enabled:true,
+                        ...NioApp.Chart.tooltip,
+                    },
+                },
+                responsive: true,
+                maintainAspectRatio:true,
+                scales: {
+                    x: {
+                        stacked: chartStacked,
+                        display: chartxAxis,
+                        grid: {
+                            color: chartGridColorX,
+                            borderColor: chartGridBorderColorX,
+                            borderDash: chartGridBorderDash,
+                        },
+                        ticks: { 
+                            color: chartTicksColor, 
+                            beginAtZero: true,
+                            maxTicksLimit: chartMaxTicksLimit,
+                            font: {
+                                size: chartTicksFontSize,
+                                weight: chartTicksFontWeight
+                            }
+                        }
+                    },
+                    y: {
+                        stacked: chartStacked,
+                        display: chartyAxis,
+                        grid: {
+                            color: chartGridColorY,
+                            borderColor: chartGridBorderColorY,
+                            borderDash: chartGridBorderDash,
+                        },
+                        ticks: { 
+                            // Include a ticks value in the ticks
+                            callback: function(value, index, ticks) {
+                                return value + chartTicksValue;
+                            },
+                            color: chartTicksColor, 
+                            beginAtZero: true,
+                            maxTicksLimit: chartMaxTicksLimit,
+                            font: {
+                                size: chartTicksFontSize,
+                                weight: chartTicksFontWeight
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
 
         // Incident Priority Pie Chart
         // Get the incident priority data from the controller (passed from PHP)

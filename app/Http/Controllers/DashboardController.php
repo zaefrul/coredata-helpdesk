@@ -19,7 +19,9 @@ class DashboardController extends Controller
         $incidentPriority = $this->priorityPie();
         $incidentStatus = $this->statusPie();
         $recentIncidents = $this->getTop3RecentActivity();
-        return view('dashboard.index', compact('incidents', 'incidentChartData', 'incidentPriority', 'incidentStatus', 'recentIncidents'));
+        $incidentByQuarter = $this->barChartIncidentByQuarter();
+        $contracts = $this->topContractWithIncidents();
+        return view('dashboard.index', compact('incidents', 'incidentChartData', 'incidentPriority', 'incidentStatus', 'recentIncidents', 'incidentByQuarter', 'contracts'));
     }
 
     public function getIncidentChartData()
@@ -214,6 +216,41 @@ class DashboardController extends Controller
         return $incidentStatus;
     }
 
+    public function barChartIncidentByQuarter()
+    {
+        // Get the current year
+        $currentYear = Carbon::now()->year;
+
+        // Get the incidents grouped by quarter
+        $incidentData = Incident::selectRaw('QUARTER(created_at) as quarter, COUNT(*) as total')
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('quarter')
+            ->orderBy('quarter', 'asc')
+            ->get();
+
+        // Prepare the chart data
+        $incidentChart = [
+            'labels' => ['Q1', 'Q2', 'Q3', 'Q4'],
+            'datasets' => [
+                [
+                    'label' => 'Incidents by Quarter',
+                    'color' => '#2dc58c',
+                    'borderWidth' => 2,
+                    'backgroundGradient' => '#2dc58c',
+                    'data' => [0, 0, 0, 0],  // Initialize with 0 incidents for each quarter
+                ]
+            ]
+        ];
+
+        // Iterate through the incidents data and assign the totals
+        foreach ($incidentData as $data) {
+            $quarter = $data->quarter;
+            $incidentChart['datasets'][0]['data'][$quarter - 1] = $data->total;
+        }
+
+        return $incidentChart;
+    }
+
     // kanban
     public function indexKanban()
     {
@@ -234,12 +271,44 @@ class DashboardController extends Controller
         // loop through incidents and assign to the appropriate column
         foreach ($incidents as $incident) {
 
+            $classSpan = '';
+
+            if($incident->priority == 'low' && $incident->status == 'open' && $incident->created_at->diffInHours() > 24) {
+                $classSpan = 'text-danger';
+            } 
+            else if($incident->priority == 'medium' && $incident->status == 'open' && $incident->created_at->diffInHours() > 8) {
+                $classSpan = 'text-danger';
+            } 
+            else if($incident->priority == 'high' && $incident->status == 'open' && $incident->created_at->diffInHours() > 4) {
+                $classSpan = 'text-danger';
+            } 
+            else if($incident->priority == 'critical' && $incident->status == 'open' && $incident->created_at->diffInHours() > 2) {
+                $classSpan = 'text-danger';
+            }
+
+            $incidentNoNTitle = '<a class="link-dark" href="/incidents/' . $incident->incident_number . '/show"><span class="fw-bold ' . $classSpan . '">' . $incident->incident_number . '</span>: ' . $incident->title . '</a>';
+            $warning = $classSpan != '' ? '<div class="text-small text-danger fst-italic">*Breaking SLA</span>' : '';
+            $incidentDate = '<div class="text-muted">' . $incident->created_at->diffForHumans() . '</div>';
+            if($incident->priority == 'critical') {
+                $priority = '<span class="badge text-bg-danger"> ' . ucfirst($incident->priority) . '</div>';
+            } else if ($incident->priority == 'high') {
+                $priority = '<span class="badge text-bg-danger-soft"> ' . ucfirst($incident->priority) . '</div>';
+            } else if ($incident->priority == 'medium') {
+                $priority = '<span class="badge text-bg-warning"> ' . ucfirst($incident->priority) . '</div>';
+            } else {
+                $priority = '<span class="badge text-bg-info"> ' . ucfirst($incident->priority) . '</div>';
+            }
+                
+            // $priority = '<div class="text-muted">: ' . ucfirst($incident->priority) . '</div>';
+
+            $assignee = $incident->currentAssignee ? $incident->currentAssignee->name : 'Unassigned';
+
+            $assignTo = '<div class="text-muted">Assigned to: ' . $assignee . '</div>';
+        
+
             $item = [
                 'id' => $incident->id,
-                'title' => '<div>
-                    <a class="link-dark" href="/incidents/' . $incident->incident_number . '/show"><span class="fw-bold">' . $incident->incident_number . '</span>: ' . $incident->title . '</a>
-                    <div class="text-muted">' . $incident->created_at->diffForHumans() . '</div>
-                    </div>',
+                'title' => '<div>' . $incidentNoNTitle . $warning . $assignTo . $priority . '</div>',
             ];
 
             switch ($incident->status) {
@@ -259,5 +328,31 @@ class DashboardController extends Controller
         }
 
         return view('dashboard.kanban', compact('kanban'));
+    }
+
+    public function topContractWithIncidents()
+    {
+        // Get the top 5 contracts with the most incidents
+        $incidents = Incident::selectRaw('contract_id, COUNT(*) as total')
+            ->groupBy('contract_id')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->get();
+
+        // Get the contract details for each incident
+        $contracts = [];
+        foreach ($incidents as $incident) {
+            $contract = Contract::find($incident->contract_id);
+            if ($contract) {
+                $name = '<a class="link-dark" href="'. route('contracts.show', $contract->id) .'"><strong>' . $contract->customer->prefix . '</strong> - ' . $contract->contract_number . '</a>';
+                $contracts[] = [
+                    'contract_id' => $contract->id,
+                    'contract_name' => $name,
+                    'total_incidents' => $incident->total,
+                ];
+            }
+        }
+
+        return $contracts;
     }
 }

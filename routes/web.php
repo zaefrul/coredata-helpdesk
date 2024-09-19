@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/incident/{incident}/status', [IncidentController::class, 'status'])->name('incident.status');
         Route::put('/incident/{incident}/priority', [IncidentController::class, 'priority'])->name('incident.priority');
         Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('incident.comment');
+        Route::post('/incident/kanban/status', [IncidentController::class, 'updateStatusFromKanban'])->name('incident.kanban.status');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');

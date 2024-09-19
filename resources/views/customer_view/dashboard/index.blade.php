@@ -145,7 +145,7 @@
                                                             </div>
                                                             <div class="media-text">
                                                                 <span class="title">
-                                                                    <a href="/incidents/{{$incident->incident_number}}/show" class="link-text"><span class="title">{{$incident->incident_number}}</span></a>
+                                                                    <a href="/user/incidents/{{$incident->incident_number}}/show" class="link-text"><span class="title">{{$incident->incident_number}}</span></a>
                                                                 </span>
                                                             </div>
                                                         </div>
