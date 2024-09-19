@@ -43,6 +43,42 @@ class IncidentLogic
         return $incidentNumber;
     }
 
+    public static function attachmentUploadHandler($request, $incident)
+    {
+        $images = [];
+        if ($request->hasFile('attachments')) {
+            $uploadedFiles = $request->file('attachments');
+            foreach ($uploadedFiles as $key => $file) {
+                // Store the file in the 'incident_images' directory            
+                $currFileExtension = $file->getClientOriginalExtension();
+                $type = $file->getClientMimeType();
+                $size = $file->getSize();
+                $name = $file->getClientOriginalName();
+
+                // rename file to incident number + datetime
+                $newFileName = $incident->incident_number . '_' . date('YmdHis') . '.' . $currFileExtension;
+
+                // Store the file in the storage directory
+                $file->move(public_path('uploads'), $newFileName);
+                $path = 'uploads/' . $newFileName;
+
+                // Create a new attachment record in the database
+                $incident->attachments()->create([
+                    'file_name' => $name,
+                    'file_path' => $path,
+                    'file_type' => $type,
+                    'file_size' => $size,
+                    'file_extension' => $currFileExtension,
+                    'incident_id' => $incident->id,
+                ]);
+
+                $images[$key] = $path;
+            }
+        }
+
+        return $images;
+    }
+
     public static function processActivityLogsDescription($activityLogs, $skipComment = false)
     {
         if(!isset($activityLogs)) return;
@@ -78,6 +114,32 @@ class IncidentLogic
                 $newIv = Inventory::withoutGlobalScope('withoutReplacement')->find($newItem) ?? Inventory::withTrashed()->find($newItem);
                 $activity->description = 'Component Replaced: ' . SettingHelper::getLabelValue('component_type', $oldIv->type) . ' ' . $oldIv->model . ' ['. $oldIv->part_number .'] to ' . $newIv->model . ' ['. $newIv->part_number .']';
 
+            } else if(str_contains($activity->description, 'Attachments :')) {
+                $imgPathArrayString = explode(' ', $activity->description)[2];
+                $imgArray = json_decode($imgPathArrayString);
+
+                $activity->description = 'Attachments : ' . print_r($imgArray, true);
+
+                $html = '<div class="fst-italic mb-2 mt-2">Attachment uploaded to the ticket.</div>';
+                $html .= '<div id="uploadedimg" class="carousel carousel-dark slide" data-bs-ride="carousel">';
+                $html .= '<div class="carousel-inner">';
+                foreach ($imgArray as $key => $img) {
+                    $html .= '<div class="carousel-item ' . ($key == 0 ? 'active' : '') . '">';
+                    $html .= '<img src="' . $img . '" class="d-block w-100" alt="...">';
+                    $html .= '</div>';
+                }
+                $html .= '</div>';
+                $html .= '<button class="carousel-control-prev" type="button" data-bs-target="#uploadedimg" data-bs-slide="prev">';
+                $html .= '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+                $html .= '<span class="visually-hidden">Previous</span>';
+                $html .= '</button>';
+                $html .= '<button class="carousel-control-next" type="button" data-bs-target="#uploadedimg" data-bs-slide="next">';
+                $html .= '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+                $html .= '<span class="visually-hidden">Next</span>';
+                $html .= '</button>';
+                $html .= '</div>';
+
+                $activity->description = $html;
             }
 
             $activity->description = str_replace(

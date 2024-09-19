@@ -35,6 +35,7 @@ class IncidentController extends Controller
             'asset_id' => 'required',
             'site_location' => 'nullable',
             'incident_type' => 'required',
+            'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png',
         ]);
 
         DB::beginTransaction();
@@ -52,7 +53,23 @@ class IncidentController extends Controller
             $request->merge(['priority' => 'unasigned']);
             $request->merge(['incident_number' => $incident_number]);
     
-            Incident::create($request->all());
+            $incident = Incident::create($request->all());
+
+            // Upload attachments
+            if ($request->hasFile('attachments')) {
+                $paths = IncidentLogic::attachmentUploadHandler($request, $incident);
+                // build json array of paths
+                $paths = json_encode($paths);
+                $description = "Attachments : " . $paths;
+    
+                // activityLogs
+                $incident->activityLogs()->create([
+                    'user_id' => Auth::id(),
+                    'incident_id' => $incident->id,
+                    'description' => $description,
+                ]);
+            }
+
             DB::commit();
     
             return redirect()->route('incidents.index')->with('success', 'Incident created successfully');    
@@ -235,37 +252,33 @@ class IncidentController extends Controller
         return response()->json(['success' => 'Part replaced successfully']);
     }
 
-    public function uploadAttachment(Request $request, $id)
+    public function uploadAttachment(Request $request)
     {
-        // Validate the request to ensure a valid incident_id is provided
+        // Validate that files have been uploaded
         $request->validate([
-            'file' => 'required|file',
+            'incident_id' => 'required|exists:incidents,id',
+            'attachments.*' => 'required|file|mimes:jpg,jpeg,png',
         ]);
-
-        // Find the incident by id
-        $incident = Incident::findOrFail($id);
-
-        // Get the file from the request
-        $file = $request->file('file');
         
-        $currFileExtension = $file->getClientOriginalExtension();
+        $incident = Incident::findOrFail($request->incident_id);
 
-        // rename file to incident number + datetime
-        $newFileName = $incident->incident_number . '_' . date('YmdHis') . '.' . $currFileExtension;
+        $paths = [];
 
-        // Store the file in the storage directory
-        $path = $file->storeAs('attachments', $newFileName);
+        // Check if files are uploaded
+        if ($request->hasFile('attachments')) {
+            $paths = IncidentLogic::attachmentUploadHandler($request, $incident);
+            // build json array of paths
+            $paths = json_encode($paths);
+            $description = "Attachments : " . $paths;
 
-        // Create a new attachment record in the database
-        $incident->attachments()->create([
-            'file_name' => $file->getClientOriginalName(),
-            'file_path' => $path,
-            'file_type' => $file->getClientMimeType(),
-            'file_size' => $file->getSize(),
-            'file_extension' => $file->getClientOriginalExtension(),
-            'incident_id' => $incident->id,
-        ]);
+            // activityLogs
+            $incident->activityLogs()->create([
+                'user_id' => Auth::id(),
+                'incident_id' => $incident->id,
+                'description' => $description,
+            ]);
+        }
 
-        return back()->with('success', 'Attachment uploaded successfully');
+        return back()->with('success', 'Images uploaded successfully');
     }
 }

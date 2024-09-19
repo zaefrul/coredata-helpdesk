@@ -188,29 +188,25 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-3 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-light btn-sm">Add Comment</button>
+                                                <button type="submit" class="btn btn-primary btn-sm">Add Comment</button>
                                             </div>
                                         </form>
                                     </div>
-                                    {{-- <div class="bio-block">
-                                        <form method="POST" action="" enctype="multipart/form-data">
+                                    <div class="bio-block">
+                                        <form method="POST" action="{{route('incident.attachment')}}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
-                                                <label for="dropzoneFile1" class="form-label">Upload File/Attachment</label>
-                                                <div class="form-control-wrap">
-                                                    <div id="dropzoneFile1" data-url="{{route('incident.attachment')}}">
-                                                        <div class="dz-message" data-dz-message>
-                                                            <div class="dz-message-icon"></div>
-                                                            <span class="dz-message-text">Drag and drop file</span>
-                                                            <div class="dz-message-btn mt-2">
-                                                                <button class="btn btn-md btn-primary">Upload</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <label for="attachment" class="form-label">Attachment</label>
+                                                <div class="form-input-wrap">
+                                                    <input type="file" class="form-control form-control-sm" id="attachment" name="attachments[]" multiple>
+                                                    <input type="hidden" name="incident_id" value="{{$incident->id}}">
                                                 </div>
                                             </div>
+                                            <div class="form-group mt-3 d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary btn-sm">Upload Attachment</button>
+                                            </div>
                                         </form>
-                                    </div> --}}
+                                    </div>
                                 </div><!-- .card-body -->
                             </div>
                             <div class="card-content col-sep">
@@ -268,33 +264,20 @@
 @section('js')
 <script src="/assets/js/data-tables/data-tables.js"></script>
 <script>
-        function deleteItem(id) {
-            if (confirm('Are you sure you want to delete this item?')) {
-                window.location.href = '/inventories/' + id + '/delete';
+    document.addEventListener('DOMContentLoaded', function () {
+        var fileInput = document.getElementById('attachment');
+
+        fileInput.addEventListener('change', function () {
+            var files = fileInput.files;
+            var filesLength = files.length;
+            var fileNames = [];
+
+            for (var i = 0; i < filesLength; i++) {
+                fileNames.push(files[i].name);
             }
-        }
 
-        let itemId = item.id;
-        let maxFiles = item.dataset.maxFiles ? parseInt(item.dataset.maxFiles) : null;
-        let maxFilesize = item.dataset.maxFilesize ? parseInt(item.dataset.maxFilesize) : 256;
-        let messageIcon = item.dataset.messageIcon ? item.dataset.messageIcon : ((maxFiles === 1) ? 'file' : 'files');
-        let acceptedFiles = item.dataset.acceptedFiles ? item.dataset.acceptedFiles : null;
-
-        //add styling Class 
-        item.classList.add('dropzone');
-        let dzFileSize = item.querySelector('.dz-message-text');
-        item.dataset.maxFilesize && dzFileSize.insertAdjacentHTML('beforeend', `<small>Max ${maxFilesize} MiB</small>`);
-        //filesize
-        
-        //icon
-        let dzIcon = item.querySelector('.dz-message-icon:empty');
-        let dzIconMarkUp = `<em class="icon icon-lg ni ni-${messageIcon}"></em>`
-        dzIcon ? dzIcon.innerHTML = dzIconMarkUp : null;
-        let myDropzone = new Dropzone(`#${itemId}`,{
-            url: "image",
-            maxFilesize: maxFilesize,
-            maxFiles: maxFiles,
-            acceptedFiles: acceptedFiles
+            document.getElementById('attachment').nextElementSibling.innerText = fileNames.join(', ');
         });
+    });
 </script>
 @endsection
