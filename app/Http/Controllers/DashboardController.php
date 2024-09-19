@@ -8,6 +8,7 @@ use App\Models\Asset;
 use App\Models\Contract;
 use App\Models\Incident;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
@@ -211,5 +212,52 @@ class DashboardController extends Controller
             ->pluck('total', 'status');
         
         return $incidentStatus;
+    }
+
+    // kanban
+    public function indexKanban()
+    {
+        // construct kanban board
+        if(Auth::user()->role == 'admin') {
+            $incidents = Incident::all();
+        } else {
+            $incidents = Auth::where('current_asignee_id', Auth::id())->get();
+        }
+
+        $kanban = [
+            'open' => [],
+            'in_progress' => [],
+            'resolved' => [],
+            'closed' => []
+        ];
+
+        // loop through incidents and assign to the appropriate column
+        foreach ($incidents as $incident) {
+
+            $item = [
+                'id' => $incident->id,
+                'title' => '<div>
+                    <a class="link-dark" href="/incidents/' . $incident->incident_number . '/show"><span class="fw-bold">' . $incident->incident_number . '</span>: ' . $incident->title . '</a>
+                    <div class="text-muted">' . $incident->created_at->diffForHumans() . '</div>
+                    </div>',
+            ];
+
+            switch ($incident->status) {
+                case 'open':
+                    $kanban['open'][] = $item;
+                    break;
+                case 'in_progress':
+                    $kanban['in_progress'][] = $item;
+                    break;
+                case 'resolved':
+                    $kanban['resolved'][] = $item;
+                    break;
+                case 'closed':
+                    $kanban['closed'][] = $item;
+                    break;
+            }
+        }
+
+        return view('dashboard.kanban', compact('kanban'));
     }
 }

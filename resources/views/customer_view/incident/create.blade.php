@@ -59,10 +59,10 @@
                                                     <select class="js-select" name="priority" id="priority">
                                                         <option value="">Select Priority</option>
                                                         <option value="unasigned" {{ old('priority') == 'unasigned' ? 'selected' : '' }}>Unasigned - Select this if you don't know the priority</option>
-                                                        <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Low</option>
-                                                        <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
-                                                        <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High</option>
-                                                        <option value="critical" {{ old('priority') == 'critical' ? 'selected' : '' }}>Critical</option> 
+                                                        <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Low - SLA within NBD</option>
+                                                        <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Medium - SLA within 8 hours</option>
+                                                        <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High - SLA within 4 hours</option>
+                                                        <option value="critical" {{ old('priority') == 'critical' ? 'selected' : '' }}>Critical - SLA within 2 hours</option> 
                                                     </select>
                                                 </div>
                                             </div>

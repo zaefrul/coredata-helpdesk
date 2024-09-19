@@ -87,7 +87,18 @@
                                                     </div>
                                                 </div>
                                             @else
-                                                <span class="badge text-bg-light">Not Assigned</span>
+                                                {{-- if priority is critical and created date is more than 2hour set to text-danger --}}
+                                                @if($incident->priority == 'critical' && $incident->created_at->diffInHours() > 2)
+                                                    <span class="badge text-bg-danger">Not Assigned</span>
+                                                @elseif($incident->priority == 'high' && $incident->created_at->diffInHours() > 4)
+                                                    <span class="badge text-bg-danger">Not Assigned</span>
+                                                @elseif($incident->priority == 'medium' && $incident->created_at->diffInHours() > 8)
+                                                    <span class="badge text-bg-danger">Not Assigned</span>
+                                                @elseif($incident->priority == 'low' && $incident->created_at->diffInHours() > 12)
+                                                    <span class="badge text-bg-danger">Not Assigned</span>
+                                                @else
+                                                    <span class="badge text-bg-light">Not Assigned</span>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>

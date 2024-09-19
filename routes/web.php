@@ -99,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard2', function () { return view('dashboard'); })->name('dashboard2');
+        Route::get('/dashboard3', [DashboardController::class, 'indexKanban'])->name('dashboard3');
 
         Route::get('/inventories', [InventoryController::class, 'index'])->name('inventories.index');
         Route::get('/inventories/create', [InventoryController::class, 'create'])->name('inventories.create');
