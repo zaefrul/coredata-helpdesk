@@ -36,6 +36,9 @@ class DatabaseSeeder extends Seeder
         //     'customer_id' => 1,
         // ]);
 
-        $this->call(SettingSeeder::class);
+        // seeder to fix the format of the ticket number
+
+
+        $this->call(IncidentNumberSeeder::class);
     }
 }
