@@ -46,11 +46,14 @@
                                     <span class="nk-menu-text">Dashboard</span>
                                 </a>
                             </li>
-                            <li class="nk-menu-item {{request()->routeIs('dashboard.kanban.status') ? 'active' : ''}}">
-                                <a href="{{route('dashboard.kanban.status')}}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Incident by Status</span>
-                                </a>
-                            </li>
+                            @if (Auth::user()->role != 'user')
+
+                                <li class="nk-menu-item {{request()->routeIs('dashboard.kanban.status') ? 'active' : ''}}">
+                                    <a href="{{route('dashboard.kanban.status')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Incident by Status</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                     @if (Auth::user()->role != 'user')
