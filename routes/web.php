@@ -5,6 +5,8 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\IncidentController as CustomerIncidentController;
+use App\Http\Controllers\Customer\ContractController as CustomerContractController;
+use App\Http\Controllers\Customer\AssetController as CustomerAssetController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncidentController;
@@ -136,6 +138,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/incidents/{id}/show', [CustomerIncidentController::class, 'show'])->name('user.incidents.show');
         Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('user.incident.comment');
         Route::get('/incident/resources/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('user.assets.getbycontract');
+
+        Route::get('/contracts', [CustomerContractController::class, 'index'])->name('user.contracts.index');
+        Route::get('/contracts/{id}/show', [CustomerContractController::class, 'show'])->name('user.contracts.show');
+
+        Route::get('resources', [CustomerAssetController::class, 'index'])->name('user.assets.index');
+        Route::get('resources/{id}/show', [CustomerAssetController::class, 'show'])->name('user.assets.show');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

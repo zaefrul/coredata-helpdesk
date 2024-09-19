@@ -199,6 +199,34 @@
                         {{-- incident --}}
                         <li class="nk-menu-item has-sub">
                             <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-file-docs"></em></span>
+                                <span class="nk-menu-text">Project Management</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item {{request()->routeIs('user.contracts.index') ? 'active' : ''}}">
+                                    <a href="{{route('user.contracts.index')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Project List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- end contract management --}}
+                        {{-- asset --}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-layers"></em></span>
+                                <span class="nk-menu-text">Asset Management</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item {{request()->routeIs('user.assets.index') ? 'active' : ''}}">
+                                    <a href="{{route('user.assets.index')}}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Asset List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
                                 <span class="nk-menu-icon"><em class="icon ni ni-alert-circle"></em></span>
                                 <span class="nk-menu-text">Incident Management</span>
                             </a>
