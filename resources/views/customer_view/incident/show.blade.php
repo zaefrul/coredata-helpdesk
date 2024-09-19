@@ -101,6 +101,21 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <div class="bio-block">
+                                        <form method="POST" action="{{route('incident.attachment')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="attachment" class="form-label">Attachment</label>
+                                                <div class="form-input-wrap">
+                                                    <input type="file" class="form-control form-control-sm" id="attachment" name="attachments[]" multiple>
+                                                    <input type="hidden" name="incident_id" value="{{$incident->id}}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-3 d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-light btn-sm">Upload Attachment</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div><!-- .card-body -->
                             </div>
                             <div class="card-content col-sep">

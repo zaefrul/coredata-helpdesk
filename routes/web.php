@@ -87,7 +87,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/incident/{incident}/status', [IncidentController::class, 'status'])->name('incident.status');
         Route::put('/incident/{incident}/priority', [IncidentController::class, 'priority'])->name('incident.priority');
         Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('incident.comment');
-        Route::post('/incidentπ/attachment', [IncidentController::class, 'uploadAttachment'])->name('incident.attachment');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
@@ -145,6 +144,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('resources', [CustomerAssetController::class, 'index'])->name('user.assets.index');
         Route::get('resources/{id}/show', [CustomerAssetController::class, 'show'])->name('user.assets.show');
     });
+
+    Route::post('/incidentπ/attachment', [IncidentController::class, 'uploadAttachment'])->name('incident.attachment');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

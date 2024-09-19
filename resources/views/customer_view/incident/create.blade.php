@@ -22,7 +22,7 @@
                     <div class="card card-bordered">
                         <div class="card-body">
                             <div class="card-inner card-inner-lg">
-                                <form action="{{ route('user.incidents.store') }}" method="POST">
+                                <form action="{{ route('user.incidents.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row g-3 gx-gs mb-3">
                                         <div class="col-md-12">
@@ -103,6 +103,17 @@
                                                 <div class="form-control-wrap">
                                                     <div class="form-control-icon start"><em class="icon ni ni-map-pin"></em></div>
                                                     <input type="text" class="form-control" name="site_location" id="site_location">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- PICTURE --}}
+                                    <div class="row g-3 gx-gs mb-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="attachment" class="form-label">Attachment</label>
+                                                <div class="form-input-wrap">
+                                                    <input type="file" class="form-control form-control-md" id="attachment" name="attachments[]" multiple>
                                                 </div>
                                             </div>
                                         </div>

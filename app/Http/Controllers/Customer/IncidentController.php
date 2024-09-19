@@ -48,6 +48,7 @@ class IncidentController extends Controller
             'asset_id' => 'required',
             'site_location' => 'nullable',
             'priority' => 'required',
+            'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png',
         ]);
 
         $contracts = Contract::findOrfail($request->contract_id);
@@ -59,7 +60,22 @@ class IncidentController extends Controller
         $request->merge(['priority' => $request->priority]);
         $request->merge(['incident_number' => $incident_number]);
 
-        Incident::create($request->all());
+        $incident = Incident::create($request->all());
+
+        // Upload attachments
+        if ($request->hasFile('attachments')) {
+            $paths = IncidentLogic::attachmentUploadHandler($request, $incident);
+            // build json array of paths
+            $paths = json_encode($paths);
+            $description = "Attachments : " . $paths;
+
+            // activityLogs
+            $incident->activityLogs()->create([
+                'user_id' => Auth::id(),
+                'incident_id' => $incident->id,
+                'description' => $description,
+            ]);
+        }
 
         return redirect()->route('user.incidents.index')->with('success', 'Incident created successfully');
     }

@@ -49,14 +49,14 @@ class IncidentLogic
         if ($request->hasFile('attachments')) {
             $uploadedFiles = $request->file('attachments');
             foreach ($uploadedFiles as $key => $file) {
-                // Store the file in the 'incident_images' directory            
+                // Store the file in the 'incident_images' directory       
                 $currFileExtension = $file->getClientOriginalExtension();
                 $type = $file->getClientMimeType();
                 $size = $file->getSize();
                 $name = $file->getClientOriginalName();
 
                 // rename file to incident number + datetime
-                $newFileName = $incident->incident_number . '_' . date('YmdHis') . '.' . $currFileExtension;
+                $newFileName = $incident->incident_number . '_' . date('YmdHis') . '_' . $key . '.' . $currFileExtension;
 
                 // Store the file in the storage directory
                 $file->move(public_path('uploads'), $newFileName);
