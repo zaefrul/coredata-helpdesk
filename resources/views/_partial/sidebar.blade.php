@@ -27,7 +27,7 @@
         <div class="nk-sidebar-content">
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
-                    <li class="nk-menu-item">
+                    <li class="nk-menu-item has-sub">
                         @php
                             if(Auth::user()->role != 'user'){
                                 $dashboard = route('dashboard');
@@ -35,10 +35,23 @@
                                 $dashboard = route('user.dashboard');
                             }
                         @endphp
-                        <a href="{{$dashboard}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-chart-up"></em></span>
-                            <span class="nk-menu-text">Dashboard</span>
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+                            <span class="nk-menu-text">Dashboards</span>
                         </a>
+
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item {{request()->routeIs('customers.index') ? 'active' : ''}}">
+                                <a href="{{$dashboard}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nk-menu-item {{request()->routeIs('dashboard.kanban.status') ? 'active' : ''}}">
+                                <a href="{{route('dashboard.kanban.status')}}" class="nk-menu-link">
+                                    <span class="nk-menu-text">Incident by Status</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     @if (Auth::user()->role != 'user')
                         @php

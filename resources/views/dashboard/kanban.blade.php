@@ -11,8 +11,8 @@
                             <div class="card-title">
                                 <h4 class="title">Incident Kanban Board</h4>
                             </div>
-                            <div class="media media-middle media-circle media-sm text-bg-primary-soft">
-                                <em class="icon icon-md ni ni-user-alt-fill"></em>
+                            <div class="media media-middle media-circle media-sm text-bg-info-soft">
+                                <em class="icon icon-md ni ni-ticket-fill"></em>
                             </div>
                         </div>
                         <div id="kanbanDefault" class="js-kanban"></div>

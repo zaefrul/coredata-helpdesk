@@ -290,20 +290,20 @@ class DashboardController extends Controller
             $warning = $classSpan != '' ? '<div class="text-small text-danger fst-italic">*Breaking SLA</span>' : '';
             $incidentDate = '<div class="text-muted">' . $incident->created_at->diffForHumans() . '</div>';
             if($incident->priority == 'critical') {
-                $priority = '<span class="badge text-bg-danger"> ' . ucfirst($incident->priority) . '</div>';
+                $priority = '<span class="badge text-bg-danger"> ' . ucfirst($incident->priority) . '</span>';
             } else if ($incident->priority == 'high') {
-                $priority = '<span class="badge text-bg-danger-soft"> ' . ucfirst($incident->priority) . '</div>';
+                $priority = '<span class="badge text-bg-danger-soft"> ' . ucfirst($incident->priority) . '</span>';
             } else if ($incident->priority == 'medium') {
-                $priority = '<span class="badge text-bg-warning"> ' . ucfirst($incident->priority) . '</div>';
+                $priority = '<span class="badge text-bg-warning">' . ucfirst($incident->priority) . '</span>';
             } else {
-                $priority = '<span class="badge text-bg-info"> ' . ucfirst($incident->priority) . '</div>';
+                $priority = '<span class="badge text-bg-info">' . ucfirst($incident->priority) . '</span>';
             }
                 
             // $priority = '<div class="text-muted">: ' . ucfirst($incident->priority) . '</div>';
 
             $assignee = $incident->currentAssignee ? $incident->currentAssignee->name : 'Unassigned';
 
-            $assignTo = '<div class="text-muted">Assigned to: ' . $assignee . '</div>';
+            $assignTo = '<div class="text-muted">Assigned to: <strong class="text-info">' . $assignee . '</strong></div>';
         
 
             $item = [
