@@ -1,5 +1,18 @@
 @extends('layouts.main')
 
+@php
+    if($errors->any()) {
+        $error_message = '';
+        foreach ($errors->all() as $error) {
+            $error_message .= $error . '\n';
+        }
+
+        // create session
+        session()->flash('error', $error_message);
+    }
+
+@endphp
+
 @section('content')
 <div class="nk-content">
     <div class="container">
@@ -22,17 +35,6 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
-                            <pre>
-                                @if(old())
-                                    {{ print_r(old()) }}
-                                @endif
-                                @if($errors->any())
-                                    {{ print_r($errors->all()) }}
-                                @endif
-                                @if(session()->has('error'))
-                                    {{ session('error') }}
-                                @endif
-                            </pre>
                             <form method="POST" action="{{ route('assets.update', $asset->id) }}">
                                 @csrf
                                 @method('PUT')

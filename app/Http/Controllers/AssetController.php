@@ -39,8 +39,8 @@ class AssetController extends Controller
             'category' => 'required',
             'contract_id' => 'required',
             'details' => 'nullable',
-            'purchased_date' => 'required_unless:same_as_contract,1|date|date_format:d/m/Y',
-            'warranty_end' => 'required_unless:same_as_contract,1|date|date_format:d/m/Y',
+            'purchased_date' => 'required_unless:same_as_contract,1|date_format:d/m/Y',
+            'warranty_end' => 'required_unless:same_as_contract,1|date_format:d/m/Y',
             'warranty_level' => 'required',
             'location' => 'nullable',
             'same_as_contract' => 'nullable',
@@ -134,8 +134,8 @@ class AssetController extends Controller
             'category' => 'required',
             'contract_id' => 'required',
             'details' => 'nullable',
-            'purchased_date' => 'required|date|date_format:d/m/Y',
-            'warranty_end' => 'required|date|date_format:d/m/Y',
+            'purchased_date' => 'required|date_format:d/m/Y',
+            'warranty_end' => 'required|date_format:d/m/Y',
             'warranty_level' => 'required',
             'location' => 'nullable'
         ]);
