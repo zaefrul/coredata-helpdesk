@@ -22,6 +22,14 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
+                            <pre>
+                                @if($errors->any())
+                                    {{ print_r($errors->all()) }}
+                                @endif
+                                @if(session()->has('error'))
+                                    {{ session('error') }}
+                                @endif
+                            </pre>
                             <form method="POST" action="{{ route('assets.update', $asset->id) }}">
                                 @csrf
                                 @method('PUT')
