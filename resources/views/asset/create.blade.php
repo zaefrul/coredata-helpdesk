@@ -30,7 +30,7 @@
                                             <label for="contract_id" class="form-label">Contract</label>
                                             <div class="form-control-wrap" @error('contract_id') style="border: solid 1px red; border-radius: 0.375rem" @enderror>
                                                 <select class="js-select" data-search="true" data-sort="false" id="contract_id" name="contract_id" required>
-                                                    <option>Select Contract</option>
+                                                    <option value="">Select Contract</option>
                                                     @foreach($contracts as $contract)
                                                         <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>{{ $contract->contract_name }} [{{ $contract->contract_number }}]</option>
                                                     @endforeach
@@ -90,9 +90,10 @@
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
                                                 <select class="js-select" data-search="true" name="category" id="category" required>
+                                                    <option value="">Select Category</option>
                                                     <option value="hardware" {{ old('category') == 'hardware' ? 'selected' : '' }}>Hardware</option>
                                                     <option value="software" {{ old('category') == 'software' ? 'selected' : '' }}>Software</option>
-                                                    <option value="service" {{ old('category') == 'software' ? 'selected' : '' }}>service</option>
+                                                    <option value="service" {{ old('category') == 'software' ? 'selected' : '' }}>Service</option>
                                                 </select>
                                             </div>
                                             @error('category')
@@ -262,6 +263,7 @@
                             <label for="components[${componentIndex}][type]" class="form-label">Type</label>
                             <div class="form-control-wrap">
                                 <select class="form-select" name="components[${componentIndex}][type]" required>
+                                    <option value="">Select Component Type</option>
                                     @foreach($component_types as $type)
                                         <option value="{{ $type->value }}" ${type === '{{ $type->value }}' ? 'selected' : ''}>{{ ucfirst($type->label) }}</option>
                                     @endforeach

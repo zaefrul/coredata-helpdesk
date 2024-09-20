@@ -31,7 +31,7 @@
                                             <label for="contract_id" class="form-label">Contract</label>
                                             <div class="form-control-wrap">
                                                 <select class="js-select" data-search="true" data-sort="false" id="contract_id" name="contract_id" required>
-                                                    <option>Select Contract</option>
+                                                    <option value="">Select Contract</option>
                                                     @foreach($contracts as $contract)
                                                         <option value="{{ $contract->id }}" {{$asset->contract_id == $contract->id ? 'selected' : ''}}>{{ $contract->contract_name }} [{{$contract->contract_number}}]</option>
                                                     @endforeach
@@ -76,7 +76,8 @@
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
                                                 <select class="js-select" data-search="true" data-sort="false" name="category" id="category" required>
-                                                    <option value="hardware" {{old('category', $asset->category) == 'hardware' ? 'selected' : ''}}>Hardware</option>
+                                                    <option value="">Select Category</option>
+                                                    <option value="hardware" {{$asset->category == 'hardware' ? 'selected' : ''}}>Hardware</option>
                                                     <option value="software" {{old('category', $asset->category) == 'software' ? 'selected' : ''}}>Software</option>
                                                     <option value="service" {{ old('category', $asset->category) == 'service' ? 'selected' : '' }}>service</option>
                                                 </select>
@@ -98,7 +99,7 @@
                                             <label for="warranty_level" class="form-label">Warranty Level</label>
                                             <div class="form-control-wrap">
                                                 <select class="js-select" id="warranty_level" name="warranty_level" required>
-                                                    <option>Select Warranty Level</option>
+                                                    <option value="">Select Warranty Level</option>
                                                     <option value="third-party" {{ old('warranty_level', $asset->warranty_level) == 'third-party' ? 'selected' : '' }}>3rd Party</option>
                                                     <option value="back-to-back" {{ old('warranty_level', $asset->warranty_level) == 'back-to-back' ? 'selected' : '' }}>Back to Back</option>
                                                 </select>
@@ -174,7 +175,7 @@
                                                             <label for="components[{{ $index }}][type]" class="form-label">Type</label>
                                                             <div class="form-control-wrap">
                                                                 <select class="form-select" name="components[{{ $index }}][type]" required>
-                                                                    <option>Select component type</option>
+                                                                    <option value="">Select component type</option>
                                                                     @foreach($component_types as $component_type)
                                                                         <option value="{{ $component_type->value }}" {{ old("components.$index.type", $component->component_type) == $component_type->value ? 'selected' : '' }}>{{ ucfirst($component_type->label) }}</option>
                                                                     @endforeach
@@ -281,7 +282,7 @@
                             <label for="components[${componentIndex}][type]" class="form-label">Type</label>
                             <div class="form-control-wrap">
                                 <select class="form-select" name="components[${componentIndex}][type]" required>
-                                    <option>Select component type</option>
+                                    <option value="">Select component type</option>
                                     ${componentTypeOptions}
                                 </select>
                             </div>
