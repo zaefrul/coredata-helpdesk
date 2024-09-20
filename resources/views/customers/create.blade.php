@@ -94,7 +94,7 @@
                                                     <label for="department_email" class="form-label">Primary Email address</label>
                                                     <div class="form-control-wrap">
                                                         <div class="form-control-icon start"><em class="icon ni ni-at"></em></div>
-                                                        <input type="email" class="form-control" id="department_email" name="departments[0][department_email]">
+                                                        <input required type="email" class="form-control" id="department_email" name="departments[0][department_email]">
                                                     </div>
                                                 </div>
                                             </div>
@@ -208,7 +208,7 @@
                             <label for="department_email_${departmentIndex}" class="form-label">Primary Email address</label>
                             <div class="form-control-wrap">
                                 <div class="form-control-icon start"><em class="icon ni ni-at"></em></div>
-                                <input type="email" class="form-control" id="department_email_${departmentIndex}" name="departments[${departmentIndex}][department_email]" >
+                                <input required type="email" class="form-control" id="department_email_${departmentIndex}" name="departments[${departmentIndex}][department_email]" >
                             </div>
                         </div>
                     </div>

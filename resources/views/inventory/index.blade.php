@@ -79,7 +79,10 @@
                                                 <span>{{ $inventory->serial_number }}</span>
                                             </td>
                                             <td class="tb-col">
-                                                <span>{{ $inventory->part_number }}</span>
+                                                <span>{{ $inventory->part_number }}</span><br />
+                                                @if($inventory->mfg_part_number)
+                                                    <span class="sub-text">MFG P/N: {{ $inventory->mfg_part_number }}</span>
+                                                @endif
                                             </td>
                                             <td class="tb-col tb-col-end">
                                                 <div class="dropdown">

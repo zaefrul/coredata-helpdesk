@@ -121,7 +121,7 @@ class IncidentLogic
                 $activity->description = 'Attachments : ' . print_r($imgArray, true);
 
                 $html = '<div class="fst-italic mb-2 mt-2">Attachment uploaded to the ticket.</div>';
-                $html .= '<div id="uploadedimg" class="carousel carousel-dark slide" data-bs-ride="carousel">';
+                $html .= '<div id="uploadedimg" class="carousel carousel-dark slide mb-2 mt-2" data-bs-ride="carousel">';
                 $html .= '<div class="carousel-inner">';
                 foreach ($imgArray as $key => $img) {
                     $html .= '<div class="carousel-item ' . ($key == 0 ? 'active' : '') . '">';
@@ -138,6 +138,11 @@ class IncidentLogic
                 $html .= '<span class="visually-hidden">Next</span>';
                 $html .= '</button>';
                 $html .= '</div>';
+
+                if($activity->comment_id) {
+                    $activity->comment = IncidentConversation::where('id', $activity->comment_id)->first()->message;
+                    $activity->description = $html . '<div class="fst-italic mb-2 mt-2">Comment added: ' . $activity->comment . '</div>';
+                }
 
                 $activity->description = $html;
             }

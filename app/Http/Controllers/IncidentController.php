@@ -30,7 +30,7 @@ class IncidentController extends Controller
     public function store(Request $request) {
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
             'contract_id' => 'required',
             'asset_id' => 'required',
             'site_location' => 'nullable',
@@ -111,7 +111,7 @@ class IncidentController extends Controller
     public function update(Request $request, $id) {
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
             'severity' => 'required',
             'status' => 'required',
             'customer_id' => 'required',
@@ -174,18 +174,51 @@ class IncidentController extends Controller
     {
         // Validate the request to ensure a valid comment is provided
         $request->validate([
-            'comment' => 'required',
+            'comment' => 'nullable',
+            'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png',
         ]);
 
-        $convo = new IncidentConversation();
+        if($request->input('comment') == null && !$request->hasFile('attachments')) {
+            return back()->with('error', 'Comment or attachment is required');
+        }
 
-        $convo->incident_id = $incident->id;
-        $convo->user_id = Auth::id();
-        $convo->message = $request->input('comment');
+        if($request->hasFile('attachments')) {
+            IncidentConversation::withoutEvents(function () use ($request, $incident) {
+                if($request->input('comment') != null) {
+                    $convo = $incident->conversations()->create([
+                        'user_id' => Auth::id(),
+                        'message' => $request->input('comment'),
+                        'incident_id' => $incident->id,
+                    ]);
+                }
 
-        $convo->save();
+                $convoId = $convo ? $convo->id : null;
 
-        return back()->with('success', 'Comment added successfully');
+                // Upload attachments
+
+                $paths = IncidentLogic::attachmentUploadHandler($request, $incident);
+                // build json array of paths
+                $paths = json_encode($paths);
+                $description = "Attachments : " . $paths;
+
+                // activityLogs
+                $incident->activityLogs()->create([
+                    'user_id' => Auth::id(),
+                    'incident_id' => $incident->id,
+                    'comment_id' => $convoId,
+                    'description' => $description,
+                ]);
+            });
+        }
+        else {
+            $incident->conversations()->create([
+                'user_id' => Auth::id(),
+                'message' => $request->input('comment'),
+                'incident_id' => $incident->id,
+            ]);
+        }
+
+        return back()->with('success', 'Comment(s) added successfully');
     }
 
     public function replacePart(Request $request, $id)

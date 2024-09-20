@@ -258,7 +258,7 @@ class DashboardController extends Controller
         if(Auth::user()->role == 'admin') {
             $incidents = Incident::all();
         } else {
-            $incidents = Auth::where('current_asignee_id', Auth::id())->get();
+            $incidents = Incident::where('current_assignee_id', Auth::user()->id)->get();
         }
 
         $kanban = [

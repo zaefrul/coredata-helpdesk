@@ -27,10 +27,13 @@ class InventoryController extends Controller
             'model' => 'required',
             'serial_number' => 'required',
             'part_number' => 'required',
-            'item' => 'nullable',
+            'description' => 'nullable',
             'type' => 'required',
             'mfg_part_number' => 'nullable'
         ]);
+
+        // change description to item
+        $request['item'] = $request->description;
 
         try
         {
@@ -72,10 +75,13 @@ class InventoryController extends Controller
             'model' => 'required',
             'serial_number' => 'required',
             'part_number' => 'required',
-            'item' => 'nullable',
+            'description' => 'nullable',
             'type' => 'required',
             'mfg_part_number' => 'nullable'
         ]);
+
+        // change description to item
+        $request['item'] = $request->description;
 
         $inventory = Inventory::find($id);
 

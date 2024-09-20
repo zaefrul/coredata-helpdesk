@@ -68,9 +68,9 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label">Item</label>
+                                            <label class="form-label">Description</label>
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" id="item" name="item" value="{{ old('item', $inventory->item) }}">
+                                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $inventory->description) }}</textarea>
                                             </div>
                                         </div>        
                                     </div>
