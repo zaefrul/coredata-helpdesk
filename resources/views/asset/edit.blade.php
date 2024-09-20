@@ -76,9 +76,9 @@
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
                                                 <select class="js-select" data-search="true" data-sort="false" name="category" id="category" required>
-                                                    <option>Select Category</option>
-                                                    <option value="hardware" {{$asset->category == 'hardware' ? 'selected' : ''}}>Hardware</option>
-                                                    <option value="software" {{$asset->category == 'software' ? 'selected' : ''}}>Software</option>
+                                                    <option value="hardware" {{old('category', $asset->category) == 'hardware' ? 'selected' : ''}}>Hardware</option>
+                                                    <option value="software" {{old('category', $asset->category) == 'software' ? 'selected' : ''}}>Software</option>
+                                                    <option value="service" {{ old('category', $asset->category) == 'service' ? 'selected' : '' }}>service</option>
                                                 </select>
                                             </div>
                                         </div>

@@ -90,9 +90,9 @@
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-calendar"></em></div>
                                                 <select class="js-select" data-search="true" name="category" id="category" required>
-                                                    <option>Select Category</option>
                                                     <option value="hardware" {{ old('category') == 'hardware' ? 'selected' : '' }}>Hardware</option>
                                                     <option value="software" {{ old('category') == 'software' ? 'selected' : '' }}>Software</option>
+                                                    <option value="service" {{ old('category') == 'software' ? 'selected' : '' }}>service</option>
                                                 </select>
                                             </div>
                                             @error('category')
