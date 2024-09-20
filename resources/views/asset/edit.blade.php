@@ -23,6 +23,9 @@
                     <div class="card card-bordered">
                         <div class="card-body">
                             <pre>
+                                @if(old())
+                                    {{ print_r(old()) }}
+                                @endif
                                 @if($errors->any())
                                     {{ print_r($errors->all()) }}
                                 @endif
