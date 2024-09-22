@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\AssetHelper;
 use App\Models\Asset;
 use App\Models\Component;
 use App\Models\Contract;
@@ -100,6 +101,10 @@ class AssetController extends Controller
                 $asset->components()->save($assetComponent);
             }
         }
+
+        // Generate the asset_number
+        $asset->asset_number = AssetHelper::generateAssetNumber($asset);
+        $asset->save();
 
         // Update the asset with the QR code path
         $asset->qr_code_path = \App\Helper\AssetHelper::generateAssetQRCode($asset);

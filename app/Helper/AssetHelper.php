@@ -36,7 +36,7 @@ class AssetHelper
                 ->logoResizeToWidth(60)
                 ->logoResizeToHeight(60)
                 ->logoPunchoutBackground(true)
-                ->labelText($asset->name)
+                ->labelText($asset->asset_number)
                 ->labelFont(new OpenSans(20))
                 ->labelAlignment(LabelAlignment::Center)
                 ->validateResult(false)
@@ -62,5 +62,17 @@ class AssetHelper
             Log::error($e->getMessage());
             throw new \Exception('Failed to generate QR code');
         }
+    }
+
+    public static function generateAssetNumber(Asset $asset)
+    {
+        $assetNumber = 'CRDT-' . date('Y') . '-' . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6);
+
+        if(Asset::where('asset_number', $assetNumber)->exists())
+        {
+            return self::generateAssetNumber($asset);
+        }
+
+        return $assetNumber;
     }
 }
