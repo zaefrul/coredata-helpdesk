@@ -22,9 +22,35 @@
                 <div class="nk-block">
                     <div class="card card-bordered">
                         <div class="card-body">
-                            <form method="POST" action="{{route('users.update', $user->id)}}">
+                            <form method="POST" action="{{route('users.update', $user->id)}}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
+                                {{-- show profile picture --}}
+                                <div class="row g-3 gx-gs mt-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="profile_picture" class="form-label">Profile Picture</label>
+                                            <div class="form-control-wrap">
+                                                <input type="file" class="form-control form-control-md" id="profile_picture" name="profile_picture"s>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-user"></em></div>
+                                                @php
+                                                    $path = '/images/avatar/3.png';
+
+                                                    if($user->profile_picture) {
+                                                        $path = $user->profile_picture;
+                                                    }
+                                                @endphp
+                                                <img id="profile-photo" src="{{$path}}" alt="Profile Picture" style="width: 100px; height: 100px;">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 <div class="row g-3 gx-gs mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -138,6 +164,16 @@
                 if(this.type === 'password' || this.type === 'email') return;
                 this.value = this.value.toUpperCase();
             });
+        });
+
+        // after selecting image, display it on the form
+        document.getElementById('profile_picture').addEventListener('change', function(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-photo').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
         });
     });
 </script>

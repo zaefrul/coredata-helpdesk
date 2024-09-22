@@ -34,8 +34,17 @@ class UserController extends Controller
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
             'role' => 'required',
-            'phone' => 'nullable',
+            'phone_number' => 'nullable',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        if(request()->hasFile('profile_picture')) {
+            $file = request()->file('profile_picture');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $newFileName);
+            $path = 'uploads/' . $newFileName;
+        }
 
         $user = new User();
         $user->name = request('name');
@@ -44,6 +53,7 @@ class UserController extends Controller
         $user->role = request('role');
         $user->phone_number = request('phone');
         $user->password = bcrypt(request('password'));
+        $user->profile_photo_path = $path ?? null;
         $user->save();
 
         return redirect(route('users.index'))->with('success', 'User Account created successfully');
@@ -62,15 +72,29 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'role' => 'required',
-            'phone' => 'nullable',
+            'phone_number' => 'nullable',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
+        if(request()->hasFile('profile_picture')) {
+            $file = request()->file('profile_picture');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $newFileName);
+            $path = 'uploads/' . $newFileName;
+        }
+
         $user = User::findOrFail($id);
+
+        if($user->profile_photo_path) {
+            unlink(public_path($user->profile_photo_path));
+        }
+
         $user->name = request('name');
         $user->email = request('email');
         $user->customer_id = request('customer_id');
         $user->role = request('role');
         $user->phone_number = request('phone');
+        $user->profile_photo_path = $path ?? null;
         $user->save();
 
         return redirect(route('users.index'))->with('success', 'User Account updated successfully');

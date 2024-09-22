@@ -101,6 +101,9 @@ class AssetController extends Controller
             }
         }
 
+        // Update the asset with the QR code path
+        $asset->qr_code_path = \App\Helper\AssetHelper::generateAssetQRCode($asset);
+        $asset->save();
 
         return redirect()->route('assets.index')
             ->with('success', 'Asset created successfully.');
@@ -209,7 +212,6 @@ class AssetController extends Controller
         $componentsToDelete = array_diff($existingComponentIds, $incomingComponentIds);
         Component::destroy($componentsToDelete);
         
-
         return redirect()->route('assets.index')
             ->with('success', 'Asset updated successfully');
     }

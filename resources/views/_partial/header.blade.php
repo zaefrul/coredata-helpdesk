@@ -1,3 +1,10 @@
+@php
+$Imgpath = 'images/avatar/3.png';
+if(Auth::user()->profile_photo_path){
+    $Imgpath = Auth::user()->profile_photo_path;
+}
+@endphp
+
     <div class="nk-header nk-header-fixed">
     <div class="container-fluid">
         <div class="nk-header-wrap">
@@ -89,19 +96,17 @@
                         <a href="#" data-bs-toggle="dropdown">
                             <div class="d-sm-none">
                                 <div class="media media-md media-circle">
-                                    <img src="/images/avatar/3.png" alt="" class="img-thumbnail">
+                                    <img src="{{$Imgpath}}" alt="" class="img-thumbnail" style="width: 3rem !important; height: 3rem !important; border-radius: 50rem;">
                                 </div>
                             </div>
                             <div class="d-none d-sm-block">
-                                <div class="media media-circle">
-                                    <img src="/images/avatar/3.png" alt="" class="img-thumbnail">
-                                </div>
+                                <img src="{{$Imgpath}}" alt="" class="img-thumbnail" style="width: 3rem !important; height: 3rem !important; border-radius: 50rem;">
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-md">
                             <div class="dropdown-content dropdown-content-x-lg py-3 border-bottom border-light">
                                 <div class="media-group">
-                                    <div class="media media-xl media-middle media-circle"><img src="/images/avatar/3.png" alt="" class="img-thumbnail"></div>
+                                    <div class="media media-xl media-middle media-circle"><img src="{{$Imgpath}}" alt="" class="img-thumbnail" style="width: 3rem !important; height: 3rem !important; border-radius: 50rem;"></div>
                                     <div class="media-text">
                                         <div class="lead-text">{{ auth()->user()->name }}</div>
                                         <span class="sub-text">
@@ -113,7 +118,7 @@
                             </div>
                             <div class="dropdown-content dropdown-content-x-lg py-3 border-bottom border-light">
                                 <ul class="link-list">
-                                    <li><a href="/profile"><em class="icon ni ni-user"></em> <span>My Profile</span></a></li>
+                                    <li><a href="/users/{{Auth::user()->id}}/edit"><em class="icon ni ni-user"></em> <span>My Profile</span></a></li>
                                     {{-- <li><a href="./html/user-manage/user-cards.html"><em class="icon ni ni-contact"></em> <span>My Contacts</span></a></li>
                                     <li><a href="./html/profile-edit.html"><em class="icon ni ni-setting-alt"></em> <span>Account Settings</span></a></li> --}}
                                 </ul>

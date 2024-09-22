@@ -77,6 +77,9 @@
                                                 <div class="media-text">
                                                     <a href="/resources/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
                                                     <span class="small text">{{$asset->contract->contract_number}}</span>
+                                                    @if($asset->qr_code_path)
+                                                    <a class="link-warning" href="{{$asset->qr_code_path}}" target="_blank" class="small text">Download QR Code</a>
+                                                    @endif                                                
                                                 </div>
                                             </div>
                                         </td>
@@ -87,8 +90,10 @@
                                             {{-- if hardware badge dark soft --}}
                                             @if($asset->category == 'hardware')
                                                 <span class="badge text-bg-primary-soft">Hardware</span>
-                                            @else
+                                            @elseif($asset->category == 'software')
                                                 <span class="badge text-bg-secondary-soft">Software</span>
+                                            @else
+                                                <span class="badge text-bg-info-soft">Service</span>
                                             @endif
                                         </td>
                                         @if($isAdmin)

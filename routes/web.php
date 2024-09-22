@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\Public\AssetViewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Middleware\EnsureRoleIsAgentOrAdmin;
 use App\Http\Middleware\EnsureRoleIsUser;
@@ -36,6 +37,8 @@ Route::get('/', function () {
 Route::fallback(function () {
     return view('errors.404');
 });
+
+Route::get('/public/resources/{id}/show', [AssetViewController::class, 'show'])->name('public.assets.show');
 
 Route::middleware(['auth'])->group(function () {
 

@@ -34,7 +34,7 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <a href="{{ route('users.index') }}" class="btn btn-md btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="Back.">
+                                    <a href="javascript:history.back()" class="btn btn-md btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="Back.">
                                         <em class="icon ni ni-arrow-left"></em>
                                     </a>
                                 </li>
@@ -51,11 +51,20 @@
                                     <div class="user-card user-card-s2">
                                         <div class="d-flex flex-column flex-md-row align-items-md-center">
                                             <div class="media media-huge media-circle">
-                                                @if($user->role != 'user')
-                                                    <img src="/images/avatar/agent.png" class="img-thumbnail" alt="">
-                                                @else
-                                                    <img src="/images/avatar/3.png" class="img-thumbnail" alt="">
-                                                @endif
+                                                @php
+                                                    $path = 'images/avatar/3.png';
+                                                    if($user->profile_photo_path){
+                                                        $path = '/'.$user->profile_photo_path;
+                                                    }
+                                                    else if($user->role != 'user'){
+                                                        $path = '/images/avatar/agent.png';
+                                                    }
+                                                    else {
+                                                        $path = '/images/avatar/3.png';
+                                                    }
+
+                                                @endphp
+                                                <img src="{{ $path }}" alt="">
                                             </div>
                                             <div class="mt-3 mt-md-0 ms-md-3">
                                                 <h3 class="title mb-1">{{$user->name}}</h3>

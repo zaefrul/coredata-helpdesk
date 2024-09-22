@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'HelpDesk') }}</title>
     <link rel="shortcut icon" href="/images/coredata-logo-only.png">
     <link rel="stylesheet" href="/assets/css/style.css?v1.1.2">
+    @yield('css')
 </head>
 
 <body class="nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg">
