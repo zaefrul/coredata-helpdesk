@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
         // seeder to fix the format of the ticket number
 
 
-        $this->call(IncidentNumberSeeder::class);
+        // $this->call(IncidentNumberSeeder::class);
+
+        $this->call(AssetSeeder::class);
     }
 }
