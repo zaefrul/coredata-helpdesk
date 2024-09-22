@@ -172,10 +172,15 @@
                     
                     response.forEach(function(asset) {
                         assetLocation[asset.id] = asset.location;
+                        var assetName = asset.name;
+
+                        if(asset.serial_number) {
+                            assetName += ' [ S\\N : ' + asset.serial_number + ']';
+                        }
 
                         var option = {
                             value: asset.id,
-                            label: asset.name,
+                            label: assetName,
                             selected: false,
                             disabled: false
                         };
