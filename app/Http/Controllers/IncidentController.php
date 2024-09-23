@@ -327,12 +327,12 @@ class IncidentController extends Controller
         $incident = Incident::where('incident_number', $request->id)->first();
 
         if(!$incident) {
-            return redirect()->route('dashboard3')->with('error', 'Incident not found');
+            return redirect()->route('dashboard.kanban.status')->with('error', 'Incident not found');
         }
 
         $incident->status = $request->status;
         $incident->save();
 
-        return redirect()->route('dashboard3')->with('success', 'Incident '.$incident->incident_number.' status updated successfully');
+        return redirect()->route('dashboard.kanban.status')->with('success', 'Incident '.$incident->incident_number.' status updated successfully');
     }
 }
