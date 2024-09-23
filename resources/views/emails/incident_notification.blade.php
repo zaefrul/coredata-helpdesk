@@ -9,7 +9,7 @@
     <p>Hello {{ $user->name }},</p>
     <p>An incident with the title <b>{{ $incident->title }}</b> has been created.</p>
     <p>We will keep you updated on the progress of this incident.</p>
-    Incident ID: <a href="/incidents/{{$incident->id}}/show" target="_blank">{{ $incident->incident_number }}</a>
+    <p>Incident ID: <a href="{{route('incidents.show', $incident->id)}}">{{ $incident->incident_number }}</a></p>
     <p>Please log in to view the details.</p>
 </body>
 </html>
