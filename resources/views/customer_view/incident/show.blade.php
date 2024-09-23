@@ -118,7 +118,7 @@
                                     </div>
                                 </div><!-- .card-body -->
                             </div>
-                            <div class="card-content col-sep">
+                            <div class="card-content col-sep" style="width: 100% !important;">
                                 <div class="card-body">
                                     <div class="bio-block">
                                         <h4 class="bio-block-title">{{$incident->title}}</h4>
