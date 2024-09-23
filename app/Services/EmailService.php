@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helper\SettingHelper;
 use App\Mail\IncidentNotificationMail;
+use App\Mail\IncidentUpdateNotificationMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,7 +19,7 @@ class EmailService
      * @param $bcc (optional array)
      * @return void
      */
-    public static function sendIncidentNotification($incident, $recipients, $cc = [], $bcc = [])
+    public static function sendIncidentNotification($incident, $recipients, $cc = [], $bcc = [], $update = false)
     {
         try {
             $emailServiceOn = SettingHelper::getValue('email_service', 'switch');
@@ -51,7 +52,11 @@ class EmailService
             
 
             // Send the email
-            $mail->send(new IncidentNotificationMail($incident, $incident->user));
+            if($update) {
+                $mail->send(new IncidentUpdateNotificationMail($incident, $incident->user));
+            } else {
+                $mail->send(new IncidentNotificationMail($incident, $incident->user));
+            }
         } catch (\Exception $e) {
             // Log the exception or handle it
             Log::error("Email sending failed: " . $e->getMessage());

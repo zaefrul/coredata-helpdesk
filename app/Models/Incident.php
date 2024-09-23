@@ -94,7 +94,7 @@ class Incident extends Model
             $currentAssignee = User::find($incident->current_assignee_id);
 
             $recipients = array_merge($customer_notifications_email, [$incident->user->email], [$currentAssignee->email]);
-            EmailService::sendIncidentNotification($incident, $recipients);
+            EmailService::sendIncidentNotification($incident, $recipients, [], [], true);
         });
 
         static::created(function ($incident) {
