@@ -29,7 +29,12 @@
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email address</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="email" class="form-control" id="email" placeholder="Enter username">
+                                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter username">
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div><!-- .form-group -->
                             </div>
@@ -37,7 +42,12 @@
                                 <div class="form-group">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="form-control-wrap">
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter password">
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div><!-- .form-group -->
                             </div>
@@ -48,8 +58,16 @@
                                         <label class="form-check-label" for="remember"> Remember Me </label>
                                     </div>
                                     {{-- <a href="./html/auths/auth-reset-fancy.html" class="small">Forgot Password?</a> --}}
+                                    <a href="{{ route('password.request') }}" class="small">Forgot Password?</a>
+
                                 </div>
+                                
                             </div>
+                            @if (Route::has('password.request'))
+                                <div class="col-12">
+                                    
+                                </div>
+                            @endif
                             <div class="col-12">
                                 <div class="d-grid">
                                     <button class="btn btn-primary" type="submit">Login to account</button>

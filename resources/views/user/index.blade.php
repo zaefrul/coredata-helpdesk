@@ -66,7 +66,11 @@
                                         <td class="tb-col">
                                             <div class="media-group">
                                                 <div class="media media-md media-middle media-circle text-bg-info-soft">
-                                                    <span class="smaller">{{$user->name[0]}}</span>
+                                                    @if($user->profile_photo_path)
+                                                        <img src="{{asset($user->profile_photo_path)}}" alt="{{$user->name}}">
+                                                    @else
+                                                        <span class="smaller">{{$user->name[0]}}</span>
+                                                    @endif
                                                 </div>
                                                 <div class="media-text">
                                                     <a href="/users/{{$user->id}}/show" class="title">{{$user->name}}</a>

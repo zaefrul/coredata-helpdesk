@@ -20,7 +20,7 @@
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
-                    <div class="card card-bordered">
+                    <div class="card card-bordered mb-3">
                         <div class="card-body">
                             <form method="POST" action="{{route('users.update', $user->id)}}" enctype="multipart/form-data">
                                 @csrf
@@ -42,15 +42,17 @@
                                                 @php
                                                     $path = '/images/avatar/3.png';
 
-                                                    if($user->profile_picture) {
-                                                        $path = $user->profile_picture;
+                                                    if($user->profile_photo_path) {
+                                                        $path = $user->profile_photo_path;
                                                     }
                                                 @endphp
-                                                <img id="profile-photo" src="{{$path}}" alt="Profile Picture" style="width: 100px; height: 100px;">
+                                                <div class="media media-huge media-circle">
+                                                    <img id="profile-photo" src="{{$path}}" alt="Profile Picture" style="width: 100px; height: 100px;">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                </div>
                                 <div class="row g-3 gx-gs mt-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
