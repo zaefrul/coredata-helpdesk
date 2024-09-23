@@ -48,7 +48,7 @@ class EmailService
             
 
             // Send the email
-            // $mail->send(new IncidentNotificationMail($incident, $incident->user));
+            $mail->send(new IncidentNotificationMail($incident, $incident->user));
         } catch (\Exception $e) {
             // Log the exception or handle it
             Log::error("Email sending failed: " . $e->getMessage());
