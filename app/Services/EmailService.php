@@ -30,6 +30,9 @@ class EmailService
 
             Log::debug('Email service is enabled');
 
+            // remove duplicate emails
+            $recipients = array_unique($recipients);
+
             // Send the email to recipients, handle if it's a string or array
             $mail = Mail::to(is_array($recipients) ? $recipients : [$recipients]);
 

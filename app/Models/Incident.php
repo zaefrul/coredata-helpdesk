@@ -86,6 +86,15 @@ class Incident extends Model
                     ]);
                 }
             }
+
+            // Send email notification
+            $incident->user = User::find($incident->user_id);
+            $departmentId = Contract::find($incident->contract_id)->department_id;
+            $customer_notifications_email = CustomerNotification::where('department_id', $departmentId)->pluck('email')->toArray();
+            $currentAssignee = User::find($incident->current_assignee_id);
+
+            $recipients = array_merge($customer_notifications_email, [$incident->user->email], [$currentAssignee->email]);
+            EmailService::sendIncidentNotification($incident, $recipients);
         });
 
         static::created(function ($incident) {
@@ -96,9 +105,13 @@ class Incident extends Model
             ]);
 
             $incident->user = User::find($incident->user_id);
-
+            $contract = Contract::find($incident->contract_id);
+            $customer_notifications_email = CustomerNotification::where('department_id', $contract->department_id)->pluck('email')->toArray();
+            $incidentUer = [$incident->user->email];
             $admins = User::where('role', 'admin')->pluck('email')->toArray();
-            EmailService::sendIncidentNotification($incident, $admins, [$incident->user->email]);
+            $recipients = array_merge($customer_notifications_email, $admins, $incidentUer);
+
+            EmailService::sendIncidentNotification($incident, $recipients);
         });
     }
 }
