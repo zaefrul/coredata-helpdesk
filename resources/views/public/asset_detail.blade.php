@@ -162,19 +162,11 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="tb-col" colspan="2">
-                                                <h3 class="text-uppercase text-muted">{{ $asset->name }}</h3>
+                                                <span class="text-secondary">{{ $asset->contract->contract_name }}</span>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="tb-col">
-                                                <strong>Contract:</strong> 
-                                            </td>
-                                            <td>
-                                                <span class="text-secondary">{{ $asset->contract->contract_name }}</span>
-                                            </td>
-                                        </tr>
                                         <tr>
                                             <td class="tb-col">
                                                 <strong>Contract Number:</strong> 
@@ -184,6 +176,14 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td class="tb-col">
+                                                <strong>Period:</strong> 
+                                            </td>
+                                            <td>
+                                                <span class="text-secondary">{{ $asset->contract->start_date->format('Y') }} - {{ $asset->contract->end_date->format('Y') }}</span>
+                                            </td>
+                                        </tr>
+                                        {{-- <tr>
                                             <td class="tb-col">
                                                 <strong>Brand:</strong> 
                                             </td>
@@ -254,54 +254,133 @@
                                                     @endif
                                                 </span>
                                             </td>
-                                        </tr>
+                                        </tr> --}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        {{-- header component --}}
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <h4 class="nk-block-title mb-3 mt-3">Components</h4>
+                        @if($asset->components->count() > 0)
+                            {{-- header component --}}
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h4 class="nk-block-title mb-3 mt-3">Components</h4>
+                                </div>
                             </div>
-                        </div>
-                        {{-- component table --}}
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    @foreach($asset->components as $component)
+                            {{-- component table --}}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        @foreach($asset->components as $component)
+                                            <table class="table nk-invoice-table">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th class="tb-col" colspan="2">
+                                                            <span class="badge text-bg-info">{{ strtoupper(str_replace('_', ' ', $component->component_type)) }}</span>
+                                                            <span class="overline-title">{{ $component->component_model }} - {{ $component->component_name }}</span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tb-col">
+                                                            <strong>Serial Number:</strong> 
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-secondary">{{ $component->serial_number }}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tb-col">
+                                                            <strong>Part Number:</strong> 
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-secondary">{{ $component->part_number }}</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        {{-- preventive maintenance / schedule task --}}
+                        @php
+                            $count = $asset->contract->preventive_maintenance;
+
+                            if($count < $scheduleTasks->count()) {
+                                $count = $scheduleTasks->count();
+                            }
+
+                        @endphp
+    
+                        @if($count > 0)
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
                                         <table class="table nk-invoice-table">
-                                            <thead class="table-light">
+                                            <thead class="table-light text-center">
                                                 <tr>
-                                                    <th class="tb-col" colspan="2">
-                                                        <span class="badge text-bg-info">{{ strtoupper(str_replace('_', ' ', $component->component_type)) }}</span>
-                                                        <span class="overline-title">{{ $component->component_model }} - {{ $component->component_name }}</span>
-                                                    </th>
+                                                    <th colspan="3">Preventive Maintenance</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="tb-col">
-                                                        <strong>Serial Number:</strong> 
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-secondary">{{ $component->serial_number }}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tb-col">
-                                                        <strong>Part Number:</strong> 
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-secondary">{{ $component->part_number }}</span>
-                                                    </td>
-                                                </tr>
+                                                @for($i=0; $i<$count; $i++)
+                                                    <tr>
+                                                        <td class="tb-col" colspan="2">
+                                                            <span class="overline-title">P. Maintenance - {{ $i+1 }}</span>
+                                                        </td>
+                                                        <td class="tb-col tb-col-end">
+                                                            @if($scheduleTasks->count() > $i )
+                                                                @if($scheduleTasks[$i]->status == 'open')
+                                                                    <span class="badge text-bg-info">Pending</span>
+                                                                @elseif($scheduleTasks[$i]->status == 'resolved')
+                                                                    <span class="badge text-bg-success">Completed</span>
+                                                                @else
+                                                                    <span class="badge text-bg-info">{{ ucfirst($scheduleTasks[$i]->status) }}</span>
+                                                                @endif
+                                                                <span class="badge text-bg-light" style="margin-left: 0.5rem">{{ $scheduleTasks[$i]->start_date ? $scheduleTasks[$i]->start_date->format('d/m/Y') : $scheduleTasks[$i]->created_at->format('d/m/Y') }}</span>
+                                                            @else
+                                                                <span class="badge text-bg-info">Pending</span>
+                                                                <span class="badge text-bg-warning">Not Scheduled</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endfor
                                             </tbody>
                                         </table>
-                                    @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
+                        {{-- end prevntive maintenance --}}
+
+                        {{-- activity logs --}}
+                        @if($replaceComponentLogs->count() > 0)
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table nk-invoice-table">
+                                            <thead class="table-light text-center">
+                                                <tr>
+                                                    <th colspan="3">Activity Logs</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($replaceComponentLogs as $log)
+                                                    <tr>
+                                                        <td colspan="3" class="tb-col ">
+                                                            {{ $log->description }} - <span class="badge text-bg-light">{{ $log->created_at->format('d/m/Y') }}</span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div><!-- .nk-block -->
             </div>

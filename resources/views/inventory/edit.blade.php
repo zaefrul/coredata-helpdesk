@@ -70,7 +70,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
                                             <div class="form-control-wrap">
-                                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $inventory->description) }}</textarea>
+                                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $inventory->item) }}</textarea>
                                             </div>
                                         </div>        
                                     </div>
