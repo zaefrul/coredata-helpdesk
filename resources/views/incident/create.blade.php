@@ -23,7 +23,7 @@
                 <div class="card card-bordered">
                     <div class="card-body">
                         <div class="card-inner card-inner-lg">
-                            <form action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
@@ -81,7 +81,7 @@
                                             <label class="form-label" for="site_location">Site Location</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-map-pin"></em></div>
-                                                <input type="text" class="form-control" name="site_location" id="site_location">
+                                                <input type="text" class="form-control" name="site_location" id="site_location" value="{{old('site_location')}}">
                                             </div>
                                         </div>
                                     </div>
@@ -99,15 +99,29 @@
                                 </div>
                                 {{-- incident type --}}
                                 <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="incident_type">Incident Type</label>
                                             <div class="form-control-wrap">
                                                 <select class="js-select" name="incident_type" id="incident_type" required>
                                                     <option value="">Select Incident Type</option>
-                                                    <option value="incident" selected>Incident</option>
-                                                    <option value="schedule-task">Schedule Task</option>
+                                                    <option value="incident" @if(old('incident_type') == 'incident') selected @endif>Incident</option>
+                                                    <option value="schedule-task" @if(old('incident_type') == 'schedule-task') selected @endif>Schedule Task</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- schedule task --}}
+                                <div class="row g-3 gx-gs mb-3" id="schedule-task">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="schedule_date">Schedule Date (Require for schedule task)</label>
+                                            <div class="form-control-wrap">
+                                                <input disabled required type="date" class="form-control @error('schedule_date') is-invalid @enderror" name="schedule_date" id="schedule_date">
+                                                @error('schedule_date')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -196,6 +210,17 @@
             var siteLocation = assetLocation[selectedAssetId];
             var siteLocationInput = document.getElementById('site_location');
             siteLocationInput.value = siteLocation;
+        });
+
+        var incidentType = document.getElementById('incident_type');
+        incidentType.addEventListener('change', function() {
+            var selectedIncidentType = this.value;
+            var scheduleDate = document.getElementById('schedule_date');
+            if(selectedIncidentType === 'schedule-task') {
+                scheduleDate.disabled = false;
+            } else {
+                scheduleDate.disabled = true;
+            }
         });
     });
 </script>

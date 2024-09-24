@@ -36,6 +36,7 @@ class IncidentController extends Controller
             'site_location' => 'nullable',
             'incident_type' => 'required',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png',
+            'schedule_date' => 'required_if:incident_type,schedule-task',
         ]);
 
         DB::beginTransaction();
