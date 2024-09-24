@@ -54,7 +54,11 @@
                                                 @php($assignTo = $incident->currentAssignee)
                                                 <div class="media-group">
                                                     <div class="media media-md media-middle media-circle text-bg-info-soft">
-                                                        <span class="smaller">{{$assignTo->name[0]}}</span>
+                                                        @if($assignTo->profile_photo_path)
+                                                            <img src="{{$assignTo->profile_photo_path}}" alt="{{$assignTo->name}}">
+                                                        @else
+                                                            <span class="smaller">{{$assignTo->name[0]}}</span>
+                                                        @endif
                                                     </div>
                                                     <div class="media-text">
                                                         <a href="/user/users/{{$incident->id}}/show" class="title">{{$assignTo->name}}</a>

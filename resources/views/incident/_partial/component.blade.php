@@ -1,3 +1,5 @@
+
+@php $showAction = Auth::user()->role != 'user' && $disabled != 'disabled' @endphp
 <table class="datatable-init table" data-nk-container="table-responsive">
     <thead class="table-light">
         <tr>
@@ -13,7 +15,7 @@
             <th class="tb-col">
                 <span class="overline-title">Part No.</span>
             </th>
-            @if(Auth::user()->role != 'user')
+            @if($showAction)
                 <th>
                     <span class="overline-title">Action</span>
                 </th>
@@ -23,7 +25,7 @@
     <tbody>
         @if(count($components) == 0)
             <tr>
-                <td colspan="5" class="text-center">No component found</td>
+                <td colspan="{{$showAction ? "5" : "4"}}" class="text-center">No component found</td>
             </tr>
         @endif
         @foreach($components as $component)
@@ -42,7 +44,7 @@
                 </td>
                 <td>{{ $component->serial_number }}</td>
                 <td>{{ $component->part_number }}</td>
-                @if(Auth::user()->role != 'user')
+                @if($showAction)
                     <td>
                         <a href="{{ route('assets.edit', $component->id) }}" class="btn btn-sm btn-warning replaceBtn" 
                             data-bs-toggle="modal" data-bs-target="#exampleModal" 

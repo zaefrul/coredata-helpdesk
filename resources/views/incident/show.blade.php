@@ -1,5 +1,19 @@
 @extends('layouts.main')
+@php
+    if($incident->status == 'resolved' || $incident->status == 'closed') {
+        $disabled = 'disabled';
+    } else {
+        $disabled = '';
+    }
 
+    $currUser = Auth::user();
+
+    $currAssignee = $incident->currentAssignee ? $incident->currentAssignee->id : 0;
+
+    if($currUser->role != 'admin' && ($currUser->id != $currAssignee || $incident->status == 'resolved' || $incident->status == 'closed')) {
+        $disabled = 'disabled';
+    }
+@endphp
 @section('content')
 <div class="nk-content">
     <div class="container">
@@ -20,7 +34,7 @@
                                             <li class="list-group-item" style="display: flex;">
                                                 <div class="title fw-medium w-40 d-inline-block">Assignee</div>
                                                 <div class="dropdown">
-                                                    <a class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <a {{$disabled}} class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                         @if($incident->currentAssignee)
                                                             {{$incident->currentAssignee->name}}
                                                         @else
@@ -59,7 +73,7 @@
                                             <li class="list-group-item" style="display: flex;">
                                                 <div class="title fw-medium w-40 d-inline-block">Status</div>
                                                 <div class="text">
-                                                    <a class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <a {{$disabled}} class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                         @if($incident->status == 'open')
                                                             <span class="badge text-bg-info fs-6">Open</span>
                                                         @elseif($incident->status == 'closed')
@@ -110,7 +124,7 @@
                                             <li class="list-group-item" style="display: flex;">
                                                 <div class="title fw-medium w-40 d-inline-block">Priority</div>
                                                 <div class="text">
-                                                    <a class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <a {{$disabled}} class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                         @if($incident->priority == 'low')
                                                             <span class="badge text-bg-info fs-6">Low <em class="icon ni ni-chevrons-down"></em></span>
                                                         @elseif($incident->priority == 'medium')
@@ -184,19 +198,19 @@
                                                     <div class="form-icon form-icon-left">
                                                         <em class="icon ni ni-comment"></em>
                                                     </div>
-                                                    <textarea class="form-control form-control-sm" id="comment" name="comment" placeholder="Write a comment"></textarea>
+                                                    <textarea {{$disabled}} class="form-control form-control-sm" id="comment" name="comment" placeholder="Write a comment"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group mt-3">
                                                 <label for="attachment" class="form-label">Attachment(s)</label>
                                                 <div class="form-input-wrap">
-                                                    <input type="file" class="form-control form-control-sm" id="attachment" name="attachments[]" multiple>
+                                                    <input {{$disabled}} type="file" class="form-control form-control-sm" id="attachment" name="attachments[]" multiple>
                                                     <input type="hidden" name="incident_id" value="{{$incident->id}}">
                                                 </div>
                                                 <div class="form-note fst-italic">* You can select more than one picture.</div>
                                             </div>
                                             <div class="form-group mt-3 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-light btn-sm">Add Comment</button>
+                                                <button {{$disabled}} type="submit" class="btn btn-light btn-sm">Add Comment</button>
                                             </div>
                                         </form>
                                     </div>
@@ -254,7 +268,7 @@
                                                 @include('incident._partial.recent_activities', ['activityLogs' => $activityLogs])
                                             </div>
                                             <div class="tab-pane fade" id="custom-profile-tab-pane">
-                                                @include('incident._partial.component', ['components' => $incident->asset->components])
+                                                @include('incident._partial.component', ['components' => $incident->asset->components, 'disabled' => $disabled])
                                             </div>
                                           </div>
 
