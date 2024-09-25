@@ -145,31 +145,90 @@ function getQRCodeObject(assetNumber) {
 
     // Create the QR code
     const qrCode = new QRCodeStyling({
-        "width": 300,
-        "height": 300,
-        "data": url,
-        "margin": 10,
-        "qrOptions": {
-            "typeNumber": "0",
-            "mode": "Byte",
-            "errorCorrectionLevel": "Q"
-        },
-        "imageOptions": {
-            "hideBackgroundDots": true,
-            "imageSize": 0.4,
-            "margin": 0
-        },
-        "dotsOptions": {
-            "type": "extra-rounded",
-            "color": "#ec5146",
-            "gradient": null
-        },
-        "backgroundOptions": {
-            "color": "#ffffff"
-        },
-        "image": fullLogoUrl
-        // ... (keep the rest of your QR code options)
-    });
+            "width": 300,
+            "height": 300,
+            "data": url,
+            "margin": 10,
+            "qrOptions": {
+                "typeNumber": "0",
+                "mode": "Byte",
+                "errorCorrectionLevel": "Q"
+            },
+            "imageOptions": {
+                "hideBackgroundDots": true,
+                "imageSize": 0.4,
+                "margin": 0
+            },
+            "dotsOptions": {
+                "type": "extra-rounded",
+                "color": "#ec5146",
+                "gradient": null
+            },
+            "backgroundOptions": {
+                "color": "#ffffff"
+            },
+            "image": fullLogoUrl,
+            "dotsOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#6a1a4c",
+                    "color2": "#6a1a4c",
+                    "rotation": "0"
+                }
+            },
+            "cornersSquareOptions": {
+                "type": "extra-rounded",
+                "color": "#09617b"
+            },
+            "cornersSquareOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                }
+            },
+            "cornersDotOptions": {
+                "type": "",
+                "color": "#09607b"
+            },
+            "cornersDotOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                }
+            },
+            "backgroundOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#ffffff",
+                    "color2": "#ffffff",
+                    "rotation": "0"
+                }
+            }
+        });
 
     return qrCode;
 }
