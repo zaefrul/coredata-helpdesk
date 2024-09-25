@@ -85,6 +85,14 @@ class Incident extends Model
                         'description' => "Changed {$field} from '{$incident->getOriginal($field)}' to '{$newValue}'",
                     ]);
                 }
+
+                // if incident is resolved
+                if ($field === 'status' && $newValue === 'resolved') {
+                    Incident::withoutEvents(function () use ($incident) {
+                        $incident->resolved_at = now();
+                        $incident->save();
+                    });
+                }
             }
 
             // Send email notification

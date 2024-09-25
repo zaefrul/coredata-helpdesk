@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Public\AssetViewController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Middleware\EnsureRoleIsAgentOrAdmin;
 use App\Http\Middleware\EnsureRoleIsUser;
@@ -132,8 +133,11 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/admin/asset/all/qr', [SettingController::class, 'qrsettingPage'])->name('settings.assets.qr');
             Route::get('/admin/assets/bycontract/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('assets.getbycontract');
-
             Route::get('/admin/assets/all/regenerateqr', [SettingController::class, 'regenerateAssetQR'])->name('assets.regenerateqr');
+
+            Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+            Route::post('/reports/case_by_contract', [ReportController::class, 'case_by_contract']);
+            Route::post('/report/incidents-by-contract', [ReportController::class, 'case_by_contract_download'])->name('reports.case_by_contract');
         });
     });
 

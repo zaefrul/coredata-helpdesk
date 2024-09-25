@@ -210,6 +210,21 @@
                             </ul>
                         </li>
                         {{-- end admin --}}
+                        {{-- reports --}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-report-profit"></em></span>
+                                <span class="nk-menu-text">Report & Data Extraction</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item {{request()->routeIs('reporting.index') ? 'active' : ''}}">
+                                    <a href="/reports" class="nk-menu-link">
+                                        <span class="nk-menu-text">Report List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- end reports --}}
                         @endif
                     @else
                         {{-- incident --}}
