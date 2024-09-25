@@ -45,6 +45,9 @@ class CheckContracts extends Command
             Log::debug('Found ' . $contracts->count() . ' contracts ending soon');
             $admins = User::where('role', 'admin')->pluck('email')->toArray();
 
+            // remove admin@coredata.com.my
+            $admins = array_diff($admins, ['admin@coredata.com.my']);
+
             Log::debug('Sending notification admins');
             Log::debug(print_r($admins, true));
             Mail::to($admins)->send(new ContractEndNotificationMail($contracts));
