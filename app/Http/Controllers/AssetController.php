@@ -107,8 +107,8 @@ class AssetController extends Controller
         $asset->save();
 
         // Update the asset with the QR code path
-        $asset->qr_code_path = \App\Helper\AssetHelper::generateAssetQRCode($asset);
-        $asset->save();
+        // $asset->qr_code_path = \App\Helper\AssetHelper::generateAssetQRCode($asset);
+        // $asset->save();
 
         return redirect()->route('assets.index')
             ->with('success', 'Asset created successfully.');
@@ -232,8 +232,17 @@ class AssetController extends Controller
 
     public function getAssetByContractorId(Request $request)
     {
+        // get the request parameter
+        $parameter = $request->query('field');
         $contractId = $request->contract_id;
-        $assets = Asset::where('contract_id', $contractId)->get();
+        $assets = Asset::where('contract_id', $contractId);
+
+        if($parameter != null) {
+            $assets->select($parameter);
+        }
+
+        $assets = $assets->get();
+
         return response()->json($assets);
     }
 }

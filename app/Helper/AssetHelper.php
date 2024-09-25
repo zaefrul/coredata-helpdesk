@@ -17,7 +17,7 @@ class AssetHelper
 {
     public static function generateAssetQRCode(Asset $asset)
     {
-        $logoPath = public_path('images/coredata-logo-only.png');
+        $logoPath = public_path('images/coredata-logo-only-white-bg.png');
         $url = route('public.assets.show', $asset->id);
 
         try

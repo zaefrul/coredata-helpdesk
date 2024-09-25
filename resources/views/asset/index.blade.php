@@ -77,9 +77,10 @@
                                                 <div class="media-text">
                                                     <a href="/resources/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
                                                     <span class="small text">{{$asset->contract->contract_number}}</span>
-                                                    @if($asset->qr_code_path)
-                                                    <a class="link-warning" href="{{$asset->qr_code_path}}" target="_blank" class="small text">Download QR Code</a>
-                                                    @endif                                                
+                                                    {{-- @if($asset->qr_code_path) --}}
+                                                    <a class="link-warning" role="button" onclick="getQRCodeNewWindow('{{$asset->asset_number}}', '{{$asset->asset_number}}')" class="small text">Download QR Code</a>
+                                                    {{-- <a class="link-warning" href="{{$asset->qr_code_path}}" target="_blank" class="small text">Download QR Code</a> --}}
+                                                    {{-- @endif                                                 --}}
                                                 </div>
                                             </div>
                                         </td>
@@ -139,6 +140,8 @@
 
 @section('js')
 <script src="/assets/js/data-tables/data-tables.js"></script>
+{{-- <script src="/assets/js/qr-code-styling.js"></script> --}}
+<script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 <script>
     // function for a tag onclick event to delete customer
     function deleteCustomer(id) {
@@ -155,6 +158,238 @@
             document.body.appendChild(form);
             form.submit();
         }
+    }
+
+    function getQRCode(assetId) {
+        let url = `/public/resources/${assetId}/show`;
+
+        const imagePath = "/images/coredata-logo-only.png";
+        const fullLogoUrl = new URL(imagePath, window.location.origin).href;
+
+        const qrCode = new QRCodeStyling({
+            "width": 500,
+            "height": 500,
+            "data": url,
+            "margin": 10,
+            "qrOptions": {
+                "typeNumber": "0",
+                "mode": "Byte",
+                "errorCorrectionLevel": "Q"
+            },
+            "imageOptions": {
+                "hideBackgroundDots": true,
+                "imageSize": 0.4,
+                "margin": 0
+            },
+            "dotsOptions": {
+                "type": "extra-rounded",
+                "color": "#ec5146",
+                "gradient": null
+            },
+            "backgroundOptions": {
+                "color": "#ffffff"
+            },
+            "image": fullLogoUrl,
+            "dotsOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#6a1a4c",
+                    "color2": "#6a1a4c",
+                    "rotation": "0"
+                }
+            },
+            "cornersSquareOptions": {
+                "type": "extra-rounded",
+                "color": "#09617b"
+            },
+            "cornersSquareOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                }
+            },
+            "cornersDotOptions": {
+                "type": "",
+                "color": "#09607b"
+            },
+            "cornersDotOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                }
+            },
+            "backgroundOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#ffffff",
+                    "color2": "#ffffff",
+                    "rotation": "0"
+                }
+            }
+        });
+        // construct filename with timestamp
+        const filename = "assetqr-" + new Date().getTime();
+        qrCode.append(document.getElementById("canvas"));
+        qrCode.download({ name: filename, extension: "svg" });
+    }
+
+    function getQRCodeNewWindow(assetId, assetLabel)
+    {
+        let url = `/public/resources/${assetId}/show`;
+        url = new URL(url, window.location.origin).href;
+
+        const imagePath = "/images/coredata-logo-only.png";
+        const fullLogoUrl = new URL(imagePath, window.location.origin).href;
+        // Open a new window
+        const newWindow = window.open("", "_blank", "width=600,height=600");
+
+        // Create the QR code
+        const qrCode = new QRCodeStyling({
+            "width": 400,
+            "height": 400,
+            "data": url,
+            "margin": 10,
+            "qrOptions": {
+                "typeNumber": "0",
+                "mode": "Byte",
+                "errorCorrectionLevel": "Q"
+            },
+            "imageOptions": {
+                "hideBackgroundDots": true,
+                "imageSize": 0.4,
+                "margin": 0
+            },
+            "dotsOptions": {
+                "type": "extra-rounded",
+                "color": "#ec5146",
+                "gradient": null
+            },
+            "backgroundOptions": {
+                "color": "#ffffff"
+            },
+            "image": fullLogoUrl,
+            "dotsOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#6a1a4c",
+                    "color2": "#6a1a4c",
+                    "rotation": "0"
+                }
+            },
+            "cornersSquareOptions": {
+                "type": "extra-rounded",
+                "color": "#09617b"
+            },
+            "cornersSquareOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                }
+            },
+            "cornersDotOptions": {
+                "type": "",
+                "color": "#09607b"
+            },
+            "cornersDotOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                }
+            },
+            "backgroundOptionsHelper": {
+                "colorType": {
+                    "single": true,
+                    "gradient": false
+                },
+                "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#ffffff",
+                    "color2": "#ffffff",
+                    "rotation": "0"
+                }
+            }
+        });
+
+        // Create a container for the QR code
+        const mainContainer = newWindow.document.createElement("div");
+        mainContainer.style.display = "flex";
+        mainContainer.style.justifyContent = "center";
+        mainContainer.style.alignItems = "center";
+        mainContainer.style.flexDirection = "column";
+        mainContainer.style.border = "2px dashed #000";
+        mainContainer.style.padding = "20px";
+        mainContainer.style.width = "500px";
+        mainContainer.style.height = "500px";
+
+        const qrContainer = document.createElement("div");
+        qrContainer.id = "qr-container";
+        qrContainer.style.display = "flex";
+        qrContainer.style.justifyContent = "center";
+        qrContainer.style.alignItems = "center";
+
+        mainContainer.appendChild(qrContainer);
+
+
+        // Generate the QR code in the new window
+        qrCode.append(qrContainer);
+
+        // Optionally, add a label
+        const qrLabel = newWindow.document.createElement("div");
+        qrLabel.textContent = assetLabel;
+        qrLabel.style.textAlign = "center";
+        qrLabel.style.marginTop = "10px"; // Adjust spacing
+        qrLabel.style.fontSize = "26px"; // Font size
+        qrLabel.style.color = "#000"; // Text color
+        qrLabel.style.fontWeight = "bold"; // Font weight
+
+        // Append the label to the new window
+        mainContainer.appendChild(qrLabel);
+        
+        newWindow.document.body.appendChild(mainContainer);
     }
 </script>
 @endsection

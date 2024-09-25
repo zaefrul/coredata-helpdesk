@@ -13,7 +13,7 @@
                                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                                     <li class="breadcrumb-item"><a href="{{ route('users.index') }}">User Management</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">{{ $user->name }}</li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{$user->designation ? $user->designation . ' ' : ''}}{{ $user->name }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -67,7 +67,7 @@
                                                 <img src="{{ $path }}" alt="">
                                             </div>
                                             <div class="mt-3 mt-md-0 ms-md-3">
-                                                <h3 class="title mb-1">{{$user->name}}</h3>
+                                                <h3 class="title mb-1">{{$user->designation ? $user->designation . ' ' : ''}}{{$user->name}}</h3>
                                                 <span class="small">
                                                     @if($user->role == 'admin')
                                                         <span class="badge text-bg-primary">Admin</span>

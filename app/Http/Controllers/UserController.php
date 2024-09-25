@@ -36,6 +36,7 @@ class UserController extends Controller
             'role' => 'required',
             'phone_number' => 'nullable',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'designation' => 'nullable',
         ]);
 
         if(request()->hasFile('profile_picture')) {
@@ -54,6 +55,7 @@ class UserController extends Controller
         $user->phone_number = request('phone');
         $user->password = bcrypt(request('password'));
         $user->profile_photo_path = $path ?? null;
+        $user->designation = request('designation');
         $user->save();
 
         return redirect(route('users.index'))->with('success', 'User Account created successfully');
@@ -74,6 +76,7 @@ class UserController extends Controller
             'role' => 'required',
             'phone_number' => 'nullable',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'designation' => 'nullable',
         ]);
 
         if(request()->hasFile('profile_picture')) {
@@ -95,6 +98,7 @@ class UserController extends Controller
         $user->role = request('role');
         $user->phone_number = request('phone');
         $user->profile_photo_path = $path ?? null;
+        $user->designation = request('designation');
         $user->save();
 
         return redirect(route('users.index'))->with('success', 'User Account updated successfully');

@@ -54,7 +54,16 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 gx-gs mt-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="designation" class="form-label">Designation</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-control-icon start"><em class="icon ni ni-user"></em></div>
+                                                <input type="text" class="form-control " id="designation" name="designation" value="{{old('designation', $user->designation)}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
                                         <div class="form-group">
                                             <label for="name" class="form-label">Name</label>
                                             <div class="form-control-wrap">

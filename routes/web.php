@@ -39,6 +39,7 @@ Route::fallback(function () {
 });
 
 Route::get('/public/resources/{id}/show', [AssetViewController::class, 'show'])->name('public.assets.show');
+Route::get('/public/error', function () { return view('public.asset_not_found'); })->name('public.error');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -128,6 +129,11 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/admin/emails/on', [SettingController::class, 'turnEmailOn'])->name('settings.email.on');
             Route::get('/admin/emails/off', [SettingController::class, 'turnEmailOff'])->name('settings.email.off');
+
+            Route::get('/admin/asset/all/qr', [SettingController::class, 'qrsettingPage'])->name('settings.assets.qr');
+            Route::get('/admin/assets/bycontract/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('assets.getbycontract');
+
+            Route::get('/admin/assets/all/regenerateqr', [SettingController::class, 'regenerateAssetQR'])->name('assets.regenerateqr');
         });
     });
 
