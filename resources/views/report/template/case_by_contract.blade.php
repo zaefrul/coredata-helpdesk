@@ -50,9 +50,9 @@
                 <td>{{ $incident->incident_number }}</td>
                 <td>{{ $incident->created_at }}</td>
                 <td>{{ $incident->incident_type }}</td>
-                <td>{{ $incident->status }}</td>
+                <td>{{ \App\Models\Incident::STATUS_LABELS[$incident->status] }}</td>
                 <td>{{ $incident->currentAssignee ? $incident->currentAssignee->name : 'Unasigned' }}</td>
-                <td>{{ $incident->priority }}</td>
+                <td>{{ \App\Models\Incident::PRIORITY_LABELS[$incident->priority] }}</td>
                 <td>{{ $incident->resolved_at }}</td>
             </tr>
         @endforeach

@@ -6,6 +6,7 @@ use App\Models\Contract;
 use App\Models\Incident;
 use App\Models\RequestReport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,7 +46,9 @@ class ReportController extends Controller
             'incidents' => $incidents,
         ]);
 
+        $filename = 'Incidents_by_Contract_Report' . Carbon::now()->format('YmdHis') . '.pdf';
+
         // Return the generated PDF as a download or display
-        return $pdf->download('Incidents_by_Contract_Report.pdf');
+        return $pdf->download($filename);
     }
 }

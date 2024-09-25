@@ -122,4 +122,28 @@ class Incident extends Model
             EmailService::sendIncidentNotification($incident, $recipients);
         });
     }
+
+    // constants for incident status
+    const STATUS_OPEN = 'open';
+    const STATUS_RESOLVED = 'resolved';
+    const STATUS_CLOSED = 'closed';
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_LABELS = [
+        self::STATUS_OPEN => 'Open',
+        self::STATUS_RESOLVED => 'Resolved',
+        self::STATUS_CLOSED => 'Closed',
+        self::STATUS_IN_PROGRESS => 'In Progress',
+    ];
+
+    // constants for incident priority
+    const PRIORITY_LOW = 'low';
+    const PRIORITY_MEDIUM = 'medium';
+    const PRIORITY_HIGH = 'high';
+    const PRIORITY_CRITICAL = 'critical';
+    const PRIORITY_LABELS = [
+        self::PRIORITY_LOW => 'Low',
+        self::PRIORITY_MEDIUM => 'Medium',
+        self::PRIORITY_HIGH => 'High',
+        self::PRIORITY_CRITICAL => 'Critical',
+    ];
 }
