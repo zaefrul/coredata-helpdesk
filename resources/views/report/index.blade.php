@@ -51,7 +51,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card mt-3">
+                    {{-- comment dulu --}}
+                    {{-- <div class="card mt-3">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -73,7 +74,6 @@
                                             @foreach($requestReport as $report)
                                             <tr>
                                                 <td>
-                                                    {{-- if less than one day show diffForHumans else show normal datetime --}}
                                                     @if($report->created_at->diffInDays() < 1)
                                                         {{$report->created_at->diffForHumans()}}
                                                     @else
@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
