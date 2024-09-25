@@ -43,12 +43,10 @@ class CheckContracts extends Command
 
         if($contracts->count() > 0) {
             Log::debug('Found ' . $contracts->count() . ' contracts ending soon');
-            $admins = User::where('role', 'admin')->get();
+            $admins = User::where('role', 'admin')->pluck('email')->toArray();
 
-            foreach($admins as $admin) {
-                Log::debug('Sending notification to ' . $admin->email);
-                Mail::to($admin->email)->send(new ContractEndNotificationMail($contracts, $admin));
-            }
+            Log::debug('Sending notification to ' . $admins);
+            Mail::to($admins)->send(new ContractEndNotificationMail($contracts));
         }
 
         // Log::info('Scheduled task : ' . $this->signature . " ended at " . Carbon::now());
