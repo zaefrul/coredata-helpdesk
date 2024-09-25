@@ -4,10 +4,11 @@ namespace App\Mail;
 
 use App\Models\Contract;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContractEndNotificationMail extends Mailable
+class ContractEndNotificationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

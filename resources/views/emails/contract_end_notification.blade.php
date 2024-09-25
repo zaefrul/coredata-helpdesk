@@ -13,20 +13,17 @@
     <table>
         <thead>
             <tr>
-                <th>Customer</th>
-                <th>Contract Name</th>
-                <th>End Date</th>
-                <th>Actions</th>
+                <th>Contract Details</th>
             </tr>
         </thead>
         <tbody>
             @foreach($contracts as $contract)
             <tr>
-                <td>{{ $contract->customer->company_name }}</td>
-                <td>{{ $contract->name }}</td>
-                <td>{{ $contract->end_date }}</td>
                 <td>
-                    <a href="{{ url('contracts/' . $contract->id . '/show') }}">View</a>
+                    <p>Customer Name: {{ $contract->customer->company_name }}</p>
+                    <p>Contract Name: {{ $contract->contract_name }}</p>
+                    <p>Contract Start Date: {{ $contract->start_date->format('d/M/Y') }}</p>
+                    <p>Contract End Date: {{ $contract->end_date->format('d/M/Y') }}</p>
                 </td>
             </tr>
             @endforeach
