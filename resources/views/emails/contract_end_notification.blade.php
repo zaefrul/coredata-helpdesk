@@ -87,7 +87,7 @@
     </div>
     
     <footer>
-        &copy; {{ date('Y') }} COREDATA SDN BHD. All rights reserved.
+        &copy; {{ date('Y') }} <b>CoreData Sdn. Bhd.</b> All rights reserved.
     </footer>
 </body>
 </html>
