@@ -45,7 +45,8 @@ class CheckContracts extends Command
             Log::debug('Found ' . $contracts->count() . ' contracts ending soon');
             $admins = User::where('role', 'admin')->pluck('email')->toArray();
 
-            Log::debug('Sending notification to ' . $admins);
+            Log::debug('Sending notification admins');
+            Log::debug(print_r($admins, true));
             Mail::to($admins)->send(new ContractEndNotificationMail($contracts));
         }
 
