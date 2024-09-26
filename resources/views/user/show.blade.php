@@ -1,5 +1,10 @@
 @extends('layouts.main')
 
+@php
+    $admin = Auth::user()->role == 'admin' ? true : false;
+@endphp
+                        
+
 @section('content')
 <div class="nk-content">
     <div class="container">
@@ -12,11 +17,14 @@
                             <nav>
                                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                                    @if($admin)
                                     <li class="breadcrumb-item"><a href="{{ route('users.index') }}">User Management</a></li>
+                                    @endif
                                     <li class="breadcrumb-item active" aria-current="page">{{$user->designation ? $user->designation . ' ' : ''}}{{ $user->name }}</li>
                                 </ol>
                             </nav>
                         </div>
+                        @if($admin)
                         <div class="nk-block-head-content">
                             <ul class="d-flex g-3">
                                 <li style="margin-right: 1rem">
@@ -40,6 +48,7 @@
                                 </li>
                             </ul>
                         </div>
+                        @endif
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
 

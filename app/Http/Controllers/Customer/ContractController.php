@@ -10,7 +10,7 @@ class ContractController extends Controller
 {
     public function index()
     {
-        $contracts = Contract::where('customer_id', Auth::user()->customer_id)->get();
+        $contracts = Contract::where('department_id', Auth::user()->department_id)->get();
         return view('customer_view.contract.index', compact('contracts'));
     }
 

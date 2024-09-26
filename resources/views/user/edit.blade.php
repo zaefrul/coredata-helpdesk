@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@php
+    $disabledNonAdmin = auth()->user()->role !== 'admin' ? 'disabled' : '';
+@endphp
+
 @section('content')
 <div class="nk-content">
     <div class="container">
@@ -12,7 +16,9 @@
                                 <nav>
                                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                                         <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                        @if(auth()->user()->role != 'user')
                                         <li class="breadcrumb-item"><a href="/project">Account Manager</a></li>
+                                        @endif
                                         <li class="breadcrumb-item">Edit Account</li>
                                     </ol>
                                 </nav>
@@ -38,7 +44,6 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <div class="form-control-icon start"><em class="icon ni ni-user"></em></div>
                                                 @php
                                                     $path = '/images/avatar/3.png';
 
@@ -77,7 +82,7 @@
                                             <label for="email" class="form-label">Email</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-control-icon start"><em class="icon ni ni-mail"></em></div>
-                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email', $user->email)}}" required>
+                                                <input {{$disabledNonAdmin}} type="email" class="form-control" id="email" name="email" value="{{old('email', $user->email)}}" required>
                                             </div>
                                         </div>
                                     </div>
@@ -91,6 +96,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if($disabledNonAdmin != 'disabled')
                                 <div class="row g-3 gx-gs mt-3">  
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -106,6 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="row g-3 gx-gs mt-3">  
                                     <div class="col-md-12">
                                                 <button type="submit" class="btn btn-primary">Edit Account</button>

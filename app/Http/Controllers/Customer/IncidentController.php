@@ -13,7 +13,12 @@ class IncidentController extends Controller
 {
     public function index()
     {
-        $incidents = Incident::where('customer_id', Auth::user()->customer_id)->get();
+        $departmentId = Auth::user()->department_id; // Assuming user is tied to a department
+        $incidents = Incident::whereHas('asset.contract', function($query) use ($departmentId) {
+            $query->where('department_id', $departmentId);
+        })->with('asset.contract.department')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('customer_view.incident.index', compact('incidents'));
     }
 

@@ -53,9 +53,9 @@
                                                             </div>
                                                             <div class="nk-timeline-content">
                                                                 @if(str_contains($incident->description, 'Comment added'))
-                                                                    <p class="small"><strong><a class="link-info" href="/incidents/{{$incident->incident->incident_number}}/show">{{$incident->incident->incident_number}}</a></strong>  - {!! $incident->description !!} by <a href="{{route('users.show', $incident->user->id)}}">{{ $incident->user->name }}</a> - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
+                                                                    <p class="small"><strong><a class="link-info" href="/user/incidents/{{$incident->incident->incident_number}}/show">{{$incident->incident->incident_number}}</a></strong>  - {!! $incident->description !!} by <a href="{{route('users.show', $incident->user->id)}}">{{ $incident->user->name }}</a> - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
                                                                 @else
-                                                                <p class="small"><strong><a class="link-info" href="/incidents/{{$incident->incident->incident_number}}/show">{{$incident->incident->incident_number}}</a></strong>  - {!! $incident->description !!} - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
+                                                                <p class="small"><strong><a class="link-info" href="/user/incidents/{{$incident->incident->incident_number}}/show">{{$incident->incident->incident_number}}</a></strong>  - {!! $incident->description !!} - <span style="font-size: 0.7rem; color:darkgrey; font-style:italic">{{$incident->created_at->diffForHumans()}}</span></p>
                                                                 @endif
                                                             </div>
                                                         </div>

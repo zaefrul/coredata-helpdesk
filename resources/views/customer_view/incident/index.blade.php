@@ -46,7 +46,7 @@
                                 @foreach($incidents as $incident)
                                     <tr>
                                         <td class="tb-col tb-col-end">
-                                            <a class="link-dark fw-bold" href="/incidents/{{$incident->incident_number}}/show" class="title">{{$incident->incident_number}}</a>
+                                            <a class="link-dark fw-bold" href="/user/incidents/{{$incident->incident_number}}/show" class="title">{{$incident->incident_number}}</a>
                                         </td>
                                         <td class="tb-col">{{$incident->title}}</td>
                                         <td class="tb-col">
@@ -61,7 +61,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="media-text">
-                                                        <a href="/user/users/{{$incident->id}}/show" class="title">{{$assignTo->name}}</a>
+                                                        <a href="{{route('user.accounts.show', $assignTo->id)}}" class="title">{{$assignTo->name}}</a>
                                                         <span class="small text">{{$assignTo->customer ? $assignTo->customer->company_name : ''}}</span>
                                                     </div>
                                                 </div>
