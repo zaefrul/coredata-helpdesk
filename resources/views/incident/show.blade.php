@@ -13,6 +13,7 @@
     if($currUser->role != 'admin' && ($currUser->id != $currAssignee || $incident->status == 'resolved' || $incident->status == 'closed')) {
         $disabled = 'disabled';
     }
+
 @endphp
 @section('content')
 <div class="nk-content">
@@ -34,7 +35,10 @@
                                             <li class="list-group-item" style="display: flex;">
                                                 <div class="title fw-medium w-40 d-inline-block">Assignee</div>
                                                 <div class="dropdown">
-                                                    <a {{$disabled}} class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    @php 
+                                                        $agentAssignee = $disabled == 'disabled' && Auth::user()->role == 'agent' && $incident->currentAssignee == null ? '' : 'disabled';
+                                                    @endphp
+                                                    <a {{$agentAssignee}} class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                         @if($incident->currentAssignee)
                                                             {{$incident->currentAssignee->name}}
                                                         @else

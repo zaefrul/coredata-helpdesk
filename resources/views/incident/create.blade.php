@@ -179,7 +179,7 @@
             else if(selectedContractId === '' && contractid !== null) {
                 selectedContractId = contractid;
             }
-            var url = "{{ route('assets.getbycontract', ':contract_id') }}";
+            var url = "{{ route('staff.assets.getbycontract', ':contract_id') }}";
             url = url.replace(':contract_id', selectedContractId);
 
             var xhr = new XMLHttpRequest();

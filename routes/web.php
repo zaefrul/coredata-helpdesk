@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/resources/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
         Route::put('/resources/{id}', [AssetController::class, 'update'])->name('assets.update');
         Route::delete('/resources/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-        Route::get('/resources/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('assets.getbycontract');
+        Route::get('/resources/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('staff.assets.getbycontract');
 
         Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
         Route::get('/incidents/create', [IncidentController::class, 'create'])->name('incidents.create');
