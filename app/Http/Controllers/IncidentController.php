@@ -193,7 +193,7 @@ class IncidentController extends Controller
                     ]);
                 }
 
-                $convoId = $convo ? $convo->id : null;
+                $convoId = $request->input('comment') != null ? $convo->id : null;
 
                 // Upload attachments
 
