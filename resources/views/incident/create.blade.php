@@ -33,7 +33,10 @@
                                                 <select class="js-select" name="contract_id" id="contract_id">
                                                     <option value="">Select Contract</option>
                                                     @foreach ($contracts as $contract)
-                                                        <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>{{ $contract->contract_name }}</option>
+                                                        @php
+                                                            $selected = old('contract_id') == $contract->id ? 'selected' : '';
+                                                        @endphp
+                                                        <option value="{{ $contract->id }}" {{ $selected }}>{{ $contract->contract_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -147,6 +150,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         assetLocation = [];
+        
+        queryparam = new URLSearchParams(window.location.search);
+        
+        var contractid = queryparam.get('contractid');
+        var assetid = queryparam.get('assetid');
 
         const element = document.getElementById('asset_id');
         const asset_selector = new Choices(element, {
@@ -161,11 +169,15 @@
         });
 
         var contractId = document.getElementById('contract_id');
+
         contractId.addEventListener('change', function() {
-            asset_selector.clearStore();
             var selectedContractId = this.value;
-            if(selectedContractId === '') {
+            asset_selector.clearStore();
+            if(selectedContractId === '' && contractid === null) {
                 return;
+            }
+            else if(selectedContractId === '' && contractid !== null) {
+                selectedContractId = contractid;
             }
             var url = "{{ route('assets.getbycontract', ':contract_id') }}";
             url = url.replace(':contract_id', selectedContractId);
@@ -189,7 +201,7 @@
                         var option = {
                             value: asset.id,
                             label: assetName,
-                            selected: false,
+                            selected: assetid != null ? assetid == asset.id ? true : false : false,
                             disabled: false
                         };
                         options.push(option);
@@ -222,6 +234,13 @@
                 scheduleDate.disabled = true;
             }
         });
+
+        // trigger change so that asset id can be set
+        if(contractid) {
+            contractId.value = contractid;
+            var event = new Event('change');
+            contractId.dispatchEvent(event);
+        }
     });
 </script>
 @endsection

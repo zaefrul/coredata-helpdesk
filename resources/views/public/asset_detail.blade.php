@@ -381,6 +381,11 @@
                                 </div>
                             </div>
                         @endif
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <a href="{{ route('incidents.frompublic', ['contractid' => $asset->contract_id, 'assetid' => $asset->id,]) }}" class="btn btn-warning btn-sm">Report an Incident</a>
+                            </div>
+                        </div>
                     </div>
                 </div><!-- .nk-block -->
             </div>

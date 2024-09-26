@@ -22,6 +22,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Middleware\EnsureRoleIsAgentOrAdmin;
 use App\Http\Middleware\EnsureRoleIsUser;
 use App\Http\Middleware\EnsureUserIsAdmin;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -43,6 +44,18 @@ Route::get('/public/resources/{id}/show', [AssetViewController::class, 'show'])-
 Route::get('/public/error', function () { return view('public.asset_not_found'); })->name('public.error');
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/incidents/frompublic', function (Request $request) {
+        $queryParams = $request->query();
+
+        if(Auth::check()) {
+            if(Auth::user()->role != 'user') {
+                return redirect()->route('incidents.create', $queryParams);
+            } else {
+                return redirect()->route('user.incidents.create', $queryParams);
+            }
+        }
+    })->name('incidents.frompublic');
 
     Route::group(['middleware' => EnsureRoleIsAgentOrAdmin::class], function () {
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
@@ -161,7 +174,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('resources/{id}/show', [CustomerAssetController::class, 'show'])->name('user.assets.show');
     });
 
-    Route::post('/incidentπ/attachment', [IncidentController::class, 'uploadAttachment'])->name('incident.attachment');
+    Route::post('/incident/attachment', [IncidentController::class, 'uploadAttachment'])->name('incident.attachment');
+    // all roles can access this create ticket form
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

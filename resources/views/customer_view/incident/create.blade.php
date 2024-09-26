@@ -141,6 +141,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         assetLocation = [];
 
+        // from query param
+        queryparam = new URLSearchParams(window.location.search);
+        
+        var contractid = queryparam.get('contractid');
+        var assetid = queryparam.get('assetid');
+
         const element = document.getElementById('asset_id');
         const asset_selector = new Choices(element, {
             silent: true,
@@ -181,7 +187,7 @@
                         var option = {
                             value: asset.id,
                             label: assetName,
-                            selected: false,
+                            selected: assetid == asset.id ? true : false,
                             disabled: false
                         };
                         options.push(option);
@@ -203,6 +209,13 @@
             var siteLocationInput = document.getElementById('site_location');
             siteLocationInput.value = siteLocation;
         });
+
+        // trigger change so that asset id can be set
+        if(contractid) {
+            contractId.value = contractid;
+            var event = new Event('change');
+            contractId.dispatchEvent(event);
+        }
     });
 </script>
 @endsection
