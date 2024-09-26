@@ -255,7 +255,7 @@ class IncidentController extends Controller
             $newInventory->item = $component->component_name;
             $newInventory->type = $component->component_type;
             $newInventory->replaced_incident_id = $incident->id;
-            $newInventory->replaced_asset_id = $inventory->asset_id;
+            $newInventory->replaced_asset_id = $component->asset_id;
             $newInventory->old_item = $inventory->id;
             $newInventory->save();
 

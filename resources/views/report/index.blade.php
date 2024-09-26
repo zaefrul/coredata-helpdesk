@@ -51,6 +51,35 @@
                             </form>
                         </div>
                     </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h6 class="card-title">Report - Contract Replacement Parts</h6>
+                                </div>
+                            </div>
+                            <form action="{{route('reports.contract_replacement_parts')}}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="contract">Contract</label>
+                                            <select class="js-select" id="contract_id" name="contract_id" data-search="true">
+                                                @foreach($contracts as $contract)
+                                                <option value="{{$contract->id}}">{{$contract->contract_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-primary">Generate Report</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     {{-- comment dulu --}}
                     {{-- <div class="card mt-3">
                         <div class="card-body">

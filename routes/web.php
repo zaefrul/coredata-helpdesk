@@ -138,6 +138,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
             Route::post('/reports/case_by_contract', [ReportController::class, 'case_by_contract']);
             Route::post('/report/incidents-by-contract', [ReportController::class, 'case_by_contract_download'])->name('reports.case_by_contract');
+            Route::post('/report/contract-replacement-parts', [ReportController::class, 'contract_replacement_parts_download'])->name('reports.contract_replacement_parts');
         });
     });
 

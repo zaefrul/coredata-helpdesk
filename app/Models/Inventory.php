@@ -15,7 +15,8 @@ class Inventory extends Model
         'part_number',
         'item',
         'mfg_part_number',
-        'type' //this will follow component_type
+        'type', //this will follow component_type
+        'replaced_asset_id',
     ];
 
     protected static function booted()

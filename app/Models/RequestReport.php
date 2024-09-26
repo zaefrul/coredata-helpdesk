@@ -20,8 +20,10 @@ class RequestReport extends Model
 
     // Report Type Constants
     public const CASE_BY_CONTRACT = 'case_by_contract';
+    public const CONTRACT_REPLACEMENT_PARTS = 'contract_replacement_parts';
     public const LABEL = [
         self::CASE_BY_CONTRACT => 'Case by Contract',
+        self::CONTRACT_REPLACEMENT_PARTS => 'Contract Replacement Parts',
     ];
 
     // Report Status Constants
