@@ -84,7 +84,7 @@
                                         </ul>
                                     </div>
                                     <div class="bio-block">
-                                        <form method="POST" action="{{route('user.incident.comment', ['incident' => $incident->id])}}">
+                                        <form method="POST" action="{{route('user.incident.comment', ['incident' => $incident->id])}}" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
                                             <div class="form-group">
@@ -96,23 +96,16 @@
                                                     <textarea class="form-control form-control-sm" id="comment" name="comment" placeholder="Write a comment"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-3 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-light btn-sm">Add Comment</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="bio-block">
-                                        <form method="POST" action="{{route('incident.attachment')}}" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="attachment" class="form-label">Attachment</label>
+                                            <div class="form-group mt-3">
+                                                <label for="attachment" class="form-label">Attachment(s)</label>
                                                 <div class="form-input-wrap">
                                                     <input type="file" class="form-control form-control-sm" id="attachment" name="attachments[]" multiple>
                                                     <input type="hidden" name="incident_id" value="{{$incident->id}}">
                                                 </div>
+                                                <div class="form-note fst-italic">* You can select more than one picture.</div>
                                             </div>
                                             <div class="form-group mt-3 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-light btn-sm">Upload Attachment</button>
+                                                <button type="submit" class="btn btn-light btn-sm">Add Comment</button>
                                             </div>
                                         </form>
                                     </div>

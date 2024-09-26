@@ -48,7 +48,7 @@ class IncidentController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
             'contract_id' => 'required',
             'asset_id' => 'required',
             'site_location' => 'nullable',
