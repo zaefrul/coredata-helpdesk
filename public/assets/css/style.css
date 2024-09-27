@@ -27282,10 +27282,10 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("../images/mask/c.png");
+  /* background-image: url("../images/mask/c.png"); */
   background-size: cover;
   background-position: center;
-  z-index: -1;
+  z-index: -10;
 }
 .mask-4 {
   top: 0;
