@@ -183,7 +183,7 @@
                                                 <span class="text-secondary">{{ $asset->contract->start_date->format('Y') }} - {{ $asset->contract->end_date->format('Y') }}</span>
                                             </td>
                                         </tr>
-                                        {{-- <tr>
+                                        <tr>
                                             <td class="tb-col">
                                                 <strong>Brand:</strong> 
                                             </td>
@@ -254,7 +254,7 @@
                                                     @endif
                                                 </span>
                                             </td>
-                                        </tr> --}}
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
