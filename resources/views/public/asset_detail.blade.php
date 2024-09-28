@@ -329,7 +329,7 @@
                                                 @for($i=0; $i<$count; $i++)
                                                     <tr>
                                                         <td class="tb-col" colspan="2">
-                                                            <span class="overline-title">P. Maintenance - {{ $i+1 }}</span>
+                                                            <span class="overline-title">PM - {{ $i+1 }}</span>
                                                         </td>
                                                         <td class="tb-col tb-col-end">
                                                             @if($scheduleTasks->count() > $i )
