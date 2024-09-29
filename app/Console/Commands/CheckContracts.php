@@ -34,7 +34,6 @@ class CheckContracts extends Command
         $now = Carbon::now();
         $threeMonthsFromNow = $now->copy()->addMonths(3);
 
-        // Log::info('Scheduled task : ' . $this->signature . " started at " . $now);
         $this->info('Scheduled task : ' . $this->signature . " started at " . $now);
 
         $contracts = Contract::where('end_date', '>=', $now)
@@ -53,7 +52,6 @@ class CheckContracts extends Command
             Mail::to($admins)->send(new ContractEndNotificationMail($contracts));
         }
 
-        // Log::info('Scheduled task : ' . $this->signature . " ended at " . Carbon::now());
         $this->info('Scheduled task : ' . $this->signature . " ended at " . Carbon::now());
     }
 }

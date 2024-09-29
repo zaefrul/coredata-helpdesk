@@ -35,10 +35,7 @@ class ContractController extends Controller
 
     public function store()
     {
-        Log::info(print_r(request()->all(), true));
-
         // Validate the input
-
         $data = request()->validate([
             'name' => 'required',
             'description' => 'required',

@@ -46,8 +46,6 @@ class IncidentController extends Controller
             $contracts = Contract::findOrfail($request->contract_id);
             $incident_number = $request->incident_type == "incident" ? IncidentLogic::createIncidentNumber($contracts->customer_id) : IncidentLogic::createScheduleTaskNumber($contracts->customer_id);
 
-            Log::info('Creating ticket ' . $incident_number);
-    
             $request->merge(['customer_id' => $contracts->customer_id]);
             $request->merge(['user_id' => Auth::user()->id]);
             $request->merge(['status' => 'open']);
@@ -269,7 +267,7 @@ class IncidentController extends Controller
         }
         catch(\Exception $e)
         {
-            Log::info($e->getMessage());
+            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()]);
             DB::rollback();
         }
@@ -323,8 +321,6 @@ class IncidentController extends Controller
             'id' => 'required|exists:incidents,incident_number',
             'status' => 'required|in:open,in_progress,resolved,closed',
         ]);
-
-        Log::info('Updating ticket status from kanban ' . $request->id);
 
         $incident = Incident::where('incident_number', $request->id)->first();
 

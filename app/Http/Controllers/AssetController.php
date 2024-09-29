@@ -10,13 +10,23 @@ use App\Models\Project;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AssetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $assets = Asset::all();
+        // ger parameter
+        $parameter = $request->query('contract');
+
+        if($parameter != null) {
+            $assets = Asset::where('contract_id', $parameter)->get();
+        } else {
+            $assets = Asset::all();
+        }
+
         $contracts = Contract::all();
+
         return view('asset.index', compact('assets', 'contracts'));
     }
 

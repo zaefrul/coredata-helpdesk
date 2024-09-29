@@ -48,7 +48,6 @@ class UserDepartmentSeeder extends Seeder
             catch(\Exception $e)
             {
                 Log::error('Error creating user for department: ' . $e->getMessage());
-                Log::info(print_r($department, true));
                 continue;
             }
         }

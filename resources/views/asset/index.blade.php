@@ -158,11 +158,16 @@
 {{-- <script src="/assets/js/qr-code-styling.js"></script> --}}
 <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 <script>
-
+    document.addEventListener('DOMContentLoaded', function() {
+        let contractParam = new URLSearchParams(window.location.search).get('contract');
+        if(contractParam) {
+            document.getElementById('contract').value = contractParam;
+        }
+    });
     // if user select contract pass it to search datatable
-    document.getElementById('contract').addEventListener('change', function(){
+    document.getElementById('contract').addEventListener('change', function() {
         let contractId = this.value;
-        let url = '/resources?contract=' + contractId;
+        let url = contractId != 'all' ? '/resources?contract=' + contractId : '/resources';
         window.location.href = url;
     });
 

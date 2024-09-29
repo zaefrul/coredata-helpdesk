@@ -19,7 +19,6 @@ class EnsureUserIsAdmin
     {
         if(Auth::user()->role != 'admin') {
             // signout and throw message
-            Log::info('User '. Auth::user()->name .' with role ' . Auth::user()->role . ' tried to access admin panel');
             Auth::logout();
             return redirect('/login')->with('error', 'You are not authorized to access this page');
         }

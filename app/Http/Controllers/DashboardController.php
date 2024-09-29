@@ -201,8 +201,6 @@ class DashboardController extends Controller
             return $activityLog;
         });
 
-        Log::info(print_r($activityLogs, true));
-
         return $activityLogs;
     }
 

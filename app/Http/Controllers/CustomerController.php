@@ -14,7 +14,6 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::with('departments.users')->get();
-        Log::info(print_r($customers, true));
         return view('customers.index', compact('customers'));
     }
 

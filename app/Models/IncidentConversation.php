@@ -33,7 +33,6 @@ class IncidentConversation extends Model
         parent::boot();
 
         static::saved(function($conversation) {
-            Log::info(print_r($conversation, true));
             $acl = ActivityLog::create([
                 'incident_id' => $conversation->incident_id,
                 'user_id' => $conversation->user_id,

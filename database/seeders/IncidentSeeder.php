@@ -246,11 +246,9 @@ class IncidentSeeder extends Seeder
 
         // get all available asset ids
         $assetIds = Asset::all()->pluck('id')->toArray();
-        Log::info('Asset IDs: ' . print_r($assetIds, true));
         foreach ($incidents as $incidentData) {
             $asset_id = $assetIds[array_rand($assetIds)];
 
-            Log::info('Asset ID: ' . $asset_id);
             $asset = Asset::find($asset_id);
 
             // get contract
