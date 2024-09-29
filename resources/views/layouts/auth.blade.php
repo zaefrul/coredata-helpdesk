@@ -21,9 +21,20 @@
             top: 0;
             left: 0;
             background-color: rgba(223, 215, 216, 0.29); /* Light background color if needed */
-            background-image: url("{{ asset('assets/images/mask/c.png') }}");
+            background-image: url("{{ asset('assets/images/mask/v.png') }}");
             background-size: cover;
             background-position: center;
+        }
+
+        @media only screen and (max-width: 768px) {
+            #particles-js {
+                background-position: 50% 50%; /* Align the image to the top center on mobile */
+                background-size: cover; /* Ensure the image still covers the screen */
+            }
+
+            .login-form {
+                opacity: 0.95;
+            }
         }
 
 
@@ -99,14 +110,15 @@
             particlesJS("particles-js", {
                 "particles": {
                     "number": {
-                        "value": 80,
+                        "value": 160,
                         "density": {
                             "enable": true,
                             "value_area": 800
                         }
                     },
                     "color": {
-                        "value": "#ffffff"
+                        // "value": "#ffffff"
+                        "value": "#c9c9c9" // Set particles to grey
                     },
                     "shape": {
                         "type": "circle",
@@ -146,7 +158,7 @@
                     "line_linked": {
                         "enable": true,
                         "distance": 150,
-                        "color": "#ffffff",
+                        "color": "#c9c9c9",
                         "opacity": 0.4,
                         "width": 1
                     },
