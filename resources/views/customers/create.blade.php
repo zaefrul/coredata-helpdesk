@@ -62,12 +62,21 @@
                                 <div id="department-container">
                                     <div class="department-row">
                                         <div class="row g-3 gx-gs">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="department" class="form-label">Department</label>
                                                     <div class="form-control-wrap">
                                                         <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
                                                         <input type="text" class="form-control" id="department" name="departments[0][department]" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="department_contact_person" class="form-label">Designation</label>
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-control-icon start"><em class="icon ni ni-user"></em></div>
+                                                        <input type="text" class="form-control" id="department_designation" name="departments[0][department_designation]" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,12 +185,21 @@
         const newDepartmentHtml = `
             <div class="department-row">
                 <div class="row g-3 gx-gs">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="department_${departmentIndex}" class="form-label">Department</label>
                             <div class="form-control-wrap">
                                 <div class="form-control-icon start"><em class="icon ni ni-building"></em></div>
                                 <input type="text" class="form-control" id="department_${departmentIndex}" name="departments[${departmentIndex}][department]" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="department_designation_${departmentIndex}" class="form-label">Designation</label>
+                            <div class="form-control-wrap">
+                                <div class="form-control-icon start"><em class="icon ni ni-user"></em></div>
+                                <input type="text" class="form-control" id="department_designation_${departmentIndex}" name="departments[${departmentIndex}][department_designation]" required>
                             </div>
                         </div>
                     </div>

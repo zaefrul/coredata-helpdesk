@@ -13,7 +13,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::with('departments')->get();
+        $customers = Customer::with('departments.users')->get();
         Log::info(print_r($customers, true));
         return view('customers.index', compact('customers'));
     }
@@ -56,13 +56,14 @@ class CustomerController extends Controller
                 'departments.'.$key.'.department_contact_person' => 'nullable',
                 'departments.'.$key.'.department_phone_number' => 'nullable',
                 'departments.'.$key.'.department_email' => 'nullable|email',
+                'departments.'.$key.'.department_designation' => 'nullable',
             ]);
 
             $department = new Department();
             $department->name = $deparment['department'];
-            $department->pc_name = $deparment['department_contact_person'] ?? '';
-            $department->pc_phone = $deparment['department_phone_number'] ?? '';
-            $department->pc_email = $deparment['department_email'] ?? '';
+            // $department->pc_name = $deparment['department_contact_person'] ?? '';
+            // $department->pc_phone = $deparment['department_phone_number'] ?? '';
+            // $department->pc_email = $deparment['department_email'] ?? '';
             $department->customer_id = $customer->id;
             $department->save();
 
@@ -83,6 +84,7 @@ class CustomerController extends Controller
                 continue;
             }
 
+            // create user account
             $user = new User();
             $user->name = $deparment['department_contact_person'];
             $user->email = $deparment['department_email'];
@@ -90,6 +92,7 @@ class CustomerController extends Controller
             $user->password = bcrypt('password');
             $user->customer_id = $customer->id;
             $user->department_id = $department->id;
+            $user->designation = $deparment['department_designation'] ?? '';
             $user->save();
         }
 
@@ -135,6 +138,7 @@ class CustomerController extends Controller
                 'departments.' . $key . '.department_contact_person' => 'nullable',
                 'departments.' . $key . '.department_phone_number' => 'nullable',
                 'departments.' . $key . '.department_email' => 'nullable|email',
+                'departments.' . $key . '.department_designation' => 'nullable',
             ]);
 
             // Check if the department already exists (edit mode)
@@ -145,9 +149,9 @@ class CustomerController extends Controller
 
                 if ($department) {
                     $department->name = $departmentData['department'];
-                    $department->pc_name = $departmentData['department_contact_person'] ?? '';
-                    $department->pc_phone = $departmentData['department_phone_number'] ?? '';
-                    $department->pc_email = $departmentData['department_email'] ?? '';
+                    // $department->pc_name = $departmentData['department_contact_person'] ?? '';
+                    // $department->pc_phone = $departmentData['department_phone_number'] ?? '';
+                    // $department->pc_email = $departmentData['department_email'] ?? '';
                     $department->customer_id = $customer->id;
                     $department->save();
                 }
@@ -155,10 +159,10 @@ class CustomerController extends Controller
                 // Create a new department
                 $department = new Department();
                 $department->name = $departmentData['department'];
-                $department->pc_name = $departmentData['department_contact_person'] ?? '';
-                $department->pc_phone = $departmentData['department_phone_number'] ?? '';
-                $department->pc_email = $departmentData['department_email'] ?? '';
-                $department->customer_id = $customer->id;
+                // $department->pc_name = $departmentData['department_contact_person'] ?? '';
+                // $department->pc_phone = $departmentData['department_phone_number'] ?? '';
+                // $department->pc_email = $departmentData['department_email'] ?? '';
+                $department->customer_id = $id;
                 $department->save();
 
                 // Add the new department to the handled list
@@ -184,18 +188,27 @@ class CustomerController extends Controller
 
             // check if user already exist
             if (User::where('email', $departmentData['department_email'])->exists()) {
-                continue;
-            }
+                // find the user and update the department_id, name, designation, phone_number, email
+                $user = User::where('email', $departmentData['department_email'])->first();
 
-            // Create user account
-            $user = new User();
-            $user->name = $departmentData['department_contact_person'];
-            $user->email = $departmentData['department_email'];
-            $user->phone_number = $departmentData['department_phone_number'] ?? '';
-            $user->password = bcrypt('password');
-            $user->customer_id = $customer->id;
-            $user->department_id = $department->id;
-            $user->save();
+                $user->name = $departmentData['department_contact_person'];
+                $user->phone_number = $departmentData['department_phone_number'] ?? '';
+                $user->designation = $departmentData['department_designation'] ?? '';
+                $user->email = $departmentData['department_email'];
+                $user->save();
+            }
+            else {
+                // Create user account
+                $user = new User();
+                $user->name = $departmentData['department_contact_person'];
+                $user->email = $departmentData['department_email'];
+                $user->phone_number = $departmentData['department_phone_number'] ?? '';
+                $user->designation = $departmentData['department_designation'] ?? '';
+                $user->password = bcrypt('password');
+                $user->customer_id = $id;
+                $user->department_id = $department->id;
+                $user->save();
+            }
         }
 
         // Remove any departments that were not handled during the update (deleted departments)

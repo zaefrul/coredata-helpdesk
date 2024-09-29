@@ -64,7 +64,7 @@
         generate.addEventListener('click', function(){
             const projectId = project.value;
             
-            url = '/admin/assets/bycontract/' + projectId + '?field=asset_number';
+            url = '/admin/assets/bycontract/' + projectId + '?field=asset_number,serial_number';
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -92,7 +92,7 @@
     if (assets.length > 0) {
         assets.forEach(asset => {
             const assetQR = getQRCodeObject(asset.asset_number);
-            const assetQRWithLabel = getAssetQRWithLabel(assetQR, asset.asset_number, newWindow);
+            const assetQRWithLabel = getAssetQRWithLabel(assetQR, asset.asset_number, newWindow, asset.serial_number);
             pageContainer.appendChild(assetQRWithLabel);
         });
 
@@ -105,7 +105,7 @@
     }
 }
 
-function getAssetQRWithLabel(qr, text, newWindow) {
+function getAssetQRWithLabel(qr, text, newWindow, serial = null) {
     const mainContainer = getEachQRContainer(newWindow);
 
     const qrContainer = newWindow.document.createElement("div");
@@ -118,6 +118,15 @@ function getAssetQRWithLabel(qr, text, newWindow) {
     textContainer.style.fontWeight = "bold"; // Bold label
     textContainer.style.fontSize = "20px"; // Adjust font size
     mainContainer.appendChild(textContainer);
+
+    if (serial) {
+        const serialContainer = newWindow.document.createElement("div");
+        serialContainer.innerText = serial;
+        serialContainer.style.textAlign = "center"; // Center label
+        serialContainer.style.fontWeight = "bold"; // Bold label
+        serialContainer.style.fontSize = "15px"; // Adjust font size
+        mainContainer.appendChild(serialContainer);
+    }
 
     return mainContainer;
 }

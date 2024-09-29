@@ -55,4 +55,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Customer::class);
     }
+
+    /**
+     * Get the department that owns the user.
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

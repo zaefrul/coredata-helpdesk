@@ -76,17 +76,17 @@
                                             </td>
                                             <td class="tb-col">{{$customer->prefix}}</td>
                                             <td class="tb-col tb-col-xl">
-                                                @if($department->pc_name == null)
+                                                @if($department->users->count() == 0)
                                                     <span class="small text">No contact person</span>
                                                 @else
                                                     <div class="media-text">
-                                                        <a href="#" class="title">{{$department->pc_name}}</a>
-                                                        <span class="small text">{{$department->pc_email}}</span>
+                                                        <a href="#" class="title">{{$department->users[0]->name}}</a>
+                                                        <span class="small text">{{$department->users[0]->email}}</span>
                                                     </div>
                                                 @endif
                                             </td>
                                             <td class="tb-col tb-col-xl">
-                                                <span class="small text">{{$department->pc_phone}}</span>
+                                                <span class="small text">{{$department->users->count() != 0 ? $department->users[0]->phone_number : ''}}</span>
                                             </td>
                                             @if($isAdmin)
                                             <td class="tb-col tb-col-end">

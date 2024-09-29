@@ -16,7 +16,8 @@ class AssetController extends Controller
     public function index()
     {
         $assets = Asset::all();
-        return view('asset.index', compact('assets'));
+        $contracts = Contract::all();
+        return view('asset.index', compact('assets', 'contracts'));
     }
 
     public function create()
@@ -236,6 +237,9 @@ class AssetController extends Controller
         $parameter = $request->query('field');
         $contractId = $request->contract_id;
         $assets = Asset::where('contract_id', $contractId);
+
+        // break comma and make array
+        $parameter = explode(',', $parameter);
 
         if($parameter != null) {
             $assets->select($parameter);

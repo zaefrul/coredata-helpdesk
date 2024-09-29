@@ -39,7 +39,22 @@
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
-                    <div class="card">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label" for="default-06">Filter by Contract:</label>
+                                <div class="form-control-wrap">
+                                    <select class="js-select" data-search="true" data-placeholder="Search by contract" id="contract">
+                                        <option value="all">All Contracts</option>
+                                        @foreach($contracts as $contract)
+                                            <option value="{{$contract->id}}">{{$contract->contract_name}} - {{$contract->customer->company_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
                         <table class="datatable-init table" data-nk-container="table-responsive">
                             <thead class="table-light">
                                 <tr>
@@ -78,7 +93,7 @@
                                                     <a href="/resources/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
                                                     <span class="small text">{{$asset->contract->contract_number}}</span>
                                                     {{-- @if($asset->qr_code_path) --}}
-                                                    <a class="link-warning" role="button" onclick="getQRCodeNewWindow('{{$asset->asset_number}}', '{{$asset->asset_number}}')" class="small text">Download QR Code</a>
+                                                    <a class="link-warning" role="button" onclick="getQRCodeNewWindow('{{$asset->asset_number}}', '{{$asset->asset_number}}', '{{$asset->serial_number}}')" class="small text">Download QR Code</a>
                                                     {{-- <a class="link-warning" href="{{$asset->qr_code_path}}" target="_blank" class="small text">Download QR Code</a> --}}
                                                     {{-- @endif                                                 --}}
                                                 </div>
@@ -143,6 +158,14 @@
 {{-- <script src="/assets/js/qr-code-styling.js"></script> --}}
 <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 <script>
+
+    // if user select contract pass it to search datatable
+    document.getElementById('contract').addEventListener('change', function(){
+        let contractId = this.value;
+        let url = '/resources?contract=' + contractId;
+        window.location.href = url;
+    });
+
     // function for a tag onclick event to delete customer
     function deleteCustomer(id) {
         event.preventDefault();
@@ -257,7 +280,7 @@
         qrCode.download({ name: filename, extension: "svg" });
     }
 
-    function getQRCodeNewWindow(assetId, assetLabel)
+    function getQRCodeNewWindow(assetId, assetLabel, assetSN = null)
     {
         let url = `/public/resources/${assetId}/show`;
         url = new URL(url, window.location.origin).href;
@@ -386,8 +409,20 @@
         qrLabel.style.color = "#000"; // Text color
         qrLabel.style.fontWeight = "bold"; // Font weight
 
-        // Append the label to the new window
         mainContainer.appendChild(qrLabel);
+
+        if(assetSN) {
+            const snLabel = newWindow.document.createElement("div");
+            snLabel.textContent = assetSN;
+            snLabel.style.textAlign = "center";
+            snLabel.style.marginTop = "10px"; // Adjust spacing
+            snLabel.style.fontSize = "16px"; // Font size
+            snLabel.style.color = "#000"; // Text color
+            snLabel.style.fontWeight = "bold"; // Font weight
+            mainContainer.appendChild(snLabel);
+        }
+
+        // Append the label to the new window
         
         newWindow.document.body.appendChild(mainContainer);
     }
