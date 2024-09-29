@@ -80,7 +80,7 @@
                                                         <div class="form-control-icon start">
                                                             <em class="icon ni ni-user"></em>
                                                         </div>
-                                                        <input type="text" class="form-control" id="department_designation_{{ $index }}" name="departments[{{ $index }}][department_designation]" value="{{ $department->users[0]->designation }}" required>
+                                                        <input type="text" class="form-control" id="department_designation_{{ $index }}" name="departments[{{ $index }}][department_designation]" value="{{ $department->users->count() != 0 ? $department->users[0]->designation : '' }}" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@
                                                         <div class="form-control-icon start">
                                                             <em class="icon ni ni-user"></em>
                                                         </div>
-                                                        <input type="text" class="form-control" id="department_contact_person_{{ $index }}" name="departments[{{ $index }}][department_contact_person]" value="{{ $department->users[0]->name }}" required>
+                                                        <input type="text" class="form-control" id="department_contact_person_{{ $index }}" name="departments[{{ $index }}][department_contact_person]" value="{{ $department->users->count() != 0 ? $department->users[0]->name : '' }}" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                         <div class="form-control-icon start">
                                                             <em class="icon ni ni-call"></em>
                                                         </div>
-                                                        <input type="text" class="form-control" id="department_phone_number_{{ $index }}" name="departments[{{ $index }}][department_phone_number]" value="{{ $department->users[0]->phone_number }}" >
+                                                        <input type="text" class="form-control" id="department_phone_number_{{ $index }}" name="departments[{{ $index }}][department_phone_number]" value="{{ $department->users->count() != 0 ? $department->users[0]->phone_number : '' }}" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@
                                                         <div class="form-control-icon start">
                                                             <em class="icon ni ni-at"></em>
                                                         </div>
-                                                        <input required type="email" class="form-control" id="department_email_{{ $index }}" name="departments[{{ $index }}][department_email]" value="{{ $department->users[0]->email }}" >
+                                                        <input required type="email" class="form-control" id="department_email_{{ $index }}" name="departments[{{ $index }}][department_email]" value="{{ $department->users->count() != 0 ? $department->users[0]->email : '' }}" >
                                                     </div>
                                                 </div>
                                             </div>
