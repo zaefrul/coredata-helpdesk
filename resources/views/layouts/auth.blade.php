@@ -38,18 +38,6 @@
             background-position: center;
         }
 
-        @media only screen and (max-width: 768px) {
-            #particles-js {
-                background-position: 50% 50%; /* Align the image to the top center on mobile */
-                background-size: cover; /* Ensure the image still covers the screen */
-            }
-
-            .login-form {
-                opacity: 0.95;
-            }
-        }
-
-
         /* Disable pointer events on specific elements */
         .card-auth,
         .card-body.is-theme {
@@ -71,7 +59,33 @@
         canvas {
             pointer-events: auto; /* Ensure canvas captures pointer events */
         }
+
+        @media only screen and (max-width: 768px) {
+            .login-form {
+                opacity: 0.95;
+            }
+        }
     </style>
+
+    @if($style == 'bg2')
+        <style>
+            @media only screen and (max-width: 768px) {
+                #particles-js {
+                    background-position: 70% 50%; /* Align the image to the top center on mobile */
+                    background-size: cover; /* Ensure the image still covers the screen */
+                }
+            }
+        </style>
+    @else
+        <style>
+            @media only screen and (max-width: 768px) {
+                #particles-js {
+                    background-position: 50% 50%; /* Align the image to the top center on mobile */
+                    background-size: cover; /* Ensure the image still covers the screen */
+                }
+            }
+        </style>
+    @endif
 </head>
 
 <body class="nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg">
