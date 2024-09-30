@@ -1,8 +1,14 @@
 @extends('layouts.auth')
 
+@php
+    // URL Parameter, if have style=1, then use the dark theme
+    $style = request()->query('style');
+    $style = $style == 1 ? 'bg1' : 'bg2';
+@endphp
+
 @section('content')
 <div class="container p-2 p-sm-4">
-    <div class="row flex-lg-row-reverse">
+    <div class="row @if($style == 'bg2') flex-lg-row-reverse @else flex-lg-row @endif">
         <div class="col-lg-5">
             <div class="card card-gutter-lg rounded-4 card-auth login-form" style="border: none !important; box-shadow: none !important;">
                 <div class="card-body">

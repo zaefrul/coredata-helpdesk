@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+@php
+    $style = request()->query('style');
+    $style = $style == 1 ? 'bg2' : 'bg1';
+
+    $imgUrl = asset('assets/images/mask/v.png');
+    if($style == 'bg2') {
+        $imgUrl = asset('assets/images/mask/u.png');
+    }
+@endphp
+
+
 <head>
     <base href="/">
     <meta charset="utf-8">
@@ -21,7 +33,7 @@
             top: 0;
             left: 0;
             background-color: rgba(223, 215, 216, 0.29); /* Light background color if needed */
-            background-image: url("{{ asset('assets/images/mask/v.png') }}");
+            background-image: url("{{ $imgUrl }}");
             background-size: cover;
             background-position: center;
         }

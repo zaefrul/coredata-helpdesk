@@ -150,6 +150,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/admin/assets/bycontract/{contract_id}', [AssetController::class, 'getAssetByContractorId'])->name('assets.getbycontract');
             Route::get('/admin/assets/all/regenerateqr', [SettingController::class, 'regenerateAssetQR'])->name('assets.regenerateqr');
 
+            Route::get('/admin/background/wallpaper', [SettingController::class, 'wallpaperPage'])->name('settings.wallpaper');
+            Route::post('/admin/background/wallpaper', [SettingController::class, 'wallpaperUpload'])->name('settings.wallpaper.update');   
+
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
             Route::post('/reports/case_by_contract', [ReportController::class, 'case_by_contract']);
             Route::post('/report/incidents-by-contract', [ReportController::class, 'case_by_contract_download'])->name('reports.case_by_contract');

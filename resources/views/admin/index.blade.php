@@ -43,6 +43,7 @@
                                             </div>
                                         </div>
                                         <a href="{{route('settings.assets.qr')}}" class="list-group-item list-group-item-action">Regenerate Assets QR Code</a>
+                                        <a href="{{route('settings.wallpaper')}}" class="list-group-item list-group-item-action">Change Wallpaper</a>
                                     </div>
                                 </div>
                             </div>

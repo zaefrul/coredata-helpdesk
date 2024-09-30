@@ -9,6 +9,7 @@ use App\Models\Contract;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SettingController extends Controller
 {
@@ -98,6 +99,15 @@ class SettingController extends Controller
     {
         $contracts = Contract::with('customer')->get();
         return view('admin.assetqr', compact('contracts'));
+    }
+
+    public function wallpaperPage()
+    {
+        // get all images from public/assets/images/mask folder
+        $maskImages = glob(public_path('assets/images/mask/*'));
+        // get all filename and extension
+        $wallpapers = array_map('basename', $maskImages);
+        return view('admin.background', compact('wallpapers'));
     }
 }
 // Compare this snippet from app/Http/Controllers/AssetController.php:
