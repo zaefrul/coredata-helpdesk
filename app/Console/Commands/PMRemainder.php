@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Mail\PMReminderEmail;
 use App\Models\Incident;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -30,6 +31,7 @@ class PMReminder extends Command
     {
         $this->info('Scheduled task: ' . $this->signature . ' started at ' . now());
 
+        $adminFallbackUser = User::where('email', 'admin@coredata.com.my')->first();
         // Days to remind before the task due
         $daysToRemind = [30, 15, 7];
 
@@ -52,7 +54,7 @@ class PMReminder extends Command
 
                 if (!$agent) {
                     $this->info('No agent assigned to task ' . $task->incident_number);
-                    continue;
+                    $agent = $adminFallbackUser;
                 }
 
                 // Send the email reminder to the agent
