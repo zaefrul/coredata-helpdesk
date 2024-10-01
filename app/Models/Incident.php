@@ -174,4 +174,9 @@ class Incident extends Model
     const INCIDENTTYPE_INCIDENT = 'incident';
     const INCIDENTTYPE_SCHEDULETASK = 'schedule-task';
     const INCIDENTTYPE_PREVENTIVEMAINTENANCE = 'preventive-maintenance';
+    const INCIDENTTYPE_LABELS = [
+        self::INCIDENTTYPE_INCIDENT => 'Incident',
+        self::INCIDENTTYPE_SCHEDULETASK => 'Schedule Task',
+        self::INCIDENTTYPE_PREVENTIVEMAINTENANCE => 'Preventive Maintenance',
+    ];
 }
