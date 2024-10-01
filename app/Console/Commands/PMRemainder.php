@@ -15,7 +15,7 @@ class PMReminder extends Command
      *
      * @var string
      */
-    protected $signature = 'app:pm-reminder';
+    protected $signature = 'pm:pm-reminder';
 
     /**
      * The console command description.
