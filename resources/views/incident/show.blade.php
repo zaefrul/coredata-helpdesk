@@ -149,12 +149,14 @@
                                                             {{ $incident->start_date ? $incident->start_date->format('d M Y') : '-' }}
                                                         </span>
 
-                                                        <em class="icon ni ni-calendar-alt text-primary" id="calendar-icon" style="cursor: pointer; font-size: 1.5rem; margin-left: 1rem"></em>
-                                                
-                                                        <!-- Hidden date picker, shown when the user clicks the icon -->
-                                                        <input type="date" id="schedule-date-picker" name="schedule_date" class="form-control d-inline-block w-auto" style="display: none !important;" onchange="updateScheduleDate({{ $incident->id }}, this.value)" value="{{ $incident->start_date ? $incident->start_date->format('Y-M-d') : '' }}">
+                                                        @if($disabled == '' || $incident->currAssignee == Auth::user()->id)
+                                                            <em class="icon ni ni-calendar-alt text-primary" id="calendar-icon" style="cursor: pointer; font-size: 1.5rem; margin-left: 1rem"></em>
+                                                    
+                                                            <!-- Hidden date picker, shown when the user clicks the icon -->
+                                                            <input  type="date" id="schedule-date-picker" name="schedule_date" class="form-control d-inline-block w-auto" style="display: none !important;" onchange="updateScheduleDate({{ $incident->id }}, this.value)" value="{{ $incident->start_date ? $incident->start_date->format('Y-M-d') : '' }}">
 
-                                                        <em class="icon ni ni-cross text-danger" id="close-date" style="display: none; font-size: 1.5rem; margin-left: 0.2rem"></em>
+                                                            <em class="icon ni ni-cross text-danger" id="close-date" style="display: none; font-size: 1.5rem; margin-left: 0.2rem"></em>
+                                                        @endif
                                                     </span>
                                                 </li>
                                             @endif
@@ -332,6 +334,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var fileInput = document.getElementById('attachment');
+        var disabled = {!! json_encode($disabled) !!};
 
         fileInput.addEventListener('change', function () {
             var files = fileInput.files;
@@ -384,7 +387,10 @@
                         alert('Error updating schedule date');
                     }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    location.reload();
+                });
             }
         }
 
