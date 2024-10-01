@@ -379,7 +379,7 @@
                         dateDisplay.innerHTML = formatDate(selectedDate);
                         
                         // REFRESH THE PAGE
-                        // location.reload();
+                        location.reload();
                     } else {
                         alert('Error updating schedule date');
                     }
