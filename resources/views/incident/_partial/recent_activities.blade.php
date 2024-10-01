@@ -8,7 +8,7 @@
                     <div class="nk-schedule-content">
                         {{-- <span class="smaller">{{$activityLog->created_at->diffForHumans()}} - <strong>{{$activityLog->user->name}}</strong></span> --}}
                         <div class="h6 text-primary">
-                            {{ucfirst(\App\Models\Incident::INCIDENTTYPE_LABELS[$incident->incident_type])}} has been completed for this incident. Please verify the resolution.
+                            Agent has marked this {{ucfirst(\App\Models\Incident::INCIDENTTYPE_LABELS[$incident->incident_type])}} as resolved. Please provide your verification.
                         </div>
                         <div class="alert alert-success mt-2" role="alert">
                             <div class="d-flex">
