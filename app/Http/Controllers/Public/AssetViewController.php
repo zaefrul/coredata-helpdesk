@@ -21,7 +21,7 @@ class AssetViewController extends Controller
             // return error page
             return route('public.error', ['message' => 'Asset not found']);
         }
-        $scheduleTasks = Incident::where('asset_id', $id)->where('incident_number', 'like', "%-ST")->get();
+        $scheduleTasks = Incident::where('contract_id', $asset->contract_id)->where('incident_number', 'like', "%-PM")->get();
         $replaceComponentLogs = $this->getReplaceComponentLogs($id);
 
         return view('public.asset_detail', compact('asset', 'scheduleTasks', 'replaceComponentLogs'));

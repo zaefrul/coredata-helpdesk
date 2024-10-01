@@ -335,10 +335,10 @@
                                                             @if($scheduleTasks->count() > $i )
                                                                 @if($scheduleTasks[$i]->status == 'open')
                                                                     <span class="badge text-bg-info">Pending</span>
-                                                                @elseif($scheduleTasks[$i]->status == 'resolved' || $scheduleTasks[$i]->status == 'verified')
+                                                                @elseif($scheduleTasks[$i]->status == 'verified')
                                                                     <span class="badge text-bg-success">Completed</span>
                                                                 @else
-                                                                    <span class="badge text-bg-info">{{ ucfirst($scheduleTasks[$i]->status) }}</span>
+                                                                    <span class="badge text-bg-info">{{ \App\Models\Incident::STATUS_LABELS[$scheduleTasks[$i]->status] }}</span>
                                                                 @endif
                                                                 <span class="badge text-bg-light" style="margin-left: 0.5rem">{{ $scheduleTasks[$i]->start_date ? $scheduleTasks[$i]->start_date->format('d/m/Y') : $scheduleTasks[$i]->created_at->format('d/m/Y') }}</span>
                                                             @else

@@ -39,6 +39,9 @@
                                                 <div class="dropdown">
                                                     @php 
                                                         $agentAssignee = $disabled == 'disabled' && Auth::user()->role == 'agent' && $incident->currentAssignee == null ? '' : 'disabled';
+                                                        if(Auth::user()->role == 'admin') {
+                                                            $agentAssignee = '';
+                                                        }
                                                     @endphp
                                                     <a {{$agentAssignee}} class="dropdown-toggle text-decoration-none link-info" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                         @if($incident->currentAssignee)
