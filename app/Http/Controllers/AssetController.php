@@ -250,8 +250,7 @@ class AssetController extends Controller
 
         // break comma and make array
         $parameter = explode(',', $parameter);
-
-        if($parameter != null) {
+        if($parameter != null && count($parameter) > 0 && $parameter[0] != '') {
             $assets->select($parameter);
         }
 

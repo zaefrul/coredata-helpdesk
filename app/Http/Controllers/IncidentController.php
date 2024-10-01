@@ -28,13 +28,14 @@ class IncidentController extends Controller
     }
 
     public function store(Request $request) {
+        Log::info(print_r($request->all(), true));
         $request->validate([
             'title' => 'required',
             'description' => 'nullable',
             'contract_id' => 'required',
-            'asset_id' => 'required',
+            'asset_id' => 'required_if:incident_type,incident',
             'site_location' => 'nullable',
-            'incident_type' => 'required',
+            'incident_type' => 'required|in:incident,preventive-maintenance,schedule-task',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png',
             'schedule_date' => 'required_if:incident_type,schedule-task',
         ]);
@@ -44,7 +45,20 @@ class IncidentController extends Controller
         try
         {
             $contracts = Contract::findOrfail($request->contract_id);
-            $incident_number = $request->incident_type == "incident" ? IncidentLogic::createIncidentNumber($contracts->customer_id) : IncidentLogic::createScheduleTaskNumber($contracts->customer_id);
+            $incident_number = '';
+            switch($request->incident_type) {
+                case 'incident':
+                    $incident_number = IncidentLogic::createIncidentNumber($contracts->customer_id);
+                    break;
+                case 'schedule-task':
+                    $incident_number = IncidentLogic::createScheduleTaskNumber($contracts->customer_id);
+                    break;
+                case 'preventive-maintenance':
+                    $incident_number = IncidentLogic::createPreventiveMaintenanceNumber($contracts->customer_id);
+                    break;
+                default:
+                    throw new \Exception('Invalid incident type');
+            }
 
             $request->merge(['customer_id' => $contracts->customer_id]);
             $request->merge(['user_id' => Auth::user()->id]);
@@ -98,6 +112,10 @@ class IncidentController extends Controller
         $activityLogs = $incident->activityLogs;
         $activityLogs = $activityLogs->reverse(); //show latest first
         $activityLogs = IncidentLogic::processActivityLogsDescription($activityLogs);
+
+        if($incident->incident_type == Incident::INCIDENTTYPE_PREVENTIVEMAINTENANCE) {
+            $incident->assets = Asset::where('contract_id', $incident->contract_id)->get();
+        }
 
         return view('incident.show', compact('incident', 'agents', 'activityLogs'));
     }

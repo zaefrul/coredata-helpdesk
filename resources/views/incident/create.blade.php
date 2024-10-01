@@ -25,6 +25,23 @@
                         <div class="card-inner card-inner-lg">
                             <form action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data" novalidate>
                                 @csrf
+                                {{-- incident type --}}
+                                <div class="row g-3 gx-gs mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="incident_type">Incident Type</label>
+                                            <div class="form-control-wrap">
+                                                <select class="js-select" name="incident_type" id="incident_type" required>
+                                                    <option value="">Select Incident Type</option>
+                                                    <option value="incident" @if(old('incident_type') == 'incident') selected @endif>Incident</option>
+                                                    <option value="preventive-maintenance" @if(old('incident_type') == 'preventive-maintenance') selected @endif>Preventive Maintenance</option>
+                                                    <option value="schedule-task" @if(old('incident_type') == 'schedule-task') selected @endif>Schedule Task</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <div class="row g-3 gx-gs mb-3">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -43,7 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 gx-gs mb-3">
+                                <div class="row g-3 gx-gs mb-3 asset-row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label" for="asset_id">Asset</label>
@@ -96,21 +113,6 @@
                                             <label for="attachment" class="form-label">Attachment</label>
                                             <div class="form-input-wrap">
                                                 <input type="file" class="form-control form-control-md" id="attachment" name="attachments[]" multiple>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- incident type --}}
-                                <div class="row g-3 gx-gs mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label" for="incident_type">Incident Type</label>
-                                            <div class="form-control-wrap">
-                                                <select class="js-select" name="incident_type" id="incident_type" required>
-                                                    <option value="">Select Incident Type</option>
-                                                    <option value="incident" @if(old('incident_type') == 'incident') selected @endif>Incident</option>
-                                                    <option value="schedule-task" @if(old('incident_type') == 'schedule-task') selected @endif>Schedule Task</option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -228,10 +230,19 @@
         incidentType.addEventListener('change', function() {
             var selectedIncidentType = this.value;
             var scheduleDate = document.getElementById('schedule_date');
-            if(selectedIncidentType === 'schedule-task') {
+            if(selectedIncidentType !== 'incident') {
                 scheduleDate.disabled = false;
             } else {
                 scheduleDate.disabled = true;
+            }
+            asset_row = document.querySelector('.asset-row');
+            if(selectedIncidentType === 'preventive-maintenance')
+            {
+                // disabled asset
+                asset_row.style.display = 'none';
+            }
+            else {
+                asset_row.style.display = 'block';
             }
         });
 

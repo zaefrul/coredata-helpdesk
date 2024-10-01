@@ -43,6 +43,13 @@ class IncidentLogic
         return $incidentNumber;
     }
 
+    public static function createPreventiveMaintenanceNumber(int $customer_id): string
+    {
+        $incidentNumber = self::createIncidentNumber($customer_id);
+        $incidentNumber = $incidentNumber . '-PM';
+        return $incidentNumber;
+    }
+
     public static function attachmentUploadHandler($request, $incident)
     {
         $images = [];

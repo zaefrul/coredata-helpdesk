@@ -1,5 +1,7 @@
 @extends('layouts.main')
 @php
+    use App\Models\Incident;
+
     if($incident->status == 'resolved' || $incident->status == 'closed') {
         $disabled = 'disabled';
     } else {
@@ -64,10 +66,6 @@
                                                 <div class="title fw-medium w-40 d-inline-block">Reporter</div>
                                                 <div class="text">
                                                     @if($incident->user)
-                                                        {{-- {{$incident->user->name}} --}}
-                                                        {{-- uppercase each word --}}
-                                                        {{-- {{ucwords(strtolower($incident->user->name))}} --}}
-                                                        {{-- truncate to two words --}}
                                                         <a href="{{route('users.show', $incident->user->id)}}">{{implode(' ', array_slice(explode(' ', $incident->user->name), 0, 2))}}</a>
                                                     @else
                                                         Unassigned
@@ -123,6 +121,21 @@
                                                             </form>
                                                         </li>
                                                     </ul>
+                                                </div>
+                                            </li>
+                                            {{-- incident type (incident - yellow, preventive maintenance - info, schedule-task - primary) --}}
+                                            <li class="list-group-item" style="display: flex;">
+                                                <div class="title fw-medium w-40 d-inline-block">Type</div>
+                                                <div class="text">
+                                                    @if($incident->incident_type == Incident::INCIDENTTYPE_INCIDENT)
+                                                        <span class="badge text-bg-warning fs-6">Incident</span>
+                                                    @elseif($incident->incident_type == Incident::INCIDENTTYPE_PREVENTIVEMAINTENANCE)
+                                                        <span class="badge text-bg-info fs-6">Preventive Maintenance</span>
+                                                    @elseif($incident->incident_type == Incident::INCIDENTTYPE_SCHEDULETASK)
+                                                        <span class="badge text-bg-primary fs-6">Schedule Task</span>
+                                                    @else
+                                                        <span class="badge text-bg-light fs-6">Unassigned</span>
+                                                    @endif
                                                 </div>
                                             </li>
                                             <li class="list-group-item" style="display: flex;">
@@ -253,8 +266,9 @@
                                             </div><!-- .col -->
                                         </div><!-- .row -->
 
-                                        @include('incident._partial.asset_row', ['asset' => $incident->asset])
-
+                                        @if($incident->incident_type != Incident::INCIDENTTYPE_PREVENTIVEMAINTENANCE)
+                                            @include('incident._partial.asset_row', ['asset' => $incident->asset])
+                                        @endif
                                     </div><!-- .bio-block -->
                                 </div><!-- .card-body -->
                                 <div class="card-body">
@@ -264,7 +278,8 @@
                                               <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#custom-home-tab-pane" type="button">Recent Activities</button>
                                             </li>
                                             <li class="nav-item">
-                                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#custom-profile-tab-pane" type="button">Components</button>
+                                                @php($label = $incident->incident_type != Incident::INCIDENTTYPE_PREVENTIVEMAINTENANCE ? 'Component(s)' : 'Asset(s)')
+                                              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#custom-profile-tab-pane" type="button">{{$label}}</button>
                                             </li>
                                           </ul>
                                           <div class="tab-content" id="myTabContent">
@@ -272,7 +287,11 @@
                                                 @include('incident._partial.recent_activities', ['activityLogs' => $activityLogs])
                                             </div>
                                             <div class="tab-pane fade" id="custom-profile-tab-pane">
-                                                @include('incident._partial.component', ['components' => $incident->asset->components, 'disabled' => $disabled])
+                                                @if($incident->incident_type != Incident::INCIDENTTYPE_PREVENTIVEMAINTENANCE)
+                                                    @include('incident._partial.component', ['components' => $incident->asset->components, 'disabled' => $disabled])
+                                                @else
+                                                    @include('incident._partial.assets_rows', ['assets' => $incident->assets])
+                                                @endif
                                             </div>
                                           </div>
 

@@ -146,4 +146,8 @@ class Incident extends Model
         self::PRIORITY_HIGH => 'High',
         self::PRIORITY_CRITICAL => 'Critical',
     ];
+
+    const INCIDENTTYPE_INCIDENT = 'incident';
+    const INCIDENTTYPE_SCHEDULETASK = 'schedule-task';
+    const INCIDENTTYPE_PREVENTIVEMAINTENANCE = 'preventive-maintenance';
 }
