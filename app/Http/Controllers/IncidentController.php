@@ -351,4 +351,36 @@ class IncidentController extends Controller
 
         return redirect()->route('dashboard.kanban.status')->with('success', 'Incident '.$incident->incident_number.' status updated successfully');
     }
+
+    public function schedule_date(Request $request, Incident $incident)
+    {
+        // Validate the request to ensure a valid schedule_date is provided
+        $request->validate([
+            'schedule_date' => 'required|date',
+        ]);
+
+        // Update the schedule_date of the incident
+        $incident->start_date = $request->input('schedule_date');
+        $incident->save();
+
+        return response()->json(['success' => 'Incident schedule date updated successfully']);
+    }
+
+    public function verify(Request $request, Incident $incident)
+    {
+        // Update the status of the incident
+        $incident->status = 'verified';
+        $incident->save();
+
+        return back()->with('success', 'Incident status updated successfully');
+    }
+
+    public function reopen(Request $request, Incident $incident)
+    {
+        // Update the status of the incident
+        $incident->status = 'open';
+        $incident->save();
+
+        return back()->with('success', 'Incident status updated successfully');
+    }
 }

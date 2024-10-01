@@ -508,6 +508,8 @@
                 return ' Resolved';
             } else if (status == 'in_progress') {
                 return ' In Progress';
+            } else if (status == 'verified') {
+                return ' Verified';
             } else {
                 return ' Unasigned';
             }

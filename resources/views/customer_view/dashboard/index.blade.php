@@ -159,6 +159,8 @@
                                                             <span class="badge text-bg-danger">Closed</span>
                                                         @elseif($incident->status == 'open')
                                                             <span class="badge text-bg-info">Open</span>
+                                                        @elseif($incident->status == 'verified')
+                                                            <span class="badge text-bg-success-soft">Verified</span>
                                                         @endif
                                                     </td>
                                                     <td class="tb-col tb-col-end">

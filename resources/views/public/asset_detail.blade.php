@@ -335,7 +335,7 @@
                                                             @if($scheduleTasks->count() > $i )
                                                                 @if($scheduleTasks[$i]->status == 'open')
                                                                     <span class="badge text-bg-info">Pending</span>
-                                                                @elseif($scheduleTasks[$i]->status == 'resolved')
+                                                                @elseif($scheduleTasks[$i]->status == 'resolved' || $scheduleTasks[$i]->status == 'verified')
                                                                     <span class="badge text-bg-success">Completed</span>
                                                                 @else
                                                                     <span class="badge text-bg-info">{{ ucfirst($scheduleTasks[$i]->status) }}</span>

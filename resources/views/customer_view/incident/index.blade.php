@@ -76,6 +76,8 @@
                                                 <span class="badge text-bg-info">In Progress</span>
                                             @elseif($incident->status == 'resolved')
                                                 <span class="badge text-bg-success">Resolved</span>
+                                            @elseif($incident->status == 'verified')
+                                                <span class="badge text-bg-success-soft fs-6">Verified</span>
                                             @else
                                                 <span class="badge text-bg-warning">Closed</span>
                                             @endif

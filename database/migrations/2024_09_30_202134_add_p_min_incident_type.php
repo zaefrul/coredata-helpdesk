@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE incidents MODIFY incident_type type ENUM('incident','preventive-maintenance','schedule-task')");
+        DB::statement("ALTER TABLE incidents MODIFY COLUMN incident_type ENUM('incident', 'preventive-maintenance', 'schedule-task')");
     }
 
     /**
@@ -20,6 +20,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE incidents MODIFY incident_type type ENUM('incident','preventive-maintenance','schedule-task')");
+        DB::statement("ALTER TABLE incidents MODIFY COLUMN incident_type type ENUM('incident','preventive-maintenance','schedule-task')");
     }
 };

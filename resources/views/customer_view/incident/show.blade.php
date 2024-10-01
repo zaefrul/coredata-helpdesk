@@ -50,6 +50,8 @@
                                                         <span class="badge text-bg-info fs-6">In Progress</span>
                                                     @elseif($incident->status == 'resolved')
                                                         <span class="badge text-bg-success fs-6">Resolved</span>
+                                                    @elseif($incident->status == 'verified')
+                                                        <span class="badge text-bg-success-soft fs-6">Verified</span>
                                                     @endif
                                                 </div>
                                             </li>

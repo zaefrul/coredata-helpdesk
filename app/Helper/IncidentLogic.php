@@ -152,15 +152,19 @@ class IncidentLogic
                 }
 
                 $activity->description = $html;
+            } else if (str_contains($activity->description, 'Changed start_date from')) {
+                // replace start_date to scheduled_date
+                $activity->description = str_replace('start_date', 'Schedule Date', $activity->description);
             }
 
             $activity->description = str_replace(
-                ["'open'", "'in_progress'", "'resolved'", "'closed'"],
+                ["'open'", "'in_progress'", "'resolved'", "'closed'", "'verified'"],
                 [
                     '<span class="badge text-bg-info fs-6">Open</span>',
                     '<span class="badge text-bg-info fs-6">In Progress</span>',
                     '<span class="badge text-bg-success fs-6">Resolved</span>',
-                    '<span class="badge text-bg-warning fs-6">Closed</span>'
+                    '<span class="badge text-bg-warning fs-6">Closed</span>',
+                    '<span class="badge text-bg-success-soft fs-6">Verified</span>'
                 ],
                 $activity->description
             );

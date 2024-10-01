@@ -12,7 +12,7 @@
 
     $currAssignee = $incident->currentAssignee ? $incident->currentAssignee->id : 0;
 
-    if($currUser->role != 'admin' && ($currUser->id != $currAssignee || $incident->status == 'resolved' || $incident->status == 'closed')) {
+    if($currUser->role != 'admin' && ($currUser->id != $currAssignee || $incident->status == 'resolved' || $incident->status == 'closed' || $incident->status == 'verified')) {
         $disabled = 'disabled';
     }
 
@@ -84,6 +84,8 @@
                                                             <span class="badge text-bg-info fs-6">In Progress</span>
                                                         @elseif($incident->status == 'resolved')
                                                             <span class="badge text-bg-success fs-6">Resolved</span>
+                                                        @elseif($incident->status == 'verified')
+                                                            <span class="badge text-bg-success-soft fs-6">Verfied</span>
                                                         @endif
                                                     </a>
 
@@ -138,6 +140,24 @@
                                                     @endif
                                                 </div>
                                             </li>
+                                            {{-- schedule date --}}
+                                            @if($incident->incident_type != Incident::INCIDENTTYPE_INCIDENT)
+                                                <li class="list-group-item">
+                                                    <span class="title fw-medium w-40 d-inline-block">Schedule Date</span>
+                                                    <span class="text" style="display: inline-flex; align-items: center; justify-content: center;">
+                                                        <span id="schedule-date-display">
+                                                            {{ $incident->start_date ? $incident->start_date->format('d M Y') : '-' }}
+                                                        </span>
+
+                                                        <em class="icon ni ni-calendar-alt text-primary" id="calendar-icon" style="cursor: pointer; font-size: 1.5rem; margin-left: 1rem"></em>
+                                                
+                                                        <!-- Hidden date picker, shown when the user clicks the icon -->
+                                                        <input type="date" id="schedule-date-picker" name="schedule_date" class="form-control d-inline-block w-auto" style="display: none !important;" onchange="updateScheduleDate({{ $incident->id }}, this.value)" value="{{ $incident->start_date ? $incident->start_date->format('Y-M-d') : '' }}">
+
+                                                        <em class="icon ni ni-cross text-danger" id="close-date" style="display: none; font-size: 1.5rem; margin-left: 0.2rem"></em>
+                                                    </span>
+                                                </li>
+                                            @endif
                                             <li class="list-group-item" style="display: flex;">
                                                 <div class="title fw-medium w-40 d-inline-block">Priority</div>
                                                 <div class="text">
@@ -324,6 +344,69 @@
 
             document.getElementById('attachment').nextElementSibling.innerText = fileNames.join(', ');
         });
+
+        // calendar
+        const calendarIcon = document.getElementById('calendar-icon');
+        const datePicker = document.getElementById('schedule-date-picker');
+        const dateDisplay = document.getElementById('schedule-date-display');
+        const closeDate = document.getElementById('close-date');
+
+        // When the calendar icon is clicked, trigger the date picker
+        calendarIcon.addEventListener('click', function () {
+            datePicker.style.display = 'block'; // Show the date picker
+            datePicker.focus(); // Focus on it to open the date picker
+            closeDate.style.display = 'inline-flex'; // Show the close icon
+
+            calendarIcon.style.display = 'none'; // Hide the calendar icon
+            dateDisplay.style.display = 'none'; // Hide the date display
+        });
+
+        // Handle the date selection and send an AJAX request to update the date
+        function updateScheduleDate(incidentId, selectedDate) {
+            if (selectedDate) {
+                fetch(`/incident/${incidentId}/schedule_date`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ schedule_date: formatDate(selectedDate) })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the date display and hide the date picker
+                        dateDisplay.innerHTML = formatDate(selectedDate);
+                        
+                        // REFRESH THE PAGE
+                        // location.reload();
+                    } else {
+                        alert('Error updating schedule date');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
+        function formatDate(selectedDate) {
+            const date = new Date(selectedDate);
+
+            const day = ('0' + date.getDate()).slice(-2); // Get the day and pad with '0' if needed
+            const month = ('0' + (date.getMonth() + 1)).slice(-2); // Get the month (0-based, so add 1) and pad with '0'
+            const year = date.getFullYear(); // Get the full year
+
+            return `${year}-${month}-${day}`; // Return the formatted string
+        }
+
+        // when the close icon is clicked, hide the date picker and show the calendar icon
+        closeDate.addEventListener('click', function () {
+            datePicker.setAttribute('style', 'display: none !important;');
+            this.style.display = 'none'; // Hide the close icon
+            calendarIcon.style.display = 'block'; // Show the calendar icon
+            dateDisplay.style.display = 'inline-flex'; // Show the date display
+        });
+
+        window.updateScheduleDate = updateScheduleDate; // Export the function to the global scope
     });
 </script>
 @endsection

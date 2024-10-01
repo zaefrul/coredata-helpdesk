@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\IncludeTrashedScope;
 use App\Services\EmailService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,14 @@ class Incident extends Model
         'incident_type',
         'current_assignee_id',
         'incident_number',
+        'start_date',
+        'end_date',
+    ];
+
+    // cast attributes
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     public function customer()
@@ -79,6 +88,19 @@ class Incident extends Model
             // Loop through each changed field and create a log entry
             foreach ($changes as $field => $newValue) {
                 if ($field !== 'updated_at') { // Ignore the updated_at field
+                    if ($field === "start_date" || $field === "end_date") {
+                        $newValueString = Carbon::parse($newValue)->format('d-M-Y');
+                        $oldValueString = Carbon::parse($incident->getOriginal($field))->format('d-M-Y');
+
+                        ActivityLog::create([
+                            'incident_id' => $incident->id,
+                            'user_id' => Auth::user()->id, // Assuming the user is authenticated
+                            'description' => "Changed {$field} from '{$oldValueString}' to '{$newValueString}'",
+                        ]);
+
+                        continue;
+                    }
+
                     ActivityLog::create([
                         'incident_id' => $incident->id,
                         'user_id' => Auth::user()->id, // Assuming the user is authenticated
@@ -93,6 +115,8 @@ class Incident extends Model
                         $incident->save();
                     });
                 }
+
+                
             }
 
             // Send email notification
