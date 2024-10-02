@@ -83,7 +83,7 @@
                         </div><!-- .col -->
 
                         <div class="col-xxl-6">
-                            <div class="card h-100">
+                            <div class="card">
                                 <div class="card-body flex-grow-0 py-2">
                                     <div class="card-title-group">
                                         <div class="card-title">
@@ -192,6 +192,84 @@
                                     </table>
                                 </div>
                             </div><!-- .card -->
+
+                            <div class="card mt-3">
+                                <div class="card-body flex-grow-0 py-2">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h5 class="title">Total incidents by Contract</h5>
+                                        </div>
+                                        {{-- <div class="card-tools">
+                                            <div class="dropdown">
+                                                <a href="#" class="btn btn-sm btn-icon btn-zoom me-n1" data-bs-toggle="dropdown">
+                                                    <em class="icon ni ni-more-v"></em>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                                                    <li>
+                                                        <div class="dropdown-header pt-2 pb-0">
+                                                            <h6 class="mb-0">Options</h6>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item">7 Days</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item">15 Days</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item">30 Days</a>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- dropdown -->
+                                        </div> --}}
+                                    </div><!-- .card-title-group -->
+                                </div><!-- .card-body -->
+                                <div class="table-responsive">
+                                    <table class="table table-middle mb-0">
+                                        <thead class="table-light table-head-sm">
+                                            <tr>
+                                                <th class="tb-col">
+                                                    <span class="overline-title">Contract Number</span>
+                                                </th>
+                                                <th class="tb-col tb-col-end">
+                                                    <span class="overline-title">No of Incident</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($incidentNoByContract as $incident)
+                                                <tr>
+                                                    <td class="tb-col">
+                                                        <div class="media-group">
+                                                            <div class="media media-md flex-shrink-0 media-middle media-circle text-bg-warning">
+                                                                <em class="icon ni ni-building"></em>
+                                                            </div>
+                                                            <div class="media-text">
+                                                                <span class="title">
+                                                                    <a href="/user/incidents/{{$incident->contract_number}}/show" class="link-text"><span class="title">{{$incident->contract_number}}</span></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="tb-col tb-col-end">
+                                                        <span class="badge text-bg-info">{{$incident->total_incidents}}</span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            @if($recentIncidents->count() == 0)
+                                                <tr>
+                                                    <td class="tb-col" colspan="2">
+                                                        <span class="small fst-italic">No recent incidents found. For new incident, please submit thru <strong>Add New Incident</strong> page.</span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

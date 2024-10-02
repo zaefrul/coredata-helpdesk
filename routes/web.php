@@ -61,6 +61,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
 
+    Route::get('/incident/{incident}/verify', [IncidentController::class, 'verify'])->name('incident.verify');
+    Route::get('/incident/{incident}/reopen', [IncidentController::class, 'reopen'])->name('incident.reopen');
+        
+
 
     Route::group(['middleware' => EnsureRoleIsAgentOrAdmin::class], function () {
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
@@ -111,8 +115,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/incident/{incident}/priority', [IncidentController::class, 'priority'])->name('incident.priority');
         Route::put('/incident/{incident}/comment', [IncidentController::class, 'comment'])->name('incident.comment');
         Route::post('/incident/{incident}/schedule_date', [IncidentController::class, 'schedule_date'])->name('incident.schedule_date');
-        Route::get('/incident/{incident}/verify', [IncidentController::class, 'verify'])->name('incident.verify');
-        Route::get('/incident/{incident}/reopen', [IncidentController::class, 'reopen'])->name('incident.reopen');
         Route::post('/incident/kanban/status', [IncidentController::class, 'updateStatusFromKanban'])->name('incident.kanban.status');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');

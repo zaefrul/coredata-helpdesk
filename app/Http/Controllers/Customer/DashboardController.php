@@ -15,8 +15,9 @@ class DashboardController extends Controller
     {
         $recentIncidents = $this->getTop5RecentIncidents();
         $recentActivities = $this->getTop3RecentActivity();
+        $incidentNoByContract = $this->getTop5TotalIncidentByContract();
 
-        return view('customer_view.dashboard.index', compact('recentIncidents', 'recentActivities'));
+        return view('customer_view.dashboard.index', compact('recentIncidents', 'recentActivities', 'incidentNoByContract'));
     }
 
     private function getTop5RecentIncidents()
@@ -58,5 +59,23 @@ class DashboardController extends Controller
         });
 
         return $recentActivities;
+    }
+
+    function getTop5TotalIncidentByContract()
+    {
+        $departmentId = Auth::user()->department_id; // Assuming user is tied to a department
+        $incidents = Incident::whereHas('asset.contract', function($query) use ($departmentId) {
+            $query->where('department_id', $departmentId);
+        })
+            ->with('asset.contract.department') // Eager load the necessary relationships
+            ->selectRaw('count(*) as total_incidents, contract_id, contracts.contract_number') // Include contract_number
+            ->join('contracts', 'incidents.contract_id', '=', 'contracts.id') // Join the contracts table
+            ->groupBy('contract_id', 'contracts.contract_number') // Group by contract_id and contract_number
+            ->orderBy('total_incidents', 'desc')
+            ->limit(5)
+            ->get(); // to get the top 5 contracts with the highest number of incidents
+
+        Log::info(print_r($incidents, true));
+        return $incidents;
     }
 }
