@@ -12,9 +12,6 @@ use Illuminate\Database\Seeder;
 
 class AssetSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $assets = Asset::all();
@@ -24,12 +21,6 @@ class AssetSeeder extends Seeder
             if(!$asset->asset_number)
             {
                 $asset->asset_number = AssetHelper::generateAssetNumber($asset);
-                $asset->save();
-            }
-
-            if(!$asset->qr_code_path)
-            {
-                $asset->qr_code_path = AssetHelper::generateAssetQRCode($asset);
                 $asset->save();
             }
         }

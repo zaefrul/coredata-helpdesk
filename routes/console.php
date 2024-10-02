@@ -13,6 +13,6 @@ Schedule::command('contracts:check-end-dates')
     ->daily()
     ->appendOutputTo(storage_path('logs/contracts.log'));
 
-Schedule::command('pm:pm-reminder')
+Schedule::command('incident:pm-reminder')
     ->daily()
     ->appendOutputTo(storage_path('logs/pm-reminder.log'));

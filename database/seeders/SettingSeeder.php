@@ -38,5 +38,13 @@ class SettingSeeder extends Seeder
                 'label' => 'switch'
             ]);
         }
+
+        if(!Setting::where('field', 'contract_end_notification_mail')->where('label', 'sales@coredata.com.my')->exists()) {
+            Setting::create([
+                'field' => 'contract_end_notification_mail',
+                'value' => 'sales@coredata.com.my',
+                'label' => 'sales@coredata.com.my'
+            ]);
+        }
     }
 }

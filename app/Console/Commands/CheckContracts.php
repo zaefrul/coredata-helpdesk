@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Mail\ContractEndNotificationMail;
 use App\Models\Contract;
+use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -42,14 +43,19 @@ class CheckContracts extends Command
 
         if($contracts->count() > 0) {
             Log::debug('Found ' . $contracts->count() . ' contracts ending soon');
-            $admins = User::where('role', 'admin')->pluck('email')->toArray();
 
-            // remove admin@coredata.com.my
-            $admins = array_diff($admins, ['admin@coredata.com.my']);
+            $contractEndNotificationMail = Setting::where('name', 'contract_end_notification_mail')->first();
+            $emailsTo = '';
 
-            Log::debug('Sending notification admins');
-            Log::debug(print_r($admins, true));
-            Mail::to($admins)->send(new ContractEndNotificationMail($contracts));
+            if($contractEndNotificationMail->count() > 0) {
+                $emailsTo = $contractEndNotificationMail->value;
+            }
+            else {
+                $admins = User::where('role', 'admin')->pluck('email')->toArray();
+                $emailsTo = $admins;
+            }
+
+            Mail::to($emailsTo)->send(new ContractEndNotificationMail($contracts));
         }
 
         $this->info('Scheduled task : ' . $this->signature . " ended at " . Carbon::now());
