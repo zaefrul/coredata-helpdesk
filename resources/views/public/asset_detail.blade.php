@@ -140,6 +140,67 @@
                                     </table>
                                 </div>
                             </div><!-- .nk-invoice-body -->
+
+
+                            <div class="nk-invoice-body mt-5">
+                                <div class="table-responsive">
+                                    <h4 class="nk-block-title mb-3">Preventive Maintenance</h4>
+                                    <table class="table nk-invoice-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="tb-col"><span class="overline-title">PM Number</span></th>
+                                                <th class="tb-col"><span class="overline-title">Title</span></th>
+                                                <th class="tb-col"><span class="overline-title">Status</span></th>
+                                                <th class="tb-col"><span class="overline-title">Schedule Date</span></th>
+                                                <th class="tb-col tb-col-end"><span class="overline-title">Agent</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{-- preventive maintenance / schedule task --}}
+                                            @php
+                                                $count = $asset->contract->preventive_maintenance;
+
+                                                if($count < $scheduleTasks->count()) {
+                                                    $count = $scheduleTasks->count();
+                                                }
+
+                                            @endphp
+
+                                            @if($count > 0)
+                                                @for($i=0; $i<$count; $i++)
+                                                    @if($scheduleTasks->count() > $i)
+                                                        <tr>
+                                                            <td class="tb-col">{{ $scheduleTasks[$i]->incident_number }}</td>
+                                                            <td class="tb-col">{{ $scheduleTasks[$i]->title }}</td>
+                                                            <td class="tb-col">
+                                                                @if($scheduleTasks[$i]->status == 'open')
+                                                                    <span class="badge text-bg-info">Pending</span>
+                                                                @elseif($scheduleTasks[$i]->status == 'verified')
+                                                                    <span class="badge text=bg-success">Completed</span>
+                                                                @else
+                                                                    <span class="badge text-bg-info">{{ \App\Models\Incident::STATUS_LABELS[$scheduleTasks[$i]->status] }}</span>
+                                                                @endif
+                                                            </td>
+                                                            <td class="tb-col">{{ $scheduleTasks[$i]->start_date ? $scheduleTasks[$i]->start_date->format('d/m/Y') : $scheduleTasks[$i]->created_at->format('d/m/Y') }}</td>
+                                                            <td class="tb-col tb-col-end">{{ $scheduleTasks[$i]->currentAssignee ? $scheduleTasks[$i]->currentAssignee->name : '-' }}</td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td class="tb-col">{{ $i+1 }}</td>
+                                                            <td class="tb-col">Not Scheduled</td>
+                                                            <td class="tb-col">
+                                                                <span class="badge text-bg-warning">Not Scheduled</span>
+                                                            </td>
+                                                            <td class="tb-col">-</td>
+                                                            <td class="tb-col tb-col-end">-</td>
+                                                        </tr>
+                                                    @endif
+                                                @endfor
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div><!-- .nk-invoice -->
                     </div><!-- .card -->
                     <div class="card show-for-mobile">
