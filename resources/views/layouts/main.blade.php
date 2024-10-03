@@ -12,6 +12,18 @@
     <link rel="shortcut icon" href="/images/coredata-logo-only.png">
     <link rel="stylesheet" href="/assets/css/style.css?v1.1.2">
     @yield('css')
+    <style type="text/css">
+        .media-circle img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .media-huge img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 
 <body class="nk-body" data-sidebar-collapse="lg" data-navbar-collapse="lg">

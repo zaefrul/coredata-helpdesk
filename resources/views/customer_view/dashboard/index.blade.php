@@ -249,7 +249,7 @@
                                                             </div>
                                                             <div class="media-text">
                                                                 <span class="title">
-                                                                    <a href="/user/incidents/{{$incident->contract_number}}/show" class="link-text"><span class="title">{{$incident->contract_number}}</span></a>
+                                                                    <a href="/user/incidents?contract={{$incident->contract_id}}" class="link-text"><span class="title">{{$incident->prefix}} - {{$incident->contract_number}}</span></a>
                                                                 </span>
                                                             </div>
                                                         </div>

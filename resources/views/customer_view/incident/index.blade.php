@@ -19,6 +19,23 @@
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
                     <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="default-06">Filter by Contract</label>
+                                        <div class="form-control-wrap">
+                                            <select class="js-select" name="filter-by-contract" data-placeholder="Select your contract" id="contract">
+                                                <option value="">All Contracts</option>
+                                                @foreach($contracts as $contract)
+                                                    <option value="{{$contract->id}}">{{$contract->contract_number}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <table class="datatable-init table" data-nk-container="table-responsive">
                             <thead class="table-light">
                                 <tr>
@@ -115,4 +132,18 @@
 
 @section('js')
 <script src="/assets/js/data-tables/data-tables.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let contractElement = document.getElementById('contract');
+
+        contractElement.addEventListener('change', function() {
+            window.location.href = '/user/incidents?contract=' + contractElement.value;
+        });
+
+        let contractParam = new URLSearchParams(window.location.search).get('contract');
+        if(contractParam) {
+            contractElement.value = contractParam;
+        }
+    });
+</script>
 @endsection

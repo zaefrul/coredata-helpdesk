@@ -68,8 +68,9 @@ class DashboardController extends Controller
             $query->where('department_id', $departmentId);
         })
             ->with('asset.contract.department') // Eager load the necessary relationships
-            ->selectRaw('count(*) as total_incidents, contract_id, contracts.contract_number') // Include contract_number
+            ->selectRaw('count(*) as total_incidents, contract_id, contracts.contract_number, customers.prefix') // Include contract_number
             ->join('contracts', 'incidents.contract_id', '=', 'contracts.id') // Join the contracts table
+            ->join('customers', 'contracts.customer_id', '=', 'customers.id') // Join the customers table
             ->groupBy('contract_id', 'contracts.contract_number') // Group by contract_id and contract_number
             ->orderBy('total_incidents', 'desc')
             ->limit(5)

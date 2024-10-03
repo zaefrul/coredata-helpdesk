@@ -11,15 +11,22 @@ use Illuminate\Support\Facades\Auth;
 
 class IncidentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $parameter = $request->query('contract');
+        $contracts = Contract::where('customer_id', Auth::user()->customer_id)
+            ->where('department_id', Auth::user()->department_id)
+            ->get();
         $departmentId = Auth::user()->department_id; // Assuming user is tied to a department
-        $incidents = Incident::whereHas('asset.contract', function($query) use ($departmentId) {
+        $incidents = Incident::whereHas('asset.contract', function($query) use ($departmentId, $parameter) {
             $query->where('department_id', $departmentId);
+            if($parameter) {
+                $query->where('contract_id', $parameter);
+            }
         })->with('asset.contract.department')
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('customer_view.incident.index', compact('incidents'));
+        return view('customer_view.incident.index', compact('incidents', 'contracts'));
     }
 
     public function show($id)
