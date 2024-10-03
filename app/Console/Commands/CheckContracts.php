@@ -44,7 +44,7 @@ class CheckContracts extends Command
         if($contracts->count() > 0) {
             Log::debug('Found ' . $contracts->count() . ' contracts ending soon');
 
-            $contractEndNotificationMail = Setting::where('name', 'contract_end_notification_mail')->first();
+            $contractEndNotificationMail = Setting::where('field', 'contract_end_notification_mail')->first();
             $emailsTo = '';
 
             if($contractEndNotificationMail->count() > 0) {
