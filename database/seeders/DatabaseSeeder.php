@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         
         $this->call(AssetSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
