@@ -45,10 +45,10 @@ class CheckContracts extends Command
             Log::debug('Found ' . $contracts->count() . ' contracts ending soon');
 
             $contractEndNotificationMail = Setting::where('field', 'contract_end_notification_mail')->first();
-            $emailsTo = '';
+            $emailsTo = [];
 
             if($contractEndNotificationMail->count() > 0) {
-                $emailsTo = $contractEndNotificationMail->value;
+                $emailsTo = explode(',', $contractEndNotificationMail->value);
             }
             else {
                 $admins = User::where('role', 'admin')->pluck('email')->toArray();
