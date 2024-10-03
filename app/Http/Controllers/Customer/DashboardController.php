@@ -71,7 +71,7 @@ class DashboardController extends Controller
             ->selectRaw('count(*) as total_incidents, contract_id, contracts.contract_number, customers.prefix') // Include contract_number
             ->join('contracts', 'incidents.contract_id', '=', 'contracts.id') // Join the contracts table
             ->join('customers', 'contracts.customer_id', '=', 'customers.id') // Join the customers table
-            ->groupBy('contract_id', 'contracts.contract_number') // Group by contract_id and contract_number
+            ->groupBy('contract_id', 'contracts.contract_number', 'customers.prefix') // Group by contract_id and contract_number
             ->orderBy('total_incidents', 'desc')
             ->limit(5)
             ->get(); // to get the top 5 contracts with the highest number of incidents
