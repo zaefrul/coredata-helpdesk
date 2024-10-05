@@ -36,9 +36,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::fallback(function () {
-    return view('errors.404');
-});
+// Route::fallback(function () {
+//     return view('errors.404');
+// });
 
 Route::get('/public/resources/{id}/show', [AssetViewController::class, 'show'])->name('public.assets.show');
 Route::get('/public/error', function () { return view('public.asset_not_found'); })->name('public.error');
@@ -157,6 +157,9 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/admin/background/wallpaper', [SettingController::class, 'wallpaperPage'])->name('settings.wallpaper');
             Route::post('/admin/background/wallpaper', [SettingController::class, 'wallpaperUpload'])->name('settings.wallpaper.update');   
+            
+            Route::get('/admin/emails', [SettingController::class, 'emailSettingsPage'])->name('settings.emails');
+            Route::post('/admin/emails', [SettingController::class, 'emailSettingsUpdate'])->name('settings.email.update');
 
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
             Route::post('/reports/case_by_contract', [ReportController::class, 'case_by_contract']);

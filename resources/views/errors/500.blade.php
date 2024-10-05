@@ -10,9 +10,9 @@
                         <div class="card-body" style="margin: 5rem;">
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <h1>404</h1>
-                                    <h2>Page not found</h2>
-                                    <p>We are sorry but the page you are looking for does not exist.</p>
+                                    <h1>500</h1>
+                                    <h2>Somethings are not right!</h2>
+                                    <p>This shouldn't be happening! our team will try our best to address this hiccup!</p>
                                     <a href="{{ route('dashboard') }}" class="btn btn-warning btn-sm">Back to Home</a>
                                 </div>
                             </div>

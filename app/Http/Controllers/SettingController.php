@@ -109,5 +109,24 @@ class SettingController extends Controller
         $wallpapers = array_map('basename', $maskImages);
         return view('admin.background', compact('wallpapers'));
     }
+
+    public function emailSettingsPage()
+    {
+        $contract_end_emails = Setting::where('field', 'contract_end_notification_mail')->first();
+        return view('admin.emailsettings', compact('contract_end_emails'));
+    }
+
+    public function emailSettingsUpdate(Request $request)
+    {
+        $request->validate([
+            'emailService' => 'required',
+        ]);
+
+        $setting = Setting::where('field', 'contract_end_notification_mail')->first();
+        $setting->value = request('emailService');
+        $setting->save();
+
+        return back()->with('success', 'Email settings has been updated');
+    }
 }
 // Compare this snippet from app/Http/Controllers/AssetController.php:

@@ -9,14 +9,13 @@
                     <div class="nk-block-head-between flex-wrap gap g-2">
                         <div class="nk-block-head-content">
                             <h2 class="nk-block-title">Administrator Control Panel</h1>
-                                <nav>
-                                    <ol class="breadcrumb breadcrumb-arrow mb-0">
-                                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="/resources">Admin Control Panel</a></li>
-                                    </ol>
-                                </nav>
+                            <nav>
+                                <ol class="breadcrumb breadcrumb-arrow mb-0">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin">Admin Control Panel</a></li>
+                                </ol>
+                            </nav>
                         </div>
-                        
                     </div><!-- .nk-block-head-between -->
                 </div><!-- .nk-block-head -->
                     <div class="row">
@@ -43,7 +42,7 @@
                                             </div>
                                         </div>
                                         <a href="{{route('settings.assets.qr')}}" class="list-group-item list-group-item-action">Regenerate Assets QR Code</a>
-                                        <a href="{{route('settings.wallpaper')}}" class="list-group-item list-group-item-action">Change Wallpaper</a>
+                                        <a href="{{route('settings.emails')}}" class="list-group-item list-group-item-action">Contract End Email(s) Setting</a>
                                     </div>
                                 </div>
                             </div>
