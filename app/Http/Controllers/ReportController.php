@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\IncidentLogic;
+use App\Helper\SettingHelper;
 use App\Models\ActivityLog;
 use App\Models\Asset;
 use App\Models\Contract;
@@ -91,14 +92,45 @@ class ReportController extends Controller
         $assets = Asset::where('contract_id', $request->contract_id)->get();
         $assetsIds = $assets->pluck('id')->toArray();
 
-        $inventories = Inventory::withoutGlobalScope('withoutReplacement')->whereIn('replaced_asset_id', $assetsIds)->get();
-        Log::debug(print_r($inventories, true));
+        $assetIncidenceIds = Incident::whereIn('asset_id', $assetsIds)->pluck('id')->toArray();
+
+        $activityLogs = ActivityLog::where('description', 'like', '%Component Replaced:%')
+            ->whereIn('incident_id', $assetIncidenceIds)
+            ->get();
+
+        $componentReplacementLogs = [];
+
+        foreach($activityLogs as $activity) {
+            $componentId = explode(' ', $activity->description);
+                // remove '' from the string
+            $componentId[2] = str_replace("'", "", $componentId[2]);
+            $componentId[6] = str_replace("'", "", $componentId[6]);
+            $oldItem = $componentId[2];
+            $newItem = $componentId[6];
+            $oldIv = Inventory::withoutGlobalScope('withoutReplacement')->find($oldItem);
+            $newIv = Inventory::withoutGlobalScope('withoutReplacement')->find($newItem) ?? Inventory::withTrashed()->find($newItem);
+            $componentReplacementLogs[] = [
+                'old_item' => $oldIv,
+                'new_item' => $newIv,
+                'incident_number' => $activity->incident->incident_number,
+                'created_at' => $activity->created_at,
+                'asset_id' => $activity->incident->asset_id,
+            ];
+        }
+
+        // $inventories = Inventory::withoutGlobalScope('withoutReplacement')
+        //     ->whereIn('replaced_asset_id', $assetsIds) // Ensure $assetsIds is an array
+        //     ->orderBy('type', 'ASC')
+        //     ->orderBy('replaced_incident_id', 'ASC')
+        //     ->orderBy('old_item', 'ASC')
+        //     ->get();
+        // Log::debug(print_r($inventories, true));
 
         // Load the Blade template and render it as a PDF
         $pdf = Pdf::loadView('report.template.contract_replacement_parts', [
             'contract' => $contract,
             'assets' => $assets,
-            'inventories' => $inventories,
+            'componentReplacementLogs' => $componentReplacementLogs,
         ]);
 
         $filename = 'Contract_Replacement_Parts_Report' . Carbon::now()->format('YmdHis') . '.pdf';

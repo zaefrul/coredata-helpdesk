@@ -94,25 +94,36 @@
     <table>
         <thead>
             <tr>
-                <th>Replacement Type</th>
-                <th>Replacement Model</th>
-                <th>Replacement Description</th>
+                <th>Component Type</th>
+                <th>Original Part</th>
+                <th>Replacement Part</th>
                 <th>Replacement Date</th>
             </tr>
         </thead>
         <tbody>
             @php
-                $inventoryForAsset = $inventories->where('replaced_asset_id', $asset->id);
+                $partsReplacements = array_filter($componentReplacementLogs, function($log) use ($asset) {
+                    return $log['asset_id'] == $asset->id;
+                });
+                // $partsReplacements = $componentReplacementLogs->where('asset_id', $asset->id);
             @endphp
-            @foreach($inventoryForAsset as $part)
+            @foreach($partsReplacements as $part)
                 <tr>
-                    <td>{{ strtoupper(\App\Helper\SettingHelper::getLabelValue('component_type', $part->type)) }}</td>
-                    <td>{{ $part->model }}</td>
-                    <td>{{ $part->item }}</td>
-                    <td>{{ $part->created_at->format('d/M/Y') }}</td>
+                    <td>{{ strtoupper(\App\Helper\SettingHelper::getLabelValue('component_type', $part['old_item']->type)) }}</td>
+                    <td>
+                        <p>{{ $part['old_item']->model }}</p>
+                        <p><strong>S/N</strong> : {{ $part['old_item']->serial_number }}</p>
+                        <p><strong>P/N</strong> : {{ $part['old_item']->part_number }}</p>
+                    </td>
+                    <td>
+                        <p>{{ $part['new_item']->model }}</p>
+                        <p><strong>S/N</strong> : {{ $part['new_item']->serial_number }}</p>
+                        <p><strong>P/N</strong> : {{ $part['new_item']->part_number }}</p>
+                    </td>
+                    <td>{{ $part['created_at']->format('d/M/Y') }}</td>
                 </tr>
             @endforeach
-            @if(count($inventoryForAsset) == 0)
+            @if(count($partsReplacements) == 0)
                 <tr>
                     <td colspan="4" class="no-data">No replacement parts found for this asset.</td>
                 </tr>
