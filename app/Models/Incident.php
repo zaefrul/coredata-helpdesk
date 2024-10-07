@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\NewIncidentNotification;
 use App\Scopes\IncludeTrashedScope;
 use App\Services\EmailService;
 use Carbon\Carbon;
@@ -136,6 +137,8 @@ class Incident extends Model
                 'description' => "Created incident",
             ]);
 
+            // Send email notification
+
             $incident->user = User::find($incident->user_id);
             $contract = Contract::find($incident->contract_id);
             $customer_notifications_email = CustomerNotification::where('department_id', $contract->department_id)->pluck('email')->toArray();
@@ -144,6 +147,13 @@ class Incident extends Model
             $recipients = array_merge($customer_notifications_email, $admins, $incidentUer);
 
             EmailService::sendIncidentNotification($incident, $recipients);
+
+            // Create Notification
+            // Find the admin or agent you want to notify
+            $admins = User::where('role', 'admin')->get(); // Example of getting admins
+            foreach ($admins as $admin) {
+                $admin->notify(new NewIncidentNotification($incident));
+            }
         });
     }
 

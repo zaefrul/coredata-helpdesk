@@ -147,4 +147,10 @@ class UserController extends Controller
         User::destroy($id);
         return redirect(route('users.index'))->with('success', 'User Account deleted successfully');
     }
+
+    public function readNotifications()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
+        return back()->with('success', 'Successfully marked all notifications as read');
+    }
 }

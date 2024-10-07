@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
 
+    Route::get('/users/read-notifications', [UserController::class, 'readNotifications'])->name('users.read-notifications');
+
     Route::get('/incident/{incident}/verify', [IncidentController::class, 'verify'])->name('incident.verify');
     Route::get('/incident/{incident}/reopen', [IncidentController::class, 'reopen'])->name('incident.reopen');
         

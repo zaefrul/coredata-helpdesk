@@ -88,9 +88,28 @@ if(Auth::user()->profile_photo_path){
                             </div>
                         </div>
                     </li>
+                    {{-- <li>
+                        <button class="btn btn-icon btn-sm btn-zoom d-sm-none" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas"><em class="icon ni ni-bell {{ Auth::user()->unreadNotifications->count() > 0 ? 'text-danger' : '' }}"></em></button>
+                        <button class="btn btn-icon btn-md btn-zoom d-none d-sm-inline-flex" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas"><em class="icon ni ni-bell {{ Auth::user()->unreadNotifications->count() > 0 ? 'text-danger' : '' }}"></em></button>
+                    </li> --}}
                     <li>
-                        <button class="btn btn-icon btn-sm btn-zoom d-sm-none" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas"><em class="icon ni ni-bell"></em></button>
-                        <button class="btn btn-icon btn-md btn-zoom d-none d-sm-inline-flex" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas"><em class="icon ni ni-bell"></em></button>
+                        <!-- For small screens -->
+                        <button class="btn btn-icon btn-sm btn-zoom d-sm-none" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas">
+                            @if(Auth::user()->unreadNotifications->count() > 0)
+                                <span class="badge bg-danger notification-badge">{{ Auth::user()->unreadNotifications->count() }}</span>
+                            @else
+                                <em class="icon ni ni-bell {{ Auth::user()->unreadNotifications->count() > 0 ? 'text-danger' : '' }}"></em>
+                            @endif
+                        </button>
+                    
+                        <!-- For larger screens -->
+                        <button class="btn btn-icon btn-md btn-zoom d-none d-sm-inline-flex" data-bs-toggle="offcanvas" data-bs-target="#notificationOffcanvas">
+                            @if(Auth::user()->unreadNotifications->count() > 0)
+                                <span class="badge bg-danger notification-badge" data-bs-toggle="tooltip" title="You have {{ Auth::user()->unreadNotifications->count() }} notification.">{{ Auth::user()->unreadNotifications->count() }}</span>
+                            @else
+                                <em class="icon ni ni-bell {{ Auth::user()->unreadNotifications->count() > 0 ? 'text-danger' : '' }}"></em>
+                            @endif
+                        </button>
                     </li>
                     <li class="dropdown">
                         <a href="#" data-bs-toggle="dropdown">
