@@ -52,7 +52,7 @@
                                     <th class="tb-col">
                                         <span class="overline-title">Contact</span>
                                     </th>
-                                    <th class="tb-col tb-col-xl">
+                                    <th class="tb-col tb-col-md">
                                         <span class="overline-title">Phone</span>
                                     </th>
                                     @if($isAdmin)
@@ -75,7 +75,7 @@
                                                 </div>
                                             </td>
                                             <td class="tb-col">{{$customer->prefix}}</td>
-                                            <td class="tb-col tb-col-xl">
+                                            <td class="tb-col tb-col-md">
                                                 @if($department->users->count() == 0)
                                                     <span class="small text">No contact person</span>
                                                 @else
@@ -85,7 +85,7 @@
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td class="tb-col tb-col-xl">
+                                            <td class="tb-col tb-col-md">
                                                 <span class="small text">{{$department->users->count() != 0 ? $department->users[0]->phone_number : ''}}</span>
                                             </td>
                                             @if($isAdmin)

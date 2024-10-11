@@ -30,7 +30,7 @@
                                     <th class="tb-col">
                                         <span class="overline-title">#</span>
                                     </th>
-                                    <th class="tb-col  tb-col-xxl">
+                                    <th class="tb-col  tb-col-md">
                                         <span class="overline-title">Contract</span>
                                     </th>
                                     <th class="tb-col">
@@ -51,7 +51,7 @@
                                 @foreach($assets as $key=>$asset)
                                     <tr>
                                         <td class="tb-col">{{$key + 1}}</td>
-                                        <td class="tb-col  tb-col-xxl">
+                                        <td class="tb-col  tb-col-md">
                                             <div class="media-group">
                                                 <div class="media-text">
                                                     <a href="/user/resources/{{$asset->id}}/show" class="title">{{$asset->contract->contract_name}}</a>
@@ -60,7 +60,7 @@
                                             </div>
                                         </td>
                                         <td class="tb-col">{{$asset->brand}}</td>
-                                        <td class="tb-col tb-col-xl">{{$asset->name}}</td>
+                                        <td class="tb-col tb-col-md">{{$asset->name}}</td>
                                         <td class="tb-col"><span class="badge text-bg-info-soft">{{$asset->serial_number}}</span></td>
                                         <td class="tb-col">
                                             {{-- if hardware badge dark soft --}}

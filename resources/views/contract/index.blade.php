@@ -47,16 +47,16 @@
                         <table class="datatable-init table" data-nk-container="table-responsive">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="tb-col tb-col-xxl">
+                                    <th class="tb-col tb-col-md">
                                         <span class="overline-title">Contract Name</span>
                                     </th>
                                     <th class="tb-col">
                                         <span class="overline-title">Contract Number</span>
                                     </th>
-                                    <th class="tb-col tb-col-xl">
+                                    <th class="tb-col tb-col-md">
                                         <span class="overline-title">Start Date</span>
                                     </th>
-                                    <th class="tb-col tb-col-xl">
+                                    <th class="tb-col tb-col-md">
                                         <span class="overline-title">End Date</span>
                                     </th>
                                     {{-- header untuk phone --}}
@@ -76,7 +76,7 @@
                             <tbody>
                                 @foreach($contracts as $contract)
                                     <tr>
-                                        <td class="tb-col tb-col-xxl">
+                                        <td class="tb-col tb-col-md">
                                             <div class="media-group">
                                                 {{-- <div class="media media-md media-middle media-circle text-bg-info-soft">
                                                     <span class="smaller">{{$contract->project->prefix}}</span>
@@ -88,8 +88,8 @@
                                             </div>
                                         </td>
                                         <td class="tb-col">{{$contract->contract_number}}</td>
-                                        <td class="tb-col tb-col-xl">{{$contract->start_date->format('d-M-Y')}}</td>
-                                        <td class="tb-col tb-col-xl">{{$contract->end_date->format('d-M-Y')}}</td>
+                                        <td class="tb-col tb-col-md">{{$contract->start_date->format('d-M-Y')}}</td>
+                                        <td class="tb-col tb-col-md">{{$contract->end_date->format('d-M-Y')}}</td>
                                         {{-- value untuk phone --}}
                                         <td class="tb-col">
                                             @php

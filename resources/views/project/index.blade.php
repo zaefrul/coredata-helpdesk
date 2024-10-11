@@ -49,7 +49,7 @@
                                     <th class="tb-col">
                                         <span class="overline-title">Code</span>
                                     </th>
-                                    <th class="tb-col tb-col-xxl">
+                                    <th class="tb-col tb-col-md">
                                         <span class="overline-title">Created</span>
                                     </th>
                                     <th class="tb-col tb-col-end" data-sortable="false">
@@ -72,8 +72,8 @@
                                             </div>
                                         </td>
                                         <td class="tb-col">{{$project->name}}</td>
-                                        <td class="tb-col tb-col-xl">{{$project->code}}</td>
-                                        <td class="tb-col tb-col-xxl">{{$project->created_at->diffForHumans()}}</td>
+                                        <td class="tb-col tb-col-md">{{$project->code}}</td>
+                                        <td class="tb-col tb-col-md">{{$project->created_at->diffForHumans()}}</td>
                                         <td class="tb-col tb-col-end">
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-sm btn-icon btn-zoom me-n1" data-bs-toggle="dropdown">
