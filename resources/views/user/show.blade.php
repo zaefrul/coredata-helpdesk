@@ -20,7 +20,7 @@
                                     @if($admin)
                                     <li class="breadcrumb-item"><a href="{{ route('users.index') }}">User Management</a></li>
                                     @endif
-                                    <li class="breadcrumb-item active" aria-current="page">{{$user->designation ? $user->designation . ' ' : ''}}{{ $user->name }}</li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{$user->designation ? $user->designation . ' - ' : ''}}{{ $user->name }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -76,7 +76,7 @@
                                                 <img src="{{ $path }}" alt="">
                                             </div>
                                             <div class="mt-3 mt-md-0 ms-md-3">
-                                                <h3 class="title mb-1">{{$user->designation ? $user->designation . ' ' : ''}}{{$user->name}}</h3>
+                                                <h3 class="title mb-1">{{$user->name}}</h3>
                                                 <span class="small">
                                                     @if($user->role == 'admin')
                                                         <span class="badge text-bg-primary">Admin</span>
@@ -88,6 +88,9 @@
                                                 </span>
                                                 <div class="d-flex align-items-center mt-1"><em class="icon ni ni-mail" style="margin-right: 0.5rem"></em><span class="small">{{$user->email}}</span></div>
                                                 <div class="d-flex align-items-center"><em class="icon ni ni-mobile" style="margin-right: 0.5rem"></em><span class="small">{{$user->phone_number}}</span></div>
+                                                @if($user->designation)
+                                                <div class="d-flex align-items-center"><em class="icon ni ni-mobile" style="margin-right: 0.5rem"></em><span class="small">{{$user->designation}}</span></div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
