@@ -73,7 +73,8 @@
                                                     @endif
                                                 </div>
                                                 <div class="media-text">
-                                                    <a href="/users/{{$user->id}}/show" class="title">{{$user->designation ? $user->designation . ' ' : ''}}{{$user->name}}</a>
+                                                    <a href="/users/{{$user->id}}/show" class="title">{{$user->name}}</a>
+                                                    <span class="small text">{{$user->designation ? $user->designation : ''}}</span>
                                                 </div>
                                             </div>
                                         </td>
