@@ -4,7 +4,7 @@
 
 @php
     $style = request()->query('style');
-    $style = $style == 1 ? 'bg2' : 'bg1';
+    $style = $style == 1 ? 'bg1' : 'bg1';
 
     $imgUrl = asset('assets/images/mask/v.png');
     if($style == 'bg2') {

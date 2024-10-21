@@ -3,7 +3,7 @@
 @php
     // URL Parameter, if have style=1, then use the dark theme
     $style = request()->query('style');
-    $style = $style == 1 ? 'bg1' : 'bg2';
+    $style = $style == 1 ? 'bg1' : 'bg1';
 @endphp
 
 @section('content')
