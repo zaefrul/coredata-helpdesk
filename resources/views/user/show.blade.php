@@ -89,7 +89,7 @@
                                                 <div class="d-flex align-items-center mt-1"><em class="icon ni ni-mail" style="margin-right: 0.5rem"></em><span class="small">{{$user->email}}</span></div>
                                                 <div class="d-flex align-items-center"><em class="icon ni ni-mobile" style="margin-right: 0.5rem"></em><span class="small">{{$user->phone_number}}</span></div>
                                                 @if($user->designation)
-                                                <div class="d-flex align-items-center"><em class="icon ni ni-mobile" style="margin-right: 0.5rem"></em><span class="small">{{$user->designation}}</span></div>
+                                                <div class="d-flex align-items-center"><em class="icon ni ni-network" style="margin-right: 0.5rem"></em><span class="small">{{$user->designation}}</span></div>
                                                 @endif
                                             </div>
                                         </div>
