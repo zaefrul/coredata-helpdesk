@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\AssetHelper;
+use App\Imports\AssetsImport;
 use App\Models\Component;
 use App\Models\Setting;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -59,4 +63,21 @@ class AdminController extends Controller
         }
         
     }
+
+    public function importAssets(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required|integer',
+            'department_id' => 'required|integer',
+            'csv_file' => 'required|file|mimes:xlsx',
+        ]);
+
+        $customerId = $request->customer_id;
+        $departmentId = $request->department_id;
+
+        Excel::import(new AssetsImport($customerId, $departmentId), $request->file('csv_file'));
+
+        return back()->with('success', 'Assets imported successfully.');
+    }
+
 }
