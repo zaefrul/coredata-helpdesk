@@ -297,8 +297,8 @@
 
         // Create the QR code
         const qrCode = new QRCodeStyling({
-            "width": 400,
-            "height": 400,
+            "width": 424,
+            "height": 425,
             "data": url,
             "margin": 10,
             "qrOptions": {
@@ -389,8 +389,8 @@
         mainContainer.style.alignItems = "center";
         mainContainer.style.flexDirection = "column";
         mainContainer.style.border = "2px dashed #000";
-        mainContainer.style.padding = "20px";
-        mainContainer.style.width = "500px";
+        mainContainer.style.padding = "5px";
+        mainContainer.style.width = "475px";
         mainContainer.style.height = "500px";
 
         const qrContainer = document.createElement("div");

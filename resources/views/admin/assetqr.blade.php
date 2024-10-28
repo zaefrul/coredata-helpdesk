@@ -85,7 +85,7 @@
     const pageContainer = newWindow.document.createElement("div");
     pageContainer.style.display = "flex";
     pageContainer.style.flexWrap = "wrap"; // Allow wrapping for pagination
-    pageContainer.style.justifyContent = "space-around"; // Center items
+    //pageContainer.style.justifyContent = "space-around"; // Center items
     pageContainer.style.width = "800px"; // Width for the printed page
     pageContainer.style.padding = "20px";
     
@@ -137,10 +137,10 @@ function getEachQRContainer(newWindow) {
     mainContainer.style.flexDirection = "column";
     mainContainer.style.alignItems = "center";
     mainContainer.style.border = "2px dashed #000";
-    mainContainer.style.padding = "20px";
+    mainContainer.style.padding = "5px";
     mainContainer.style.width = "300px"; // Adjust for layout
     mainContainer.style.height = "auto"; // Let height be dynamic
-    mainContainer.style.margin = "10px"; // Space between QR codes
+    mainContainer.style.margin = "5px"; // Space between QR codes
     mainContainer.style.pageBreakInside = "avoid"; // Avoid breaking inside the container
     return mainContainer;
 }
