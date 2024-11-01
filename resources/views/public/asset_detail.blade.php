@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-<div class="nk-content">
+<div class="nk-content" id="asset-detail">
     <div class="container">
         <div class="nk-content-inner">
             <div class="nk-content-body">

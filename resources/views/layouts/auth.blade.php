@@ -60,6 +60,10 @@
             pointer-events: auto; /* Ensure canvas captures pointer events */
         }
 
+        #asset-detail {
+            pointer-events: auto; /* Ensure canvas captures pointer events */
+        }s
+
         @media only screen and (max-width: 768px) {
             .login-form {
                 opacity: 0.95;
